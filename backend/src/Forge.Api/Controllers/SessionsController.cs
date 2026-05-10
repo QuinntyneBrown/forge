@@ -41,6 +41,13 @@ public class SessionsController : ControllerBase
         return session is null ? NotFound() : Ok(session);
     }
 
+    [HttpPost("{id:guid}/duplicate")]
+    public async Task<ActionResult<DuplicateSessionResult>> Duplicate(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new DuplicateSessionCommand(id), cancellationToken);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+    }
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         Guid id,

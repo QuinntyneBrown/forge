@@ -134,7 +134,7 @@ Conventions:
 - **Acceptance test:** update a session's duration; assert ledger rows reflect new base points. Update notes only; assert ledger rows unchanged.
 - **Guidance:** Backend (CQS).
 
-### BT-011 — Duplicate session
+### BT-011 — Duplicate session ✅ done
 
 - **Requirements:** L2-009 (duplicate leg).
 - **Slice:**
