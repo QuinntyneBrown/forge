@@ -234,7 +234,7 @@ Conventions:
 
 Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it had no end-to-end value on its own; the migration ships alongside the first scorer slice instead. This ID is reserved for cross-references and intentionally left empty.
 
-### BT-022 — Migration `AddPointsAndRewards` + base points scoring + `IPointsScorer`
+### BT-022 — Migration `AddPointsAndRewards` + base points scoring + `IPointsScorer` ✅ done
 
 - **Requirements:** L2-018, L2-021 (read leg foundation), L2-022 (read leg foundation).
 - **Slice:**

@@ -15,6 +15,9 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
     public DbSet<WeightEntry> WeightEntries => Set<WeightEntry>();
+    public DbSet<PointsLedger> PointsLedger => Set<PointsLedger>();
+    public DbSet<RewardCatalogItem> RewardCatalogItems => Set<RewardCatalogItem>();
+    public DbSet<RewardRedemption> RewardRedemptions => Set<RewardRedemption>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -96,5 +99,99 @@ public class AppDbContext : DbContext, IAppDbContext
             b.Property(w => w.WeightLb).HasPrecision(6, 2);
             b.HasIndex(w => new { w.UserId, w.RecordedAt });
         });
+
+        modelBuilder.Entity<PointsLedger>(b =>
+        {
+            b.HasKey(l => l.Id);
+            b.Property(l => l.Reason).HasConversion<int>().IsRequired();
+            b.Property(l => l.Description).HasMaxLength(128).IsRequired();
+            b.HasIndex(l => new { l.UserId, l.CreatedAt });
+            b.HasIndex(l => l.SessionId);
+        });
+
+        modelBuilder.Entity<RewardCatalogItem>(b =>
+        {
+            b.HasKey(r => r.Id);
+            b.Property(r => r.Name).HasMaxLength(80).IsRequired();
+            b.Property(r => r.Description).HasMaxLength(400).IsRequired();
+            b.HasIndex(r => r.SortOrder);
+            b.HasData(SeedRewards());
+        });
+
+        modelBuilder.Entity<RewardRedemption>(b =>
+        {
+            b.HasKey(r => r.Id);
+            b.HasIndex(r => new { r.UserId, r.RedeemedAt });
+        });
+    }
+
+    private static IEnumerable<RewardCatalogItem> SeedRewards()
+    {
+        return new[]
+        {
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000001"),
+                Name = "Post-workout Smoothie",
+                Description = "Trade points for a guilt-free recovery smoothie.",
+                CostPoints = 200,
+                IsActive = true,
+                SortOrder = 1
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000002"),
+                Name = "Rest Day Pass",
+                Description = "Skip a session without breaking your streak.",
+                CostPoints = 500,
+                IsActive = true,
+                SortOrder = 2
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000003"),
+                Name = "New Athletic Socks",
+                Description = "Treat yourself to a fresh pair of training socks.",
+                CostPoints = 750,
+                IsActive = true,
+                SortOrder = 3
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000004"),
+                Name = "Pair of Wireless Earbuds",
+                Description = "Replace your gym earbuds with a fresh set.",
+                CostPoints = 4000,
+                IsActive = true,
+                SortOrder = 4
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000005"),
+                Name = "New Running Shoes",
+                Description = "Upgrade the kicks once you bank enough.",
+                CostPoints = 12000,
+                IsActive = true,
+                SortOrder = 5
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000006"),
+                Name = "Massage Session",
+                Description = "Recover with a one-hour deep tissue massage.",
+                CostPoints = 8000,
+                IsActive = true,
+                SortOrder = 6
+            },
+            new RewardCatalogItem
+            {
+                Id = new Guid("11111111-1111-1111-1111-000000000007"),
+                Name = "Premium Whey Protein",
+                Description = "5 lb tub of premium whey.",
+                CostPoints = 6000,
+                IsActive = true,
+                SortOrder = 7
+            }
+        };
     }
 }

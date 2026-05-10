@@ -8,11 +8,19 @@ public class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand,
 {
     private readonly IAppDbContext _db;
     private readonly ICurrentUser _currentUser;
+    private readonly IClock _clock;
+    private readonly IPointsScorer _scorer;
 
-    public CreateSessionCommandHandler(IAppDbContext db, ICurrentUser currentUser)
+    public CreateSessionCommandHandler(
+        IAppDbContext db,
+        ICurrentUser currentUser,
+        IClock clock,
+        IPointsScorer scorer)
     {
         _db = db;
         _currentUser = currentUser;
+        _clock = clock;
+        _scorer = scorer;
     }
 
     public async Task<CreateSessionResult> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
@@ -33,11 +41,12 @@ public class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand,
             AvgHeartRateBpm = request.AvgHeartRateBpm,
             ActiveCalories = request.ActiveCalories,
             Notes = request.Notes,
-            CreatedAt = DateTimeOffset.UtcNow
+            CreatedAt = _clock.UtcNow
         };
 
         _db.WorkoutSessions.Add(session);
         await _db.SaveChangesAsync(cancellationToken);
+        await _scorer.Score(session, cancellationToken);
 
         return new CreateSessionResult(session.Id);
     }

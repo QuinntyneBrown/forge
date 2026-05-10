@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IAuditLogger, AuditLogger>();
         services.AddScoped<ISignInThrottle, SignInThrottle>();
         services.AddScoped<IPasswordResetEmailSender, Deferred.LoggingPasswordResetEmailSender>();
+        services.AddScoped<IPointsScorer, PointsScorer>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
