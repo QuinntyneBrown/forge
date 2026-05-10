@@ -1,0 +1,14 @@
+<section class="empty-state" [attr.data-testid]="testid">
+  <div class="empty-state__illustration">
+    <ng-content select="[empty-state-illustration]"></ng-content>
+  </div>
+  @if (title) {
+    <h3 class="empty-state__title">{{ title }}</h3>
+  }
+  @if (message) {
+    <p class="empty-state__message">{{ message }}</p>
+  }
+  <div class="empty-state__cta">
+    <ng-content></ng-content>
+  </div>
+</section>

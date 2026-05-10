@@ -105,7 +105,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** the `<forge-health-badge>` composition swap that satisfies the existing sign-in.spec.ts. The wrapper + the swap land in one commit.
 - **Guidance:** Frontend.
 
-### FT-010 — `EmptyStateComponent` (pure layout primitive — hand-rolled)
+### FT-010 — `EmptyStateComponent` (pure layout primitive — hand-rolled) ✅ done
 
 - **Requirements:** L2-028.
 - **Slice:**
