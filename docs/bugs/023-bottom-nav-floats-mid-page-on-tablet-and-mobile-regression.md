@@ -1,7 +1,7 @@
 # Bug 023: Bottom navigation regressed — floats mid-page again on tablet/mobile for non-dashboard routes
 
 ## Status
-Open
+Complete — `bottom-nav-pinned-routes.spec.ts` exercises /workouts/new, /workouts/:id, /profile, and /rewards at mobile (390x740) and tablet (834x1024) widths, asserting the nav's `boundingBox().y + height === window.innerHeight` after scrolling main to the bottom. Both tests pass against the current app-shell layout (the Bug 015 refactor that moved the nav to a sibling of the scrollable main column resolved this). Regression guard locked in via the new spec.
 
 ## Severity
 High
