@@ -1,7 +1,7 @@
 # Bug 026: Workouts list still shows top-right "New session" pill instead of the orange "+ Log workout" FAB
 
 ## Status
-Open
+Complete
 
 ## Severity
 Low
