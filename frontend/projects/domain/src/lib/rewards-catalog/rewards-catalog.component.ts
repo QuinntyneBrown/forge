@@ -6,11 +6,20 @@ import {
   REWARDS_SERVICE,
   Reward
 } from 'api';
-import { ButtonComponent, CardComponent, ProgressRingComponent } from 'components';
+import { ButtonComponent, CardComponent } from 'components';
+
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash << 5) - hash + value.charCodeAt(i);
+    hash |= 0;
+  }
+  return hash;
+}
 
 @Component({
   selector: 'forge-rewards-catalog',
-  imports: [CardComponent, ButtonComponent, ProgressRingComponent],
+  imports: [CardComponent, ButtonComponent],
   templateUrl: './rewards-catalog.component.html',
   styleUrl: './rewards-catalog.component.scss'
 })
@@ -33,11 +42,22 @@ export class RewardsCatalogComponent implements OnInit {
     return this.balance() >= reward.costPoints;
   }
 
-  protected progressToReward(reward: Reward): number {
-    if (reward.costPoints <= 0) {
-      return 100;
-    }
-    return Math.min(100, (this.balance() / reward.costPoints) * 100);
+  protected iconFor(reward: Reward): string {
+    const name = (reward.name + ' ' + reward.description).toLowerCase();
+    if (/tv|stream|movie|show|netflix/.test(name)) return 'tv';
+    if (/spa|massage|relax/.test(name)) return 'spa';
+    if (/headphone|music|audio/.test(name)) return 'headphones';
+    if (/gift|card/.test(name)) return 'card_giftcard';
+    if (/restaurant|meal|food|dinner|lunch/.test(name)) return 'restaurant';
+    if (/coffee|cafe/.test(name)) return 'local_cafe';
+    if (/book|read/.test(name)) return 'menu_book';
+    return 'redeem';
+  }
+
+  protected toneFor(reward: Reward): 'teal' | 'orange' | 'blue' | 'gold' {
+    const tones: ('teal' | 'orange' | 'blue' | 'gold')[] = ['teal', 'orange', 'blue', 'gold'];
+    const idx = Math.abs(hashString(reward.id)) % tones.length;
+    return tones[idx];
   }
 
   protected redeem(reward: Reward): void {

@@ -17,13 +17,13 @@
       <li class="rewards-catalog__row">
         <forge-card class="rewards-catalog__card" [testid]="'rewards-catalog-row-' + reward.id">
           <div class="rewards-catalog__inner">
-            <forge-progress-ring
-              class="rewards-catalog__ring"
-              [value]="balance()"
-              [max]="reward.costPoints"
-              [diameter]="56"
-              [strokeWidth]="6"
-            ></forge-progress-ring>
+            <span
+              class="rewards-catalog__icon-tile"
+              [class]="'rewards-catalog__icon-tile rewards-catalog__icon-tile--' + toneFor(reward)"
+              data-testid="rewards-catalog-row-icon"
+            >
+              <span class="material-icons" aria-hidden="true">{{ iconFor(reward) }}</span>
+            </span>
             <div class="rewards-catalog__body">
               <span class="rewards-catalog__name">{{ reward.name }}</span>
               <span class="rewards-catalog__description">{{ reward.description }}</span>

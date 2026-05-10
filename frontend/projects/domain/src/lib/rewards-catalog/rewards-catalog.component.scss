@@ -69,3 +69,33 @@
   font-weight: 500;
   color: var(--md-sys-color-primary, #006a64);
 }
+
+.rewards-catalog__icon-tile {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+
+  .material-icons {
+    font-size: 24px;
+  }
+}
+
+.rewards-catalog__icon-tile--orange {
+  background: var(--md-sys-color-secondary-container, #ffdbc8);
+  color: var(--md-sys-color-on-secondary-container, #341000);
+}
+
+.rewards-catalog__icon-tile--blue {
+  background: #c3e8ff;
+  color: #001e2c;
+}
+
+.rewards-catalog__icon-tile--gold {
+  background: #ffe7b0;
+  color: #5a3a00;
+}
