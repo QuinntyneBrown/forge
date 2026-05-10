@@ -1,0 +1,19 @@
+.workout-new {
+  padding: 24px 20px 96px;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workout-new__header {
+  margin-bottom: 8px;
+}
+
+.workout-new__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}

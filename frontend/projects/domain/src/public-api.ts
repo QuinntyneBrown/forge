@@ -14,3 +14,4 @@ export * from './lib/weight-progress-card/weight-progress-card.component';
 export * from './lib/tier-card/tier-card.component';
 export * from './lib/leaderboard-card/leaderboard-card.component';
 export * from './lib/workout-list/workout-list.component';
+export * from './lib/workout-detail-form/workout-detail-form.component';

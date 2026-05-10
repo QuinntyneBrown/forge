@@ -1,0 +1,101 @@
+<forge-card class="workout-detail-form" testid="workout-detail-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="workout-detail-form__form">
+    <mat-form-field appearance="outline" class="workout-detail-form__field">
+      <mat-label>Equipment</mat-label>
+      <mat-select formControlName="equipment" data-testid="workout-detail-form-equipment">
+        @for (item of equipment(); track item.id) {
+          <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="workout-detail-form__row">
+      <mat-form-field appearance="outline" class="workout-detail-form__field">
+        <mat-label>Date</mat-label>
+        <input matInput type="date" formControlName="date" data-testid="workout-detail-form-date" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="workout-detail-form__field">
+        <mat-label>Start time</mat-label>
+        <input matInput type="time" formControlName="time" data-testid="workout-detail-form-time" />
+      </mat-form-field>
+    </div>
+
+    <div class="workout-detail-form__row">
+      <mat-form-field appearance="outline" class="workout-detail-form__field">
+        <mat-label>Duration (min)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="1"
+          max="480"
+          formControlName="durationMinutes"
+          data-testid="workout-detail-form-duration"
+        />
+      </mat-form-field>
+
+      @if (!hideDistance()) {
+        <mat-form-field appearance="outline" class="workout-detail-form__field">
+          <mat-label>Distance (mi)</mat-label>
+          <input
+            matInput
+            type="number"
+            step="0.1"
+            min="0"
+            formControlName="distanceMiles"
+            data-testid="workout-detail-form-distance"
+          />
+        </mat-form-field>
+      }
+    </div>
+
+    <div class="workout-detail-form__row">
+      <mat-form-field appearance="outline" class="workout-detail-form__field">
+        <mat-label>Avg HR (bpm)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="30"
+          max="240"
+          formControlName="avgHeartRateBpm"
+          data-testid="workout-detail-form-hr"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="workout-detail-form__field">
+        <mat-label>Active calories</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="5000"
+          formControlName="activeCalories"
+          data-testid="workout-detail-form-calories"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="workout-detail-form__field workout-detail-form__field--full">
+      <mat-label>Notes</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        formControlName="notes"
+        data-testid="workout-detail-form-notes"
+      ></textarea>
+    </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="workout-detail-form__error" data-testid="workout-detail-form-error">
+        {{ errorMessage() }}
+      </p>
+    }
+
+    <forge-button
+      type="submit"
+      [disabled]="form.invalid"
+      [loading]="submitting()"
+      testid="workout-detail-form-submit"
+    >
+      Save session
+    </forge-button>
+  </form>
+</forge-card>

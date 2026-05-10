@@ -1,0 +1,36 @@
+.workout-detail-form {
+  display: block;
+}
+
+.workout-detail-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px;
+}
+
+.workout-detail-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.workout-detail-form__field {
+  width: 100%;
+}
+
+.workout-detail-form__field--full {
+  grid-column: 1 / -1;
+}
+
+.workout-detail-form__error {
+  margin: 0;
+  color: var(--md-sys-color-error, #ba1a1a);
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .workout-detail-form__row {
+    grid-template-columns: 1fr;
+  }
+}

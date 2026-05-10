@@ -285,7 +285,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/workouts-list.spec.ts` — seed 10 sessions, navigate to `/workouts`, click Treadmill chip, only treadmill rows remain. Click into a session → routes to `/workouts/:id`.
 - **Guidance:** Frontend, General.
 
-### FT-028 — `WorkoutDetailFormComponent` + `WorkoutNewPage` + create flow
+### FT-028 — `WorkoutDetailFormComponent` + `WorkoutNewPage` + create flow ✅ done (spec pending DB)
 
 - **Requirements:** L2-007, L2-009. Mock: `workout-detail.html` (create variant).
 - **Slice:**

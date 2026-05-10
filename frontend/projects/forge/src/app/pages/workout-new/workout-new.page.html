@@ -1,0 +1,8 @@
+<forge-app-shell [destinations]="destinations">
+  <main class="workout-new">
+    <header class="workout-new__header">
+      <h2 class="workout-new__title">New session</h2>
+    </header>
+    <forge-workout-detail-form (created)="onCreated($event)"></forge-workout-detail-form>
+  </main>
+</forge-app-shell>
