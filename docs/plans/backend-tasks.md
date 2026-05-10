@@ -248,7 +248,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** create a 22-min treadmill session against a fresh DB; assert `RewardCatalogItem` has the seeded rows AND the `PointsLedger` has one row `+44 (Base — 22 min logged)` for the user. End-to-end coverage of the migration plus the first behavioral scorer.
 - **Guidance:** Backend (EF migrations, CQS, one type per file).
 
-### BT-023 — Morning bonus
+### BT-023 — Morning bonus ✅ done
 
 - **Requirements:** L2-019.
 - **Slice:**

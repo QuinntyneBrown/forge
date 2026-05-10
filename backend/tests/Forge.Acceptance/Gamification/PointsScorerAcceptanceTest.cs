@@ -147,13 +147,12 @@ public class PointsScorerAcceptanceTest : IAsyncLifetime
             .UseSqlServer(_connectionString)
             .Options;
         await using var db = new AppDbContext(options);
-        var ledger = await db.PointsLedger
-            .Where(l => l.UserId == auth.UserId)
+        var baseRows = await db.PointsLedger
+            .Where(l => l.UserId == auth.UserId && l.Reason == PointsLedgerReason.Base)
             .ToListAsync();
 
-        Assert.Single(ledger);
-        Assert.Equal(44, ledger[0].Points);
-        Assert.Equal(PointsLedgerReason.Base, ledger[0].Reason);
-        Assert.Equal(session!.Id, ledger[0].SessionId);
+        Assert.Single(baseRows);
+        Assert.Equal(44, baseRows[0].Points);
+        Assert.Equal(session!.Id, baseRows[0].SessionId);
     }
 }
