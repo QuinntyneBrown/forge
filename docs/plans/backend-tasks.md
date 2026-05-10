@@ -163,7 +163,7 @@ Conventions:
 
 ## Phase BI1.2 — Profile, weight, behavioral windows
 
-### BT-014 — Get current user
+### BT-014 — Get current user ✅ done
 
 - **Requirements:** L2-005 (read leg).
 - **Slice:**

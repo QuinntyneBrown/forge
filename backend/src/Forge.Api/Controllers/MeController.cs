@@ -17,6 +17,13 @@ public class MeController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<CurrentUserDto>> Get(CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new GetCurrentUserQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpDelete]
     public async Task<IActionResult> Delete(CancellationToken cancellationToken)
     {
