@@ -42,4 +42,13 @@ public class ProfileController : ControllerBase
         await _mediator.Send(new RecordCurrentWeightCommand(request.WeightLb), cancellationToken);
         return NoContent();
     }
+
+    [HttpPut("weight-goal")]
+    public async Task<IActionResult> SetWeightGoal(
+        [FromBody] SetWeightGoalRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new SetMonthlyWeightGoalCommand(request.MonthlyWeightGoalLb), cancellationToken);
+        return NoContent();
+    }
 }

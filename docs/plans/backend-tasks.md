@@ -192,7 +192,7 @@ Conventions:
 - **Acceptance test:** post 195.4 → row appended; post a second value 194.8 → both rows persist.
 - **Guidance:** Backend.
 
-### BT-017 — Set monthly weight goal
+### BT-017 — Set monthly weight goal ✅ done
 
 - **Requirements:** L2-014.
 - **Slice:**
