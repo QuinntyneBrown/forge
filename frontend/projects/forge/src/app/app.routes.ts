@@ -10,6 +10,7 @@ import { WorkoutNewPage } from './pages/workout-new/workout-new.page';
 import { WorkoutDetailPage } from './pages/workout-detail/workout-detail.page';
 import { RewardsPage } from './pages/rewards/rewards.page';
 import { ErrorPage } from './pages/error/error.page';
+import { NotFoundPage } from './pages/not-found/not-found.page';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
@@ -22,5 +23,6 @@ export const routes: Routes = [
   { path: 'workouts/new', component: WorkoutNewPage, canActivate: [authGuard] },
   { path: 'workouts/:id', component: WorkoutDetailPage, canActivate: [authGuard] },
   { path: 'rewards', component: RewardsPage, canActivate: [authGuard] },
-  { path: 'error', component: ErrorPage }
+  { path: 'error', component: ErrorPage },
+  { path: '**', component: NotFoundPage }
 ];

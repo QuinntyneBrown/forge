@@ -347,7 +347,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/error-state.spec.ts` — force a HealthKit sync failure (test endpoint), navigate to `/error?traceId=...`, assert the panel renders the trace id and the diagnostics. Click "Go to dashboard" → `/dashboard`.
 - **Guidance:** Frontend.
 
-### FT-034 — `NotFoundPage` + empty-state spec
+### FT-034 — `NotFoundPage` + empty-state spec ✅ done
 
 - **Requirements:** L2-028, L2-029.
 - **Slice:**
