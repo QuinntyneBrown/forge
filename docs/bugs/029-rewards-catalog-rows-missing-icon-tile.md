@@ -1,7 +1,7 @@
 # Bug 029: Rewards catalog rows render an empty circle placeholder instead of the mock's colored icon tile
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

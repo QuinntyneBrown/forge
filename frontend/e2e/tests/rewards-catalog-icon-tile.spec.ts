@@ -27,7 +27,9 @@ test.describe('Rewards catalog icon tiles', () => {
     await page.waitForLoadState('networkidle');
 
     // At least one catalog row + every row has an icon tile.
-    const rows = page.locator('[data-testid^="rewards-catalog-row-"]');
+    // Use the structural class to avoid matching nested testids that share
+    // the rewards-catalog-row- prefix (e.g. rewards-catalog-row-icon).
+    const rows = page.locator('li.rewards-catalog__row');
     const rowCount = await rows.count();
     expect(rowCount).toBeGreaterThanOrEqual(1);
 
