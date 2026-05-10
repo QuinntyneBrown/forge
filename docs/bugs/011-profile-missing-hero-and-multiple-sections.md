@@ -1,7 +1,7 @@
 # Bug 011: Profile page is missing hero, tier chip, Goals, Windows, and Integrations sections
 
 ## Status
-Open
+Complete
 
 ## Severity
 High

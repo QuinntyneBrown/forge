@@ -1,10 +1,112 @@
 <forge-app-shell [destinations]="destinations">
   <main class="profile">
-    <header class="profile__header">
-      <h1 class="profile__title">Profile &amp; settings</h1>
-      <p class="profile__subtitle">Update your name, email, units, time zone, and daily targets.</p>
-    </header>
+    <section class="profile__hero" data-testid="profile-hero">
+      <div class="profile__hero-avatar" data-testid="profile-hero-avatar">
+        {{ avatarInitials() }}
+      </div>
+      <div class="profile__hero-info">
+        <h1 class="profile__hero-name" data-testid="profile-hero-name">{{ displayName() }}</h1>
+        <p class="profile__hero-sub">{{ email() }} · Member since {{ memberSince() }}</p>
+        <span class="profile__hero-tier" data-testid="profile-hero-tier">
+          <span class="material-icons" aria-hidden="true">workspace_premium</span>
+          Tier 3 — Forged Iron
+        </span>
+      </div>
+    </section>
 
-    <forge-profile-form (deleted)="onDeleted()"></forge-profile-form>
+    <section class="profile__card" data-testid="profile-account-card">
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">badge</span>
+        Account
+      </h3>
+      <forge-profile-form (deleted)="onDeleted()"></forge-profile-form>
+    </section>
+
+    <section class="profile__card" data-testid="profile-goals-card">
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">flag</span>
+        Goals
+      </h3>
+      <div class="profile__goal-tile">
+        <p class="profile__goal-eyebrow">Weight goal</p>
+        <p class="profile__goal-title">-20 lb / month</p>
+        <p class="profile__goal-sub">On track — keep going</p>
+      </div>
+      <p class="profile__card-note">
+        Daily active calories, daily move minutes, and current weight live in
+        the Account form for now and will move here in a follow-up.
+      </p>
+    </section>
+
+    <section class="profile__card" data-testid="profile-windows-card">
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">schedule</span>
+        Windows
+      </h3>
+      <ul class="profile__window-list">
+        <li><strong>Morning workout window</strong>: 5:00 AM – 7:00 AM</li>
+        <li><strong>Kitchen closes</strong>: 8:00 PM</li>
+        <li><strong>Kitchen reopens</strong>: 6:00 AM</li>
+      </ul>
+    </section>
+
+    <section class="profile__card" data-testid="profile-integrations-card">
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">tune</span>
+        Integrations & alerts
+      </h3>
+      <ul class="profile__integration-list">
+        <li class="profile__integration">
+          <span class="profile__integration-icon profile__integration-icon--dark"
+            ><span class="material-icons" aria-hidden="true">watch</span></span>
+          <span class="profile__integration-main">
+            <strong>Apple Watch sync</strong>
+            <span>Pull workouts, calories, and heart rate.</span>
+          </span>
+          <span class="profile__integration-state">On</span>
+        </li>
+        <li class="profile__integration">
+          <span class="profile__integration-icon"
+            ><span class="material-icons" aria-hidden="true">wb_sunny</span></span>
+          <span class="profile__integration-main">
+            <strong>Morning workout reminder</strong>
+            <span>Nudge at 4:55 AM if no session logged.</span>
+          </span>
+          <span class="profile__integration-state">On</span>
+        </li>
+        <li class="profile__integration">
+          <span class="profile__integration-icon profile__integration-icon--orange"
+            ><span class="material-icons" aria-hidden="true">restaurant</span></span>
+          <span class="profile__integration-main">
+            <strong>Kitchen-closes nudge</strong>
+            <span>10-minute warning before the eating window ends.</span>
+          </span>
+          <span class="profile__integration-state">On</span>
+        </li>
+        <li class="profile__integration">
+          <span class="profile__integration-icon profile__integration-icon--blue"
+            ><span class="material-icons" aria-hidden="true">leaderboard</span></span>
+          <span class="profile__integration-main">
+            <strong>Friend leaderboard</strong>
+            <span>Share weekly points with friends.</span>
+          </span>
+          <span class="profile__integration-state profile__integration-state--off">Off</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="profile__card profile__card--save" data-testid="profile-save-card">
+      <button type="button" class="profile__save" data-testid="profile-save-button">
+        Save changes
+      </button>
+      <button
+        type="button"
+        class="profile__sign-out"
+        data-testid="profile-sign-out-button"
+        (click)="onSignOut()"
+      >
+        Sign out
+      </button>
+    </section>
   </main>
 </forge-app-shell>
