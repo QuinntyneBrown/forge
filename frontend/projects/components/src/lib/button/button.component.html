@@ -1,0 +1,44 @@
+@switch (variant) {
+  @case ('outlined') {
+    <button
+      mat-stroked-button
+      [type]="type"
+      [disabled]="disabled || loading"
+      [attr.data-testid]="testid"
+      class="button button--outlined"
+    >
+      @if (loading) {
+        <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
+      }
+      <ng-content></ng-content>
+    </button>
+  }
+  @case ('text') {
+    <button
+      mat-button
+      [type]="type"
+      [disabled]="disabled || loading"
+      [attr.data-testid]="testid"
+      class="button button--text"
+    >
+      @if (loading) {
+        <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
+      }
+      <ng-content></ng-content>
+    </button>
+  }
+  @default {
+    <button
+      mat-flat-button
+      [type]="type"
+      [disabled]="disabled || loading"
+      [attr.data-testid]="testid"
+      class="button button--filled"
+    >
+      @if (loading) {
+        <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
+      }
+      <ng-content></ng-content>
+    </button>
+  }
+}

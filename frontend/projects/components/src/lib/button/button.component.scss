@@ -1,0 +1,18 @@
+/* Material's mat-flat-button / mat-stroked-button / mat-button host primitives
+   already supply the M3 Forge Fit palette via mat.theme(...). The BEM hooks
+   below are kept so consumers can target buttons inside their own SCSS without
+   reaching for the Material host class. */
+
+:host {
+  display: inline-block;
+}
+
+.button {
+  /* min height >= 48dp keeps the touch target compliant with L2-046 even when
+     Material's default density shrinks below that. */
+  min-height: 48px;
+}
+
+.button__spinner {
+  margin-right: 8px;
+}

@@ -30,7 +30,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** existing `tests/sign-in.spec.ts` continues to pass; the dashboard `<forge-card title="Server status">` continues to render the title + health badge.
 - **Guidance:** Frontend (Angular Material 3), General (one-type-per-file).
 
-### FT-002 — `ButtonComponent` wrapping `<button mat-flat-button>` / `mat-stroked-button` / `mat-button`
+### FT-002 — `ButtonComponent` wrapping `<button mat-flat-button>` / `mat-stroked-button` / `mat-button` ✅ done
 
 - **Requirements:** L2-046; every CTA across the app.
 - **Slice:**

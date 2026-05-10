@@ -42,26 +42,8 @@
 }
 
 .sign-in-form__submit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 999px;
-  background: var(--md-sys-color-primary, #106b5c);
-  color: var(--md-sys-color-on-primary, #fff);
-  font-size: 15px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: filter 0.15s;
-
-  &:hover:not(:disabled) {
-    filter: brightness(1.05);
-  }
-
-  &:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
+  /* <forge-button> wraps Material's mat-flat-button which supplies all visuals
+     in the Forge Fit palette via mat.theme(...). The BEM class remains as a
+     positioning hook in case future layout tweaks need it. */
+  display: block;
 }

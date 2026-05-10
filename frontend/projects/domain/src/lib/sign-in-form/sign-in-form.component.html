@@ -26,13 +26,15 @@
       <p class="sign-in-form__error" data-testid="sign-in-error">{{ errorMessage }}</p>
     }
 
-    <button
+    <forge-button
       class="sign-in-form__submit"
+      variant="filled"
       type="submit"
-      [disabled]="form.invalid || submitting"
-      data-testid="sign-in-submit"
+      [disabled]="form.invalid"
+      [loading]="submitting"
+      testid="sign-in-submit"
     >
       {{ submitting ? 'Signing in…' : 'Sign in' }}
-    </button>
+    </forge-button>
   </form>
 </forge-card>

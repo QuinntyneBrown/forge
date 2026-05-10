@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
-import { CardComponent } from 'components';
+import { ButtonComponent, CardComponent } from 'components';
 
 @Component({
   selector: 'forge-sign-in-form',
-  imports: [ReactiveFormsModule, CardComponent],
+  imports: [ReactiveFormsModule, CardComponent, ButtonComponent],
   templateUrl: './sign-in-form.component.html',
   styleUrl: './sign-in-form.component.scss'
 })
