@@ -1,7 +1,7 @@
 # Bug 025: Profile page cleanup — duplicate Save, stranded Danger zone, missing Apple Watch and Theme rows
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

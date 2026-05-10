@@ -131,6 +131,44 @@ export class ProfilePage implements OnInit {
     this.appleWatchSync.update((v) => !v);
   }
 
+  protected onChangeTheme(): void {
+    // Placeholder until the theme picker dialog ships.
+  }
+
+  // Account deletion lives in the Save card now (was previously inside the
+  // ProfileFormComponent). Same testids preserved for account-deletion e2e.
+  protected readonly confirmingDelete = signal(false);
+  protected readonly deleting = signal(false);
+  protected readonly deleteError = signal<string | null>(null);
+
+  protected requestDelete(): void {
+    if (this.deleting()) return;
+    this.deleteError.set(null);
+    this.confirmingDelete.set(true);
+  }
+
+  protected cancelDelete(): void {
+    if (this.deleting()) return;
+    this.confirmingDelete.set(false);
+  }
+
+  protected confirmDelete(): void {
+    if (this.deleting()) return;
+    this.deleting.set(true);
+    this.deleteError.set(null);
+    this.meApi.deleteMe().subscribe({
+      next: () => {
+        this.deleting.set(false);
+        this.confirmingDelete.set(false);
+        this.onDeleted();
+      },
+      error: (err) => {
+        this.deleting.set(false);
+        this.deleteError.set(err?.error?.title ?? 'Could not delete account.');
+      }
+    });
+  }
+
   protected onSaveAll(): void {
     if (this.saving()) {
       return;
