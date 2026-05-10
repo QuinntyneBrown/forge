@@ -62,6 +62,8 @@
 @media (min-width: 768px) {
   .sign-in-page {
     display: grid;
+    height: 100vh;
+    min-height: 100vh;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
@@ -73,6 +75,7 @@
     grid-area: hero;
     padding: 64px 48px;
     border-radius: 0;
+    height: 100%;
   }
 
   .sign-in-page__title {
