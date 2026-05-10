@@ -358,7 +358,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.7 — Accessibility
 
-### FT-035 — `accessibility.spec.ts` (axe-core scan)
+### FT-035 — `accessibility.spec.ts` (axe-core scan) ✅ done
 
 - **Requirements:** L2-045, L2-047, L2-048.
 - **Slice:**
