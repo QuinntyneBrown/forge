@@ -342,7 +342,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** seed a user with morning window starting 1 minute from "now" (use `IClock`); within 2 ticks, one log entry is emitted.
 - **Guidance:** Backend, General (no real transport in MVP).
 
-### BT-033 — Security headers middleware (CSP, HSTS, nosniff, referrer)
+### BT-033 — Security headers middleware (CSP, HSTS, nosniff, referrer) ✅ done
 
 - **Requirements:** L2-052, L2-049.
 - **Slice:**
