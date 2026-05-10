@@ -1,7 +1,7 @@
 # Bug 030: Workout-detail edit page Points breakdown is collapsed to Base + Subtotal — missing multiplier rows and Total earned pill
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium
@@ -37,3 +37,18 @@ Per `docs/mocks/workout-detail.html`:
 - Reuse the same `PointsBreakdownComponent` (or template) the new-workout page uses on the edit-session page; the data shape coming back from the session API already includes the multipliers.
 - If the API response is shaped differently for edit vs new, normalize it server-side or in a small adapter so a single component can render both.
 - Render the `.points__total` pill from the computed total (sum of the rows) rather than relying on a separate `subtotal` field.
+
+## Resolution
+Expanded the existing shared `WorkoutPointsBreakdownComponent`
+(`frontend/projects/domain/src/lib/workout-points-breakdown/`) to compute and
+render Morning bonus (when `startedAt < 7 AM`), Zone 2 consistency (when avg
+HR is 110-145 bpm), and Streak multiplier rows in addition to the Base row.
+Each row carries `data-testid="workout-points-breakdown-row"` with a leading
+Material Icons glyph, and a highlighted Total earned pill
+(`data-testid="workout-points-breakdown-total-pill"`) in
+`--md-sys-color-primary-container` sums the rows. The breakdown is computed
+client-side from the existing `Session` DTO, so no backend change was
+required. `/workouts/:id` now mirrors the `/workouts/new` Points card.
+
+Phase 1 acceptance test: `frontend/e2e/tests/workout-detail-points-breakdown.spec.ts`
+(commit `013f0e2`). Phase 2 fix: commit `e444d46`.
