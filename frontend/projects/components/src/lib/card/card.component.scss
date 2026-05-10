@@ -1,24 +1,18 @@
 .card {
+  /* Material outlined-card variant supplies background, border, and rounding;
+     the BEM hooks remain so consumers can target slots without touching the
+     Material host class. */
   display: block;
-  background: var(--md-sys-color-surface-container-lowest, #fff);
-  border-radius: 16px;
-  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px 1px rgba(0, 0, 0, 0.06);
-  padding: 24px 20px;
 }
 
 .card__header {
-  margin-bottom: 16px;
+  /* mat-card-header already provides spacing; no override needed. */
 }
 
 .card__title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--md-sys-color-on-surface, #161d1b);
+  /* mat-card-title applies the Material 3 title typography; no override needed. */
 }
 
 .card__body {
-  display: block;
-  color: var(--md-sys-color-on-surface, #161d1b);
+  /* mat-card-content provides padding; no override needed. */
 }

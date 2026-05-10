@@ -20,7 +20,7 @@ Conventions:
 
 These eleven slices replace the MF1 hand-rolled CSS components with Angular Material 3 wrappers. They unblock every later phase. Each task ships a single component triple plus an updated `public-api.ts` export. Acceptance is verified by an existing or new spec that already uses the component.
 
-### FT-001 — Wrap `CardComponent` around `<mat-card>`
+### FT-001 — Wrap `CardComponent` around `<mat-card>` ✅ done
 
 - **Requirements:** L2-046, L2-052; foundation for every authenticated screen.
 - **Slice:**
