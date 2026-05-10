@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -28,10 +28,15 @@ import { ButtonComponent, CardComponent } from 'components';
 export class ProfileFormComponent implements OnInit {
   @Input() user: CurrentUser | null = null;
 
+  @Output() readonly deleted = new EventEmitter<void>();
+
   protected readonly form;
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly saved = signal(false);
   protected readonly submitting = signal(false);
+  protected readonly confirmingDelete = signal(false);
+  protected readonly deleting = signal(false);
+  protected readonly deleteError = signal<string | null>(null);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -74,6 +79,40 @@ export class ProfileFormComponent implements OnInit {
       error: (err) => {
         this.submitting.set(false);
         this.errorMessage.set(err?.error?.title ?? 'Could not save profile.');
+      }
+    });
+  }
+
+  protected requestDelete(): void {
+    if (this.deleting()) {
+      return;
+    }
+    this.deleteError.set(null);
+    this.confirmingDelete.set(true);
+  }
+
+  protected cancelDelete(): void {
+    if (this.deleting()) {
+      return;
+    }
+    this.confirmingDelete.set(false);
+  }
+
+  protected confirmDelete(): void {
+    if (this.deleting()) {
+      return;
+    }
+    this.deleting.set(true);
+    this.deleteError.set(null);
+    this.me.deleteMe().subscribe({
+      next: () => {
+        this.deleting.set(false);
+        this.confirmingDelete.set(false);
+        this.deleted.emit();
+      },
+      error: (err) => {
+        this.deleting.set(false);
+        this.deleteError.set(err?.error?.title ?? 'Could not delete account.');
       }
     });
   }

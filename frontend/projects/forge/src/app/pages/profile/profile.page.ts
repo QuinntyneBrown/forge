@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppShellComponent, NavDestination } from 'components';
 import { ProfileFormComponent } from 'domain';
+import { AuthStateService } from '../../auth-state.service';
 
 const PRIMARY_DESTINATIONS: NavDestination[] = [
   { label: 'Home', icon: 'home', routerLink: '/dashboard' },
@@ -16,5 +18,13 @@ const PRIMARY_DESTINATIONS: NavDestination[] = [
   styleUrl: './profile.page.scss'
 })
 export class ProfilePage {
+  private readonly auth = inject(AuthStateService);
+  private readonly router = inject(Router);
+
   protected readonly destinations = PRIMARY_DESTINATIONS;
+
+  protected onDeleted(): void {
+    this.auth.clear();
+    this.router.navigate(['/sign-in']);
+  }
 }

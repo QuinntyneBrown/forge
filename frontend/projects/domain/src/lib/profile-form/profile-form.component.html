@@ -99,4 +99,53 @@
       {{ submitting() ? 'Saving…' : 'Save changes' }}
     </forge-button>
   </form>
+
+  <section class="profile-form__danger" data-testid="profile-danger-zone">
+    <h3 class="profile-form__danger-title">Danger zone</h3>
+    <p class="profile-form__danger-copy">
+      Deleting your account permanently removes your profile, sessions, and
+      reward history. This cannot be undone.
+    </p>
+
+    @if (!confirmingDelete()) {
+      <forge-button
+        variant="text"
+        type="button"
+        testid="profile-delete-account"
+        (click)="requestDelete()"
+      >
+        Delete account
+      </forge-button>
+    } @else {
+      <p class="profile-form__danger-prompt" data-testid="profile-delete-confirm-prompt">
+        Are you sure? This will sign you out immediately.
+      </p>
+      <div class="profile-form__danger-actions">
+        <forge-button
+          variant="filled"
+          type="button"
+          testid="profile-delete-confirm"
+          [loading]="deleting()"
+          (click)="confirmDelete()"
+        >
+          Yes, delete my account
+        </forge-button>
+        <forge-button
+          variant="outlined"
+          type="button"
+          testid="profile-delete-cancel"
+          [disabled]="deleting()"
+          (click)="cancelDelete()"
+        >
+          Cancel
+        </forge-button>
+      </div>
+    }
+
+    @if (deleteError()) {
+      <p class="profile-form__error" data-testid="profile-delete-error">
+        {{ deleteError() }}
+      </p>
+    }
+  </section>
 </forge-card>

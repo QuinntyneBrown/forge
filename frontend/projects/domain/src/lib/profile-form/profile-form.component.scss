@@ -35,3 +35,40 @@
   display: block;
   margin-top: 8px;
 }
+
+.profile-form__danger {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--md-sys-color-outline-variant, #c4c8c5);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-form__danger-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--md-sys-color-error, #ba1a1a);
+}
+
+.profile-form__danger-copy {
+  margin: 0;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.profile-form__danger-prompt {
+  margin: 0;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface, #161d1b);
+  font-weight: 500;
+}
+
+.profile-form__danger-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

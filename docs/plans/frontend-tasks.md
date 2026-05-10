@@ -327,7 +327,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/profile.spec.ts` — edit first name, time zone (assert America/Toronto displays in full at all viewports), daily targets, monthly goal, morning + kitchen windows, leaderboard opt-in. Reload → values persist.
 - **Guidance:** Frontend, Validation.
 
-### FT-032 — Account deletion flow
+### FT-032 — Account deletion flow ✅ done (spec pending DB)
 
 - **Requirements:** L2-006, L2-050. Mock: `profile.html` (delete CTA).
 - **Slice:**
