@@ -95,8 +95,28 @@ export class SignUpFormComponent {
 }
 
 function matchPasswordValidator(control: AbstractControl): ValidationErrors | null {
-  const pw = control.get('password')?.value;
-  const cp = control.get('confirmPassword')?.value;
-  if (!pw || !cp) return null;
-  return pw === cp ? null : { passwordMismatch: true };
+  const passwordControl = control.get('password');
+  const confirmControl = control.get('confirmPassword');
+  const pw = passwordControl?.value;
+  const cp = confirmControl?.value;
+  const clearMismatch = (): void => {
+    if (confirmControl?.hasError('passwordMismatch')) {
+      const remaining = { ...(confirmControl.errors ?? {}) };
+      delete remaining['passwordMismatch'];
+      confirmControl.setErrors(Object.keys(remaining).length ? remaining : null);
+    }
+  };
+  if (!pw || !cp) {
+    clearMismatch();
+    return null;
+  }
+  if (pw === cp) {
+    clearMismatch();
+    return null;
+  }
+  // Surface the mismatch on the confirm field so Material's <mat-error> shows
+  // it once the field is touched, in addition to flagging the FormGroup so the
+  // submit button stays disabled.
+  confirmControl?.setErrors({ ...(confirmControl.errors ?? {}), passwordMismatch: true });
+  return { passwordMismatch: true };
 }

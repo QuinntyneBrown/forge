@@ -122,6 +122,9 @@ test.describe('Sign-up — perks list, strength meter, ToS consent', () => {
     await signUp.lastNameInput.fill('Gate');
     await signUp.emailInput.fill(`tos-${Date.now()}@forgefit.app`);
     await signUp.passwordInput.fill('Sup3rStr0ng!Pass');
+    // Bug 028 added a required Confirm password field — fill it to isolate this
+    // test on the ToS gating behaviour.
+    await signUp.confirmPasswordInput.fill('Sup3rStr0ng!Pass');
 
     // ToS unchecked => submit disabled.
     await expect(signUp.tosCheckbox).not.toBeChecked();

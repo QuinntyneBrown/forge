@@ -29,17 +29,18 @@ test.describe('Sign-up confirm password field (Bug 028)', () => {
     await signUp.firstNameInput.fill('Sign');
     await signUp.lastNameInput.fill('Up');
     await signUp.emailInput.fill(email);
-    await signUp.passwordInput.fill('Password123!');
-    await signUp.confirmPasswordInput.fill('Different123!');
-    // Blur to surface the validation message.
+    await signUp.passwordInput.fill('PasswordOne!23');
+    await signUp.confirmPasswordInput.fill('PasswordTwo!23');
     await signUp.confirmPasswordInput.blur();
     await signUp.tosCheckbox.check();
-    await signUp.submitButton.click();
 
-    // Form must not submit — we should still be on /sign-up.
-    await expect(page).toHaveURL(/\/sign-up$/);
+    // The form is invalid while the two passwords diverge, so the submit
+    // button must be disabled and the field-level mismatch error must render.
+    await expect(signUp.submitButton).toBeDisabled();
     await expect(signUp.confirmPasswordError).toBeVisible();
     await expect(signUp.confirmPasswordError).toContainText(/do not match/i);
+    // Sanity-check we never navigated away from /sign-up.
+    await expect(page).toHaveURL(/\/sign-up$/);
   });
 
   test('allows submission when password and confirm password match', async ({ page }) => {

@@ -54,9 +54,7 @@
         autocomplete="new-password"
         data-testid="sign-up-confirm-password"
       />
-      @if (passwordMismatch) {
-        <mat-error data-testid="sign-up-confirm-password-error">Passwords do not match.</mat-error>
-      }
+      <mat-error data-testid="sign-up-confirm-password-error">Passwords do not match.</mat-error>
     </mat-form-field>
 
     @if (passwordValue()) {
