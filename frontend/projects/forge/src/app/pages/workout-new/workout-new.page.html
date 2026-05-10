@@ -1,8 +1,36 @@
 <forge-app-shell [destinations]="destinations">
   <main class="workout-new">
-    <header class="workout-new__header">
-      <h2 class="workout-new__title">New session</h2>
-    </header>
-    <forge-workout-detail-form (created)="onCreated($event)"></forge-workout-detail-form>
+    <section class="workout-new__hero" data-testid="workout-new-hero">
+      <p class="workout-new__hero-eyebrow" data-testid="workout-new-hero-eyebrow">
+        New session · {{ today() }}
+      </p>
+      <h1 class="workout-new__hero-title" data-testid="workout-new-hero-title">
+        Log a workout
+      </h1>
+      <p class="workout-new__hero-sub">
+        Pick your equipment, log the basics, and lock in your morning bonus.
+      </p>
+    </section>
+
+    <div class="workout-new__body">
+      <section class="workout-new__card" data-testid="workout-new-session-details-card">
+        <h3 class="workout-new__card-title">
+          <span class="material-icons" aria-hidden="true">edit_note</span>
+          Session details
+        </h3>
+        <forge-workout-detail-form (created)="onCreated($event)"></forge-workout-detail-form>
+      </section>
+
+      <section class="workout-new__actions">
+        <button
+          type="button"
+          class="workout-new__cancel"
+          data-testid="workout-new-cancel"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </section>
+    </div>
   </main>
 </forge-app-shell>

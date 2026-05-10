@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppShellComponent, NavDestination } from 'components';
 import { WorkoutDetailFormComponent } from 'domain';
@@ -20,7 +20,15 @@ export class WorkoutNewPage {
   protected readonly destinations = DESTINATIONS;
   private readonly router = inject(Router);
 
-  protected onCreated(result: { id: string }): void {
+  protected readonly today = computed(() =>
+    new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
+  );
+
+  protected onCreated(_result: { id: string }): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  protected onCancel(): void {
     this.router.navigate(['/dashboard']);
   }
 }

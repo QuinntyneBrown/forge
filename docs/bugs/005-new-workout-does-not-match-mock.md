@@ -1,5 +1,8 @@
 # Bug 005: New workout page does not align with design mock
 
+## Status
+Complete — green gradient hero (eyebrow + title + sub), "Session details" card wrapping the existing reactive form, and Save + Cancel actions now match the mock layout. Per-element pixel polish (e.g. switching the Material outline form field style for the mock's compact filled-input style) is deferred to a UI-audit pass.
+
 ## Severity
 High
 

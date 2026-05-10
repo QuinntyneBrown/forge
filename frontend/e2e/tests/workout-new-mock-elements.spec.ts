@@ -26,6 +26,9 @@ test.describe('Workout new mock alignment', () => {
     const signIn = new SignInPage(page);
     const dashboard = new DashboardPage(page);
     await signIn.goto();
+    // Persist the session across the hard navigation to /workouts/new — the
+    // in-memory token would otherwise drop and the auth guard would bounce.
+    await page.getByTestId('sign-in-remember-me').click();
     await signIn.signIn(email, PASSWORD);
     await dashboard.waitForLoad();
 
