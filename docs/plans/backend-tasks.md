@@ -310,7 +310,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 
 ## Phase BI1.4 — Leaderboard, deferred integrations, hardening
 
-### BT-030 — List leaderboard
+### BT-030 — List leaderboard ✅ done
 
 - **Requirements:** L2-027.
 - **Slice:**
