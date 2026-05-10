@@ -65,13 +65,71 @@
   </div>
 
   @if (!hasSessions()) {
-    <forge-empty-state
-      title="No sessions yet"
-      message="Log a session to start tracking points and progress."
-      testid="workout-list-empty"
-    >
-      <forge-button (click)="newSession()">Log your first session</forge-button>
-    </forge-empty-state>
+    <section class="workout-list__empty" data-testid="workout-list-empty">
+      <div class="workout-list__empty-hero" data-testid="workouts-empty-hero">
+        <div class="workout-list__empty-circle">
+          <div class="workout-list__empty-square">
+            <span class="material-icons" aria-hidden="true">fitness_center</span>
+            <span class="workout-list__empty-badge" data-testid="workouts-empty-badge">
+              Day 1
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="workout-list__empty-title" data-testid="workouts-empty-title">
+        No workouts logged — yet.
+      </h3>
+      <p class="workout-list__empty-sub">
+        Log your first session to start a streak. Morning workouts before 7 AM
+        earn a bonus and unlock the daily move ring.
+      </p>
+
+      <div class="workout-list__empty-actions">
+        <button
+          type="button"
+          class="workout-list__empty-cta workout-list__empty-cta--filled"
+          data-testid="workouts-empty-log-cta"
+          (click)="newSession()"
+        >
+          Log your first workout
+        </button>
+        <button
+          type="button"
+          class="workout-list__empty-cta workout-list__empty-cta--text"
+          data-testid="workouts-empty-home-cta"
+          (click)="goHome()"
+        >
+          Take me back home
+        </button>
+      </div>
+
+      <div class="workout-list__empty-picker">
+        @for (item of emptyEquipment; track item.id) {
+          <button
+            type="button"
+            class="workout-list__empty-tile"
+            data-testid="workouts-empty-equipment-tile"
+            (click)="newSessionWithEquipment(item.id)"
+          >
+            <span
+              class="workout-list__empty-tile-icon"
+              [class]="'workout-list__empty-tile-icon ' + item.tint"
+            >
+              <span class="material-icons" aria-hidden="true">{{ item.icon }}</span>
+            </span>
+            <span class="workout-list__empty-tile-label">{{ item.label }}</span>
+          </button>
+        }
+      </div>
+
+      <div class="workout-list__empty-tip" data-testid="workouts-empty-pro-tip">
+        <span class="material-icons" aria-hidden="true">tips_and_updates</span>
+        <span>
+          <strong>Pro tip</strong> — log before 7 AM for the morning bonus.
+        </span>
+      </div>
+    </section>
   } @else {
     <div class="workout-list__rows" data-testid="workout-list-rows">
       @for (group of dayGroups(); track group.key) {

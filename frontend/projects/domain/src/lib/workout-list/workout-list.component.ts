@@ -155,6 +155,21 @@ export class WorkoutListComponent implements OnInit {
     this.router.navigate(['/workouts', 'new']);
   }
 
+  protected newSessionWithEquipment(id: string): void {
+    this.router.navigate(['/workouts', 'new'], { queryParams: { equipment: id } });
+  }
+
+  protected goHome(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  protected readonly emptyEquipment = [
+    { id: 'Treadmill', label: 'Treadmill', icon: 'directions_run', tint: 'workout-list__empty-tile-icon--green' },
+    { id: 'IndoorBike', label: 'Indoor bike', icon: 'directions_bike', tint: 'workout-list__empty-tile-icon--amber' },
+    { id: 'BenchPress', label: 'Bench press', icon: 'fitness_center', tint: 'workout-list__empty-tile-icon--orange' },
+    { id: 'Elliptical', label: 'Elliptical', icon: 'fitness_center', tint: 'workout-list__empty-tile-icon--blue' }
+  ];
+
   protected iconFor(equipment: string): string {
     return EQUIPMENT_ICON[equipment] ?? 'fitness_center';
   }

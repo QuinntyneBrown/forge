@@ -15,11 +15,153 @@
     </header>
 
     <section class="dashboard__grid">
-      <forge-daily-ring-card class="dashboard__cell dashboard__cell--span-2"></forge-daily-ring-card>
-      <forge-streak-card></forge-streak-card>
-      <forge-weight-progress-card></forge-weight-progress-card>
-      <forge-tier-card></forge-tier-card>
-      <forge-leaderboard-card class="dashboard__cell dashboard__cell--span-2"></forge-leaderboard-card>
+      <!-- Hero card: dark teal gradient wrapping the daily ring + secondary CTAs -->
+      <section
+        class="dashboard__hero dashboard__cell--hero"
+        data-testid="dashboard-hero"
+      >
+        <p class="dashboard__hero-eyebrow" data-testid="dashboard-hero-eyebrow">
+          Today's active calories
+        </p>
+        <h2 class="dashboard__hero-title">Keep the streak going</h2>
+        <forge-daily-ring-card class="dashboard__hero-ring"></forge-daily-ring-card>
+        <div class="dashboard__hero-cta">
+          <button
+            type="button"
+            class="dashboard__hero-btn dashboard__hero-btn--filled"
+            data-testid="dashboard-hero-start-workout"
+            (click)="logWorkout()"
+          >
+            <span class="material-symbols-rounded" aria-hidden="true">play_arrow</span>
+            Start morning workout
+          </button>
+          <button
+            type="button"
+            class="dashboard__hero-btn dashboard__hero-btn--tonal"
+            data-testid="dashboard-hero-view-sessions"
+            (click)="viewTodaysSessions()"
+          >
+            <span class="material-symbols-rounded" aria-hidden="true">history</span>
+            View today's sessions
+          </button>
+        </div>
+      </section>
+
+      <!-- Streak / rewards card with sparkline + badge row -->
+      <section class="dashboard__streak-rewards dashboard__cell--side">
+        <forge-streak-card></forge-streak-card>
+        <div class="dashboard__sparkline-block">
+          <p class="dashboard__sparkline-label">Reward points · last 7 days</p>
+          <svg
+            class="dashboard__sparkline"
+            data-testid="dashboard-sparkline"
+            viewBox="0 0 100 30"
+            preserveAspectRatio="none"
+            role="img"
+            aria-label="Reward points trend over the last 7 days"
+          >
+            @for (bar of sparklineBars; track $index) {
+              <rect
+                [attr.x]="$index * 14 + 2"
+                [attr.y]="30 - (bar * 0.28)"
+                width="10"
+                [attr.height]="bar * 0.28"
+                rx="2"
+                class="dashboard__sparkline-bar"
+              />
+            }
+          </svg>
+        </div>
+        <div class="dashboard__badge-row" data-testid="dashboard-badge-row">
+          @for (badge of badges(); track badge.id) {
+            <div
+              class="dashboard__badge"
+              [attr.data-testid]="'dashboard-badge'"
+            >
+              <div
+                class="dashboard__badge-medal"
+                [class.dashboard__badge-medal--gold]="badge.tint === 'gold'"
+                [class.dashboard__badge-medal--teal]="badge.tint === 'teal'"
+              >
+                <span class="material-symbols-rounded" aria-hidden="true">{{ badge.icon }}</span>
+              </div>
+              <p class="dashboard__badge-title">{{ badge.title }}</p>
+              <p class="dashboard__badge-sub">{{ badge.sub }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Eating window card -->
+      <section
+        class="dashboard__eating-window dashboard__cell--half"
+        data-testid="eating-window-card"
+      >
+        <p class="dashboard__card-eyebrow">Eating window</p>
+        <h3
+          class="dashboard__card-title"
+          data-testid="eating-window-card-title"
+        >
+          {{ eatingWindowTitle() }}
+        </h3>
+        <p class="dashboard__card-sub">{{ eatingWindowSub() }}</p>
+        <div class="dashboard__window">
+          <div class="dashboard__window-icon">
+            <span class="material-symbols-rounded" aria-hidden="true">nights_stay</span>
+          </div>
+          <div class="dashboard__window-info">
+            <p class="dashboard__window-range">{{ eatingWindowRange() }}</p>
+            <p class="dashboard__window-meta">Kitchen-closed window</p>
+          </div>
+          <span class="dashboard__window-chip">
+            <span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+            On track
+          </span>
+        </div>
+      </section>
+
+      <!-- Today's sessions card -->
+      <section
+        class="dashboard__todays-sessions dashboard__cell--half"
+        data-testid="todays-sessions-card"
+      >
+        <p class="dashboard__card-eyebrow">Today's sessions</p>
+        <h3 class="dashboard__card-title">
+          {{ todaysSessionsCount() }} workout{{ todaysSessionsCount() === 1 ? '' : 's' }} logged
+        </h3>
+        @if (todaysSessionsCount() === 0) {
+          <p class="dashboard__card-sub">No sessions logged yet today.</p>
+        } @else {
+          <div
+            class="dashboard__session-list"
+            data-testid="todays-sessions-card-list"
+          >
+            @for (s of todaysSessions(); track s.id) {
+              <div
+                class="dashboard__session"
+                data-testid="todays-sessions-card-item"
+              >
+                <div
+                  class="dashboard__session-icon"
+                  [class.dashboard__session-icon--amber]="s.tint === 'amber'"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">{{ s.icon }}</span>
+                </div>
+                <div class="dashboard__session-main">
+                  <p class="dashboard__session-title">{{ s.title }}</p>
+                  <p class="dashboard__session-meta">{{ s.meta }}</p>
+                </div>
+                <span class="dashboard__session-points">+{{ s.points }}</span>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+      <!-- Existing supporting cards retained beneath the mock-aligned hero strip. -->
+      <forge-weight-progress-card class="dashboard__cell--half"></forge-weight-progress-card>
+      <forge-tier-card class="dashboard__cell--half"></forge-tier-card>
+      <forge-leaderboard-card class="dashboard__cell--full"></forge-leaderboard-card>
     </section>
 
     <button

@@ -1,7 +1,7 @@
 # Bug 017: Empty-state mock has no implemented route or component
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium
