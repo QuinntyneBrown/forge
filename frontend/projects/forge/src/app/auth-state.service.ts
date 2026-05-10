@@ -3,6 +3,7 @@ import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
 import { firstValueFrom } from 'rxjs';
 
 const PERSISTED_REFRESH_TOKEN_KEY = 'forge.auth.refreshToken';
+const SESSION_REFRESH_TOKEN_KEY = 'forge.auth.refreshToken.session';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStateService {
@@ -14,6 +15,15 @@ export class AuthStateService {
 
   setSession(result: AuthResult, persist = false): void {
     this.current.set(result);
+    // Mirror the refresh token into sessionStorage so a same-tab navigation
+    // (Playwright `page.goto`, manual reload) can re-hydrate via tryHydrate
+    // without requiring Remember me. localStorage continues to scope to
+    // Remember me — that's the cross-restart contract.
+    try {
+      sessionStorage.setItem(SESSION_REFRESH_TOKEN_KEY, result.refreshToken);
+    } catch {
+      // sessionStorage may be unavailable in some embedded contexts.
+    }
     if (persist) {
       try {
         localStorage.setItem(PERSISTED_REFRESH_TOKEN_KEY, result.refreshToken);
@@ -31,6 +41,11 @@ export class AuthStateService {
     } catch {
       // ignore — same rationale as setSession.
     }
+    try {
+      sessionStorage.removeItem(SESSION_REFRESH_TOKEN_KEY);
+    } catch {
+      // ignore.
+    }
   }
 
   get token(): string | null {
@@ -42,18 +57,29 @@ export class AuthStateService {
   }
 
   async tryHydrate(): Promise<void> {
-    let persisted: string | null = null;
+    // Prefer the persisted (Remember me) token over the session-scoped one
+    // so a long-lived session resumes correctly across browser restarts.
+    let token: string | null = null;
+    let persistedHit = false;
     try {
-      persisted = localStorage.getItem(PERSISTED_REFRESH_TOKEN_KEY);
+      token = localStorage.getItem(PERSISTED_REFRESH_TOKEN_KEY);
+      persistedHit = !!token;
     } catch {
-      return;
+      // ignore; fall through to sessionStorage.
     }
-    if (!persisted) {
+    if (!token) {
+      try {
+        token = sessionStorage.getItem(SESSION_REFRESH_TOKEN_KEY);
+      } catch {
+        return;
+      }
+    }
+    if (!token) {
       return;
     }
     try {
-      const rotated = await firstValueFrom(this.authService.refresh(persisted));
-      this.setSession(rotated, true);
+      const rotated = await firstValueFrom(this.authService.refresh(token));
+      this.setSession(rotated, persistedHit);
     } catch {
       // Refresh rejected — clear the stale entry.
       this.clear();
