@@ -1,7 +1,7 @@
 # Bug 021: Material Symbols icons on the dashboard render as raw text labels
 
 ## Status
-Open
+Complete
 
 ## Severity
 High

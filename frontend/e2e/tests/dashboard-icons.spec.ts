@@ -28,20 +28,31 @@ test.describe('Dashboard icons render as glyphs', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(800);
 
-    const leakedTexts = await page.evaluate(() => {
+    const leaks = await page.evaluate(() => {
       const spans = Array.from(
         document.querySelectorAll<HTMLElement>(
           'main.dashboard span.material-symbols-rounded, main.dashboard span.material-icons'
         )
       );
       return spans
-        .map((el) => (el.textContent || '').trim())
-        .filter((text) => text.length > 2);
+        .map((el) => {
+          const fontFamily = getComputedStyle(el).fontFamily.toLowerCase();
+          const text = (el.textContent || '').trim();
+          // The icon font collapses ligatures — but only if the font is
+          // actually applied. If font-family doesn't reference a Material
+          // font, the browser falls back to the body font and the literal
+          // ligature string ("play_arrow") shows up.
+          const usingIconFont =
+            fontFamily.includes('material symbols') ||
+            fontFamily.includes('material icons');
+          return usingIconFont ? null : text;
+        })
+        .filter((t): t is string => t !== null && t.length > 2);
     });
 
     expect(
-      leakedTexts,
-      `expected no icon ligature text to leak; got: ${JSON.stringify(leakedTexts)}`
+      leaks,
+      `expected every dashboard icon span to use a Material icon font; leaks: ${JSON.stringify(leaks)}`
     ).toEqual([]);
   });
 });
