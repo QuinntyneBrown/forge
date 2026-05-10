@@ -66,3 +66,21 @@
      positioning hook in case future layout tweaks need it. */
   display: block;
 }
+
+.sign-in-form__footer {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.sign-in-form__sign-up {
+  color: var(--md-sys-color-primary, #106b5c);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
