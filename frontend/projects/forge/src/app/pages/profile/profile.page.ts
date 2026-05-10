@@ -55,6 +55,7 @@ export class ProfilePage implements OnInit {
   protected readonly morningReminder = signal(false);
   protected readonly kitchenNudge = signal(false);
   protected readonly leaderboard = signal(false);
+  protected readonly appleWatchSync = signal(true);
 
   protected readonly displayName = computed(() => {
     const u = this.currentUser();
@@ -124,6 +125,10 @@ export class ProfilePage implements OnInit {
 
   protected toggleLeaderboard(): void {
     this.leaderboard.update((v) => !v);
+  }
+
+  protected toggleAppleWatch(): void {
+    this.appleWatchSync.update((v) => !v);
   }
 
   protected onSaveAll(): void {

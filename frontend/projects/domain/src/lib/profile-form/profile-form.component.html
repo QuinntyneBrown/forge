@@ -1,4 +1,5 @@
 <forge-card title="Profile">
+  @if (!hideFields) {
   <form class="profile-form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="profile-form__row profile-form__row--two">
       <mat-form-field appearance="outline" class="profile-form__field">
@@ -88,18 +89,22 @@
       <p class="profile-form__saved" data-testid="profile-saved">Saved.</p>
     }
 
-    <forge-button
-      class="profile-form__submit"
-      variant="filled"
-      type="submit"
-      [disabled]="form.invalid"
-      [loading]="submitting()"
-      testid="profile-save"
-    >
-      {{ submitting() ? 'Saving…' : 'Save changes' }}
-    </forge-button>
+    @if (!hideSubmit) {
+      <forge-button
+        class="profile-form__submit"
+        variant="filled"
+        type="submit"
+        [disabled]="form.invalid"
+        [loading]="submitting()"
+        testid="profile-save"
+      >
+        {{ submitting() ? 'Saving…' : 'Save changes' }}
+      </forge-button>
+    }
   </form>
+  }
 
+  @if (!hideDangerZone) {
   <section class="profile-form__danger" data-testid="profile-danger-zone">
     <h3 class="profile-form__danger-title">Danger zone</h3>
     <p class="profile-form__danger-copy">
@@ -148,4 +153,5 @@
       </p>
     }
   </section>
+  }
 </forge-card>

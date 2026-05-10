@@ -27,6 +27,9 @@ import { ButtonComponent, CardComponent } from 'components';
 })
 export class ProfileFormComponent implements OnInit {
   @Input() user: CurrentUser | null = null;
+  @Input() hideSubmit = false;
+  @Input() hideDangerZone = false;
+  @Input() hideFields = false;
 
   @Output() readonly deleted = new EventEmitter<void>();
 

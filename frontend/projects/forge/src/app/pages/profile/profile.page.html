@@ -19,7 +19,11 @@
         <span class="material-icons" aria-hidden="true">badge</span>
         Account
       </h3>
-      <forge-profile-form (deleted)="onDeleted()"></forge-profile-form>
+      <forge-profile-form
+        [hideSubmit]="true"
+        [hideDangerZone]="true"
+        (deleted)="onDeleted()"
+      ></forge-profile-form>
     </section>
 
     <section class="profile__card" data-testid="profile-goals-card">
@@ -169,6 +173,37 @@
             (click)="toggleLeaderboard()"
           ></button>
         </li>
+        <li class="profile__integration" data-testid="profile-apple-watch-row">
+          <span class="profile__integration-icon profile__integration-icon--dark"
+            ><span class="material-icons" aria-hidden="true">watch</span></span>
+          <span class="profile__integration-main">
+            <strong>Apple Watch sync</strong>
+            <span>Pull workouts, calories, and heart rate.</span>
+          </span>
+          <button
+            type="button"
+            role="switch"
+            class="profile__switch"
+            [class.profile__switch--off]="!appleWatchSync()"
+            [attr.aria-checked]="appleWatchSync()"
+            data-testid="profile-apple-watch-toggle"
+            (click)="toggleAppleWatch()"
+          ></button>
+        </li>
+        <li class="profile__integration" data-testid="profile-theme-row">
+          <span class="profile__integration-icon"
+            ><span class="material-icons" aria-hidden="true">palette</span></span>
+          <span class="profile__integration-main">
+            <strong>Theme</strong>
+            <span>System default · light + dark</span>
+          </span>
+          <a
+            href="#"
+            class="profile__theme-link"
+            data-testid="profile-theme-change-link"
+            (click)="$event.preventDefault()"
+          >Change</a>
+        </li>
       </ul>
     </section>
 
@@ -202,6 +237,18 @@
         <span class="material-icons" aria-hidden="true">logout</span>
         Sign out
       </button>
+    </section>
+
+    <section class="profile__card profile__card--danger" data-testid="profile-danger-card">
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">warning</span>
+        Danger zone
+      </h3>
+      <forge-profile-form
+        [hideSubmit]="true"
+        [hideFields]="true"
+        (deleted)="onDeleted()"
+      ></forge-profile-form>
     </section>
   </main>
 </forge-app-shell>
