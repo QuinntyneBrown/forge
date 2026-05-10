@@ -1,11 +1,34 @@
-<main class="not-found">
-  <forge-empty-state
-    title="Page not found"
-    message="The page you tried to open does not exist or has moved."
-    testid="not-found"
-  >
-    <forge-button testid="not-found-home" (click)="goHome()">
-      Go to dashboard
-    </forge-button>
-  </forge-empty-state>
-</main>
+<forge-app-shell [destinations]="destinations">
+  <main class="not-found">
+    <section class="not-found__hero" data-testid="not-found-illustration">
+      <div class="not-found__circle">
+        <span class="material-icons" aria-hidden="true">travel_explore</span>
+      </div>
+    </section>
+
+    <h1 class="not-found__title" data-testid="not-found-title">Page not found</h1>
+    <p class="not-found__sub">
+      The page you tried to open doesn't exist or has moved. Try the dashboard
+      or step back to where you came from.
+    </p>
+
+    <div class="not-found__actions">
+      <button
+        type="button"
+        class="not-found__cta not-found__cta--filled"
+        data-testid="not-found-home"
+        (click)="goHome()"
+      >
+        Go to dashboard
+      </button>
+      <button
+        type="button"
+        class="not-found__cta not-found__cta--outlined"
+        data-testid="not-found-back"
+        (click)="goBack()"
+      >
+        Go back
+      </button>
+    </div>
+  </main>
+</forge-app-shell>

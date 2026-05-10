@@ -1,7 +1,7 @@
 # Bug 016: 404 / "Page not found" route is bare and does not match the design system
 
 ## Status
-Open
+Complete
 
 ## Severity
 Low
