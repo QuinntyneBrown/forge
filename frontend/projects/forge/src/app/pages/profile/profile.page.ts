@@ -3,7 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import {
+  AUTH_SERVICE,
   CurrentUser,
+  IAuthService,
   IMeService,
   IProfileService,
   IRewardsService,
@@ -35,6 +37,7 @@ export class ProfilePage implements OnInit {
   private readonly meApi = inject<IMeService>(ME_SERVICE);
   private readonly profileApi = inject<IProfileService>(PROFILE_SERVICE);
   private readonly rewardsApi = inject<IRewardsService>(REWARDS_SERVICE);
+  private readonly authApi = inject<IAuthService>(AUTH_SERVICE);
 
   protected readonly destinations = PRIMARY_DESTINATIONS;
   protected readonly currentUser = signal<CurrentUser | null>(null);
@@ -225,8 +228,19 @@ export class ProfilePage implements OnInit {
   }
 
   protected onSignOut(): void {
-    this.auth.clear();
-    this.router.navigate(['/sign-in']);
+    const refreshToken = this.auth.refreshToken;
+    const finalize = (): void => {
+      this.auth.clear();
+      this.router.navigate(['/sign-in']);
+    };
+    if (!refreshToken) {
+      finalize();
+      return;
+    }
+    this.authApi.signOut(refreshToken).subscribe({
+      next: () => finalize(),
+      error: () => finalize()
+    });
   }
 }
 

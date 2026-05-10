@@ -127,15 +127,12 @@ test.describe('Bug 009: Primary color token resolves to mock teal', () => {
     const primaryToken = await readPrimaryToken(page);
     expectCloseToTeal(primaryToken, '--mat-sys-primary on /dashboard');
 
-    // The dashboard "Sign out" outline button is bound to the primary token
-    // for both its label colour and its border colour
-    // (see dashboard.page.scss: color: var(--md-sys-color-primary, ...)).
-    // Anchor at least one rendered element to the token so a regression in
-    // the cascade (custom CSS overriding the token, etc.) is also caught.
-    await expect(dashboard.signOutButton).toBeVisible();
-    const signOutColor = await dashboard.signOutButton.evaluate(
-      (el) => getComputedStyle(el).color
-    );
-    expectCloseToTeal(signOutColor, 'dashboard sign-out label color');
+    // Bug 027: the dashboard topbar no longer carries a sign-out button —
+    // anchor the regression check to the dashboard FAB instead, which is
+    // always rendered and uses the primary teal token for its background.
+    const fab = page.getByTestId('dashboard-log-workout-fab');
+    await expect(fab).toBeVisible();
+    const fabBackground = await fab.evaluate((el) => getComputedStyle(el).backgroundColor);
+    expectCloseToTeal(fabBackground, 'dashboard FAB background color');
   });
 });

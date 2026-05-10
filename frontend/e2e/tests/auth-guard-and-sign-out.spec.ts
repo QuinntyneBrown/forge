@@ -3,12 +3,14 @@
 //            L2-033 (refresh-token rotation, indirectly verified by sign-out
 //            invalidating the family).
 // Description: (1) Visiting /dashboard unauthenticated redirects to
-// /sign-in?returnUrl=/dashboard. (2) After sign-in, clicking the dashboard's
+// /sign-in?returnUrl=/dashboard. (2) After sign-in, clicking the Profile page
 // sign-out button calls POST /api/auth/sign-out against the backend, clears
-// the in-memory session, and routes back to /sign-in.
+// the in-memory session, and routes back to /sign-in. (Bug 027: sign-out lives
+// on Profile, not on the dashboard topbar.)
 
 import { expect, test } from '@playwright/test';
 import { DashboardPage } from '../pages/dashboard.page';
+import { ProfilePage } from '../pages/profile.page';
 import { SignInPage } from '../pages/sign-in.page';
 
 const TEST_PASSWORD = 'ForgeFit!2026';
@@ -30,13 +32,17 @@ test('sign-out clears the session and calls the backend revoke endpoint', async 
 
   const signInPage = new SignInPage(page);
   const dashboard = new DashboardPage(page);
+  const profile = new ProfilePage(page);
 
   await signInPage.goto();
   await signInPage.signIn(email, TEST_PASSWORD);
   await dashboard.waitForLoad();
 
+  await profile.goto();
+  await page.waitForLoadState('networkidle');
+
   const signOutCall = page.waitForResponse((r) => r.url().endsWith('/api/auth/sign-out'));
-  await dashboard.signOutButton.click();
+  await profile.signOutButton.click();
   const signOutResponse = await signOutCall;
   expect(signOutResponse.status()).toBe(204);
 
