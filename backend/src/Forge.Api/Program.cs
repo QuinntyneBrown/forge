@@ -88,6 +88,12 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
+
+    if (app.Environment.IsDevelopment())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<DevDataSeeder>();
+        await seeder.SeedAsync();
+    }
 }
 
 app.UseMiddleware<SecurityHeadersMiddleware>();

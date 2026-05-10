@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
 
+        services.AddScoped<DevDataSeeder>();
+
         return services;
     }
 }
