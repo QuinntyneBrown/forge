@@ -17,3 +17,4 @@ export * from './lib/workout-list/workout-list.component';
 export * from './lib/workout-detail-form/workout-detail-form.component';
 export * from './lib/workout-points-breakdown/workout-points-breakdown.component';
 export * from './lib/rewards-catalog/rewards-catalog.component';
+export * from './lib/sync-error-panel/sync-error-panel.component';

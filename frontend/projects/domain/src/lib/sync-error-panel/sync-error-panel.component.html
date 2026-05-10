@@ -1,0 +1,34 @@
+<forge-card class="sync-error-panel" testid="sync-error-panel">
+  <div class="sync-error-panel__inner">
+    <forge-error-banner
+      title="Something went sideways"
+      message="We could not finish the last action. The diagnostics below help support reproduce the issue."
+      testid="sync-error-panel-banner"
+    >
+      <forge-button variant="filled" testid="sync-error-panel-dashboard" (click)="goToDashboard()">
+        Go to dashboard
+      </forge-button>
+    </forge-error-banner>
+
+    <dl class="sync-error-panel__diagnostics">
+      <div class="sync-error-panel__row">
+        <dt>Backend</dt>
+        <dd data-testid="sync-error-panel-health">
+          <forge-badge [variant]="healthVariant()">{{ healthStatus() }}</forge-badge>
+        </dd>
+      </div>
+      <div class="sync-error-panel__row">
+        <dt>HealthKit ingest</dt>
+        <dd data-testid="sync-error-panel-healthkit">
+          <forge-badge variant="neutral">{{ healthkitStatus() }}</forge-badge>
+        </dd>
+      </div>
+      <div class="sync-error-panel__row">
+        <dt>Trace id</dt>
+        <dd data-testid="sync-error-panel-trace">
+          <code>{{ traceId ?? '—' }}</code>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</forge-card>

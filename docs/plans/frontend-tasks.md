@@ -337,7 +337,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.6 — Empty + error states
 
-### FT-033 — `SyncErrorPanelComponent` + `HealthKitService` + `ErrorPage`
+### FT-033 — `SyncErrorPanelComponent` + `HealthKitService` + `ErrorPage` ✅ done (spec pending DB)
 
 - **Requirements:** L2-024, L2-029. Mock: `error-state.html`.
 - **Slice:**

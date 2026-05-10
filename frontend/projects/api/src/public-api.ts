@@ -35,3 +35,5 @@ export * from './lib/sessions.service';
 export * from './lib/models/equipment-type.model';
 export * from './lib/equipment.service.contract';
 export * from './lib/equipment.service';
+export * from './lib/healthkit.service.contract';
+export * from './lib/healthkit.service';
