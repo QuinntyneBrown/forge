@@ -15,11 +15,20 @@ public class HealthController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    public IActionResult Live()
+        => Ok(new { status = "Healthy" });
+
+    [HttpGet("ready")]
+    public async Task<IActionResult> Ready(CancellationToken cancellationToken)
     {
         try
         {
-            await _db.Database.CanConnectAsync(cancellationToken);
+            var canConnect = await _db.Database.CanConnectAsync(cancellationToken);
+            if (!canConnect)
+            {
+                Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
+                return new JsonResult(new { status = "Unhealthy" });
+            }
             return Ok(new { status = "Healthy" });
         }
         catch

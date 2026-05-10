@@ -361,7 +361,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** trigger a sign-in with an obviously-distinctive password; grep log output for that string — zero matches. Trigger any handled request; log line is valid JSON containing the five required fields.
 - **Guidance:** Observability.
 
-### BT-035 — Readiness endpoint
+### BT-035 — Readiness endpoint ✅ done
 
 - **Requirements:** L2-044.
 - **Slice:**
