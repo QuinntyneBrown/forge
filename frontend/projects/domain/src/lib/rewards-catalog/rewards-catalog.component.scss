@@ -1,0 +1,71 @@
+.rewards-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rewards-catalog__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rewards-catalog__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.rewards-catalog__balance {
+  font-size: 14px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  font-variant-numeric: tabular-nums;
+}
+
+.rewards-catalog__error {
+  margin: 0;
+  color: var(--md-sys-color-error, #ba1a1a);
+  font-size: 13px;
+}
+
+.rewards-catalog__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rewards-catalog__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px;
+}
+
+.rewards-catalog__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rewards-catalog__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.rewards-catalog__description {
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.rewards-catalog__cost {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--md-sys-color-primary, #006a64);
+}

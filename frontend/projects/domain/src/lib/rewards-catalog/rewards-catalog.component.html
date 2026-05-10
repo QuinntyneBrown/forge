@@ -1,0 +1,47 @@
+<section class="rewards-catalog" data-testid="rewards-catalog">
+  <header class="rewards-catalog__header">
+    <h2 class="rewards-catalog__title">Catalog</h2>
+    <span class="rewards-catalog__balance" data-testid="rewards-catalog-balance">
+      {{ balance() }} pts available
+    </span>
+  </header>
+
+  @if (errorMessage()) {
+    <p class="rewards-catalog__error" data-testid="rewards-catalog-error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  <ul class="rewards-catalog__rows" data-testid="rewards-catalog-rows">
+    @for (reward of rewards(); track reward.id) {
+      <li class="rewards-catalog__row">
+        <forge-card class="rewards-catalog__card" [testid]="'rewards-catalog-row-' + reward.id">
+          <div class="rewards-catalog__inner">
+            <forge-progress-ring
+              class="rewards-catalog__ring"
+              [value]="balance()"
+              [max]="reward.costPoints"
+              [diameter]="56"
+              [strokeWidth]="6"
+            ></forge-progress-ring>
+            <div class="rewards-catalog__body">
+              <span class="rewards-catalog__name">{{ reward.name }}</span>
+              <span class="rewards-catalog__description">{{ reward.description }}</span>
+              <span class="rewards-catalog__cost" data-testid="rewards-catalog-cost">
+                {{ reward.costPoints }} pts
+              </span>
+            </div>
+            <forge-button
+              [disabled]="!canAfford(reward) || busy() !== null"
+              [loading]="busy() === reward.id"
+              [testid]="'rewards-catalog-redeem-' + reward.id"
+              (click)="redeem(reward)"
+            >
+              Redeem
+            </forge-button>
+          </div>
+        </forge-card>
+      </li>
+    }
+  </ul>
+</section>

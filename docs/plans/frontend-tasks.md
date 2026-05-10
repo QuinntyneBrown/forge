@@ -306,7 +306,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.5 — Rewards + profile
 
-### FT-030 — `RewardsCatalogComponent` + `RewardsPage` + redeem flow
+### FT-030 — `RewardsCatalogComponent` + `RewardsPage` + redeem flow ✅ done (spec pending DB)
 
 - **Requirements:** L2-021, L2-022. Mock: `rewards.html`.
 - **Slice:**
