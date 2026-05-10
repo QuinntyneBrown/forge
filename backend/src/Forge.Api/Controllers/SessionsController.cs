@@ -1,4 +1,5 @@
 using Forge.Application.Sessions;
+using Forge.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,5 +39,20 @@ public class SessionsController : ControllerBase
     {
         var session = await _mediator.Send(new GetSessionByIdQuery(id), cancellationToken);
         return session is null ? NotFound() : Ok(session);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<SessionPage>> List(
+        [FromQuery] EquipmentType? equipment,
+        [FromQuery] SessionRange range = SessionRange.All,
+        [FromQuery] string? search = null,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 50,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _mediator.Send(
+            new ListSessionsQuery(equipment, range, search, page, pageSize),
+            cancellationToken);
+        return Ok(result);
     }
 }

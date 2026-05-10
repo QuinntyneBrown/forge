@@ -115,7 +115,7 @@ Conventions:
 - **Acceptance test:** failed sign-in writes one `sign-in.failure` row; successful sign-in writes one `sign-in.success` row; password value never appears in any audit row's payload.
 - **Guidance:** Authentication, Observability.
 
-### BT-009 — List sessions with filters
+### BT-009 — List sessions with filters ✅ done
 
 - **Requirements:** L2-008.
 - **Slice:**
