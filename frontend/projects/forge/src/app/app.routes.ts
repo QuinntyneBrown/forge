@@ -5,6 +5,7 @@ import { PasswordResetPage } from './pages/password-reset/password-reset.page';
 import { ProfilePage } from './pages/profile/profile.page';
 import { SignInPage } from './pages/sign-in/sign-in.page';
 import { SignUpPage } from './pages/sign-up/sign-up.page';
+import { WorkoutsPage } from './pages/workouts/workouts.page';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUpPage },
   { path: 'password-reset', component: PasswordResetPage },
   { path: 'dashboard', component: DashboardPage, canActivate: [authGuard] },
-  { path: 'profile', component: ProfilePage, canActivate: [authGuard] }
+  { path: 'profile', component: ProfilePage, canActivate: [authGuard] },
+  { path: 'workouts', component: WorkoutsPage, canActivate: [authGuard] }
 ];

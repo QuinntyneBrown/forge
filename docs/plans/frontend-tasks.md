@@ -276,7 +276,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** verified inside FT-027 / FT-028.
 - **Guidance:** Frontend.
 
-### FT-027 — `WorkoutListComponent` + `WorkoutsPage` + filter chips
+### FT-027 — `WorkoutListComponent` + `WorkoutsPage` + filter chips ✅ done (spec pending DB)
 
 - **Requirements:** L2-007, L2-008, L2-010, L2-028. Mocks: `workouts.html`, `empty-state.html`.
 - **Slice:**

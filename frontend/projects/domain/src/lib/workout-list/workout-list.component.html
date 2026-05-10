@@ -1,0 +1,81 @@
+<section class="workout-list" data-testid="workout-list">
+  <header class="workout-list__header">
+    <h2 class="workout-list__title">Workouts</h2>
+    <forge-button testid="workout-list-new" (click)="newSession()">New session</forge-button>
+  </header>
+
+  <div class="workout-list__filters">
+    <mat-chip-listbox
+      class="workout-list__chips workout-list__chips--equipment"
+      data-testid="workout-list-equipment-chips"
+    >
+      <forge-chip
+        [selected]="selectedEquipment() === null"
+        value="all"
+        testid="workout-list-equipment-all"
+        (click)="selectEquipment(null)"
+      >
+        All equipment
+      </forge-chip>
+      @for (item of equipment(); track item.id) {
+        <forge-chip
+          [selected]="selectedEquipment() === item.id"
+          [value]="item.id"
+          [testid]="'workout-list-equipment-' + item.id"
+          (click)="selectEquipment(item.id)"
+        >
+          {{ item.name }}
+        </forge-chip>
+      }
+    </mat-chip-listbox>
+
+    <mat-chip-listbox
+      class="workout-list__chips workout-list__chips--range"
+      data-testid="workout-list-range-chips"
+    >
+      @for (chip of rangeChips; track chip.id) {
+        <forge-chip
+          [selected]="selectedRange() === chip.id"
+          [value]="chip.id"
+          [testid]="'workout-list-range-' + chip.id"
+          (click)="selectRange(chip.id)"
+        >
+          {{ chip.label }}
+        </forge-chip>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  @if (!hasSessions()) {
+    <forge-empty-state
+      title="No sessions yet"
+      message="Log a session to start tracking points and progress."
+      testid="workout-list-empty"
+    >
+      <forge-button (click)="newSession()">Log your first session</forge-button>
+    </forge-empty-state>
+  } @else {
+    <ul class="workout-list__rows" data-testid="workout-list-rows">
+      @for (session of sessions(); track session.id) {
+        <li class="workout-list__row">
+          <forge-card class="workout-list__card" [testid]="'workout-list-row-' + session.id">
+            <button
+              class="workout-list__row-button"
+              type="button"
+              (click)="openSession(session.id)"
+              [attr.data-testid]="'workout-list-open-' + session.id"
+            >
+              <span class="workout-list__row-equipment">{{ session.equipment }}</span>
+              <span class="workout-list__row-meta">
+                {{ session.durationMinutes }} min · {{ session.activeCalories }} kcal
+              </span>
+              @if (session.notes) {
+                <span class="workout-list__row-notes">{{ session.notes }}</span>
+              }
+            </button>
+          </forge-card>
+        </li>
+      }
+    </ul>
+  }
+</section>

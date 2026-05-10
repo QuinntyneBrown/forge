@@ -1,0 +1,68 @@
+.workout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workout-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.workout-list__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.workout-list__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workout-list__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workout-list__card {
+  display: block;
+}
+
+.workout-list__row-button {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+.workout-list__row-equipment {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.workout-list__row-meta {
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.workout-list__row-notes {
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  font-style: italic;
+}

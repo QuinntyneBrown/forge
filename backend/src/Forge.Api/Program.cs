@@ -68,7 +68,16 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(o =>
+    {
+        // Use enum names ("Treadmill", "All", etc.) on both legs of the JSON
+        // contract so the Angular client and the backend agree on a single
+        // string-typed wire shape. EquipmentType / SessionRange / etc. all
+        // round-trip as their declared C# names.
+        o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 builder.Services.AddHostedService<NotificationDispatcherHostedService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
