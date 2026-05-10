@@ -31,7 +31,7 @@ public class AccountDeletionAcceptanceTest : IAsyncLifetime
     public AccountDeletionAcceptanceTest()
     {
         _connectionString =
-            $@"Server=(localdb)\mssqllocaldb;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
+            $@"Server=.\SQLEXPRESS;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
     }
 
     public async Task InitializeAsync()
@@ -78,7 +78,7 @@ public class AccountDeletionAcceptanceTest : IAsyncLifetime
         }
 
         await using var conn = new SqlConnection(
-            @"Server=(localdb)\mssqllocaldb;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
+            @"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
         await conn.OpenAsync();
         await using var cmd = conn.CreateCommand();
         cmd.CommandText = $@"

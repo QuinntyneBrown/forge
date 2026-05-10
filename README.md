@@ -101,7 +101,7 @@ docs/      Product brief, mocks, screenshots, plans, specs, QA notes
 The API applies EF Core migrations on startup. By default it uses:
 
 - API base URL: `https://localhost:5001`
-- database: `Server=(localdb)\mssqllocaldb;Database=Forge;Trusted_Connection=True;TrustServerCertificate=True`
+- database: `Server=.\SQLEXPRESS;Database=Forge;Trusted_Connection=True;TrustServerCertificate=True` (or `(localdb)\mssqllocaldb` if available)
 
 ### Frontend
 

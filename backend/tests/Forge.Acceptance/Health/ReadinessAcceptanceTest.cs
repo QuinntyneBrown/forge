@@ -28,7 +28,7 @@ public class ReadinessAcceptanceTest : IAsyncLifetime
     public ReadinessAcceptanceTest()
     {
         _connectionString =
-            $@"Server=(localdb)\mssqllocaldb;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
+            $@"Server=.\SQLEXPRESS;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
     }
 
     public async Task InitializeAsync()
@@ -75,7 +75,7 @@ public class ReadinessAcceptanceTest : IAsyncLifetime
         }
 
         await using var conn = new SqlConnection(
-            @"Server=(localdb)\mssqllocaldb;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
+            @"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
         await conn.OpenAsync();
         await using var cmd = conn.CreateCommand();
         cmd.CommandText = $@"
@@ -112,7 +112,7 @@ public class ReadinessAcceptanceTest : IAsyncLifetime
         // Drop the test DB out from under the live app — CanConnectAsync
         // should now fail and the endpoint should return 503.
         await using (var conn = new SqlConnection(
-            @"Server=(localdb)\mssqllocaldb;Database=master;Trusted_Connection=True;TrustServerCertificate=True"))
+            @"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True"))
         {
             await conn.OpenAsync();
             await using var cmd = conn.CreateCommand();

@@ -12,7 +12,7 @@ dotnet build
 dotnet run --project src/Forge.Api
 ```
 
-The API listens on `https://localhost:5001` and `http://localhost:5000`. Swagger UI is mounted at `/swagger` in Development. On startup, the API executes `Database.MigrateAsync()` against `(localdb)\mssqllocaldb` and brings the `Forge` database up to the latest migration. Migrations live in `src/Forge.Infrastructure/Migrations/`.
+The API listens on `https://localhost:5001` and `http://localhost:5000`. Swagger UI is mounted at `/swagger` in Development. On startup, the API executes `Database.MigrateAsync()` against the configured SQL Server instance (e.g., `.\SQLEXPRESS` or `(localdb)\mssqllocaldb`) and brings the `Forge` database up to the latest migration. Migrations live in `src/Forge.Infrastructure/Migrations/`.
 
 To apply migrations manually outside an API run (e.g., in CI / deploy):
 
