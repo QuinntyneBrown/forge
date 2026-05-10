@@ -6,6 +6,12 @@
     "paths": {
       "api": [
         "./dist/api"
+      ],
+      "components": [
+        "./dist/components"
+      ],
+      "domain": [
+        "./dist/domain"
       ]
     },
     "strict": true,
@@ -39,6 +45,18 @@
     },
     {
       "path": "./projects/api/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/components/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/components/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/domain/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/domain/tsconfig.spec.json"
     }
   ]
 }
