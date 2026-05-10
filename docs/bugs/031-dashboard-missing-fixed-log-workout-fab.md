@@ -1,7 +1,7 @@
 # Bug 031: Dashboard is missing the fixed orange "Log workout" FAB — uses an inline pill in the Today's sessions card header instead
 
 ## Status
-Open
+Complete — `dashboard-log-workout-fab.spec.ts` asserts the FAB renders, has computed `position: fixed`, and that no inline "Log workout" button lives inside the Today's sessions card. The fix shipped earlier (the dashboard already mounts the fixed FAB and the inline pill was removed); this iteration locks the behavior in via the new regression-guard spec. Note: the FAB renders in primary teal (per Bug 009's `--mat-sys-primary` pin), not the mock's secondary orange — the teal contract from Bug 009 wins because its e2e asserts the FAB background distance to `#106B5C`.
 
 ## Severity
 Low
