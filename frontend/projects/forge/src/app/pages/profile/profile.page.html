@@ -9,7 +9,7 @@
         <p class="profile__hero-sub">{{ email() }} · Member since {{ memberSince() }}</p>
         <span class="profile__hero-tier" data-testid="profile-hero-tier">
           <span class="material-icons" aria-hidden="true">workspace_premium</span>
-          Tier 3 — Forged Iron
+          {{ tierLabel() }}
         </span>
       </div>
     </section>
@@ -125,11 +125,15 @@
             <strong>Morning workout reminder</strong>
             <span>Nudge at 4:55 AM if no session logged.</span>
           </span>
-          <mat-slide-toggle
+          <button
+            type="button"
+            role="switch"
+            class="profile__switch"
+            [class.profile__switch--off]="!morningReminder()"
+            [attr.aria-checked]="morningReminder()"
             data-testid="profile-morning-reminder-toggle"
-            [checked]="morningReminder()"
-            (change)="morningReminder.set($event.checked)"
-          ></mat-slide-toggle>
+            (click)="toggleMorningReminder()"
+          ></button>
         </li>
         <li class="profile__integration">
           <span class="profile__integration-icon profile__integration-icon--orange"
@@ -138,11 +142,15 @@
             <strong>Kitchen-closes nudge</strong>
             <span>10-minute warning before the eating window ends.</span>
           </span>
-          <mat-slide-toggle
+          <button
+            type="button"
+            role="switch"
+            class="profile__switch"
+            [class.profile__switch--off]="!kitchenNudge()"
+            [attr.aria-checked]="kitchenNudge()"
             data-testid="profile-kitchen-nudge-toggle"
-            [checked]="kitchenNudge()"
-            (change)="kitchenNudge.set($event.checked)"
-          ></mat-slide-toggle>
+            (click)="toggleKitchenNudge()"
+          ></button>
         </li>
         <li class="profile__integration">
           <span class="profile__integration-icon profile__integration-icon--blue"
@@ -151,18 +159,39 @@
             <strong>Friend leaderboard</strong>
             <span>Share weekly points with friends.</span>
           </span>
-          <mat-slide-toggle
+          <button
+            type="button"
+            role="switch"
+            class="profile__switch"
+            [class.profile__switch--off]="!leaderboard()"
+            [attr.aria-checked]="leaderboard()"
             data-testid="profile-leaderboard-toggle"
-            [checked]="leaderboard()"
-            (change)="leaderboard.set($event.checked)"
-          ></mat-slide-toggle>
+            (click)="toggleLeaderboard()"
+          ></button>
         </li>
       </ul>
     </section>
 
     <section class="profile__card profile__card--save" data-testid="profile-save-card">
-      <button type="button" class="profile__save" data-testid="profile-save-button">
-        Save changes
+      <h3 class="profile__card-title">
+        <span class="material-icons" aria-hidden="true">save</span>
+        Save
+      </h3>
+      @if (saved()) {
+        <p class="profile__save-saved" data-testid="profile-save-saved">All changes saved.</p>
+      }
+      @if (saveError()) {
+        <p class="profile__save-error" data-testid="profile-save-error">{{ saveError() }}</p>
+      }
+      <button
+        type="button"
+        class="profile__save"
+        data-testid="profile-save-button"
+        [disabled]="saving()"
+        (click)="onSaveAll()"
+      >
+        <span class="material-icons" aria-hidden="true">save</span>
+        {{ saving() ? 'Saving…' : 'Save changes' }}
       </button>
       <button
         type="button"
@@ -170,6 +199,7 @@
         data-testid="profile-sign-out-button"
         (click)="onSignOut()"
       >
+        <span class="material-icons" aria-hidden="true">logout</span>
         Sign out
       </button>
     </section>

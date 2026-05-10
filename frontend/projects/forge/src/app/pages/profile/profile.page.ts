@@ -1,8 +1,17 @@
 import { Component, Inject, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { CurrentUser, IMeService, ME_SERVICE } from 'api';
+import { forkJoin } from 'rxjs';
+import {
+  CurrentUser,
+  IMeService,
+  IProfileService,
+  IRewardsService,
+  ME_SERVICE,
+  PROFILE_SERVICE,
+  REWARDS_SERVICE,
+  Tier
+} from 'api';
 import { AppShellComponent, NavDestination } from 'components';
 import { ProfileFormComponent } from 'domain';
 import { AuthStateService } from '../../auth-state.service';
@@ -16,7 +25,7 @@ const PRIMARY_DESTINATIONS: NavDestination[] = [
 
 @Component({
   selector: 'app-profile-page',
-  imports: [AppShellComponent, ProfileFormComponent, FormsModule, MatSlideToggleModule],
+  imports: [AppShellComponent, ProfileFormComponent, FormsModule],
   templateUrl: './profile.page.html',
   styleUrl: './profile.page.scss'
 })
@@ -24,9 +33,15 @@ export class ProfilePage implements OnInit {
   private readonly auth = inject(AuthStateService);
   private readonly router = inject(Router);
   private readonly meApi = inject<IMeService>(ME_SERVICE);
+  private readonly profileApi = inject<IProfileService>(PROFILE_SERVICE);
+  private readonly rewardsApi = inject<IRewardsService>(REWARDS_SERVICE);
 
   protected readonly destinations = PRIMARY_DESTINATIONS;
   protected readonly currentUser = signal<CurrentUser | null>(null);
+  protected readonly tier = signal<Tier | null>(null);
+  protected readonly saving = signal(false);
+  protected readonly saved = signal(false);
+  protected readonly saveError = signal<string | null>(null);
 
   protected readonly goalCalories = signal<number | null>(null);
   protected readonly goalMinutes = signal<number | null>(null);
@@ -64,6 +79,13 @@ export class ProfilePage implements OnInit {
     new Date().toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
   );
 
+  // Tier label sourced from GET /api/tier; falls back to "Bronze" so the
+  // mock-style chip is never empty before the request resolves.
+  protected readonly tierLabel = computed(() => {
+    const t = this.tier();
+    return t?.name ? `Tier · ${t.name}` : 'Tier · Bronze';
+  });
+
   constructor() {
     effect(() => {
       const u = this.currentUser();
@@ -85,6 +107,72 @@ export class ProfilePage implements OnInit {
     this.meApi.getMe().subscribe({
       next: (user) => this.currentUser.set(user),
       error: () => undefined
+    });
+    this.rewardsApi.getCurrentTier().subscribe({
+      next: (t) => this.tier.set(t),
+      error: () => undefined
+    });
+  }
+
+  protected toggleMorningReminder(): void {
+    this.morningReminder.update((v) => !v);
+  }
+
+  protected toggleKitchenNudge(): void {
+    this.kitchenNudge.update((v) => !v);
+  }
+
+  protected toggleLeaderboard(): void {
+    this.leaderboard.update((v) => !v);
+  }
+
+  protected onSaveAll(): void {
+    if (this.saving()) {
+      return;
+    }
+    const u = this.currentUser();
+    if (!u) {
+      return;
+    }
+    const cal = this.goalCalories() ?? u.dailyActiveCaloriesTarget;
+    const min = this.goalMinutes() ?? u.dailyWorkoutMinutesTarget;
+    const weight = this.goalWeight() ?? u.monthlyWeightGoalLb;
+
+    this.saving.set(true);
+    this.saveError.set(null);
+    this.saved.set(false);
+
+    forkJoin([
+      this.profileApi.updateProfile({
+        email: u.email,
+        firstName: u.firstName,
+        lastName: u.lastName,
+        units: u.units,
+        timeZoneId: u.timeZoneId,
+        dailyActiveCaloriesTarget: cal,
+        dailyWorkoutMinutesTarget: min
+      }),
+      this.profileApi.setWeightGoal(weight),
+      this.profileApi.updateMorningWindow({
+        start: this.morningStart(),
+        end: this.morningEnd(),
+        reminderEnabled: this.morningReminder()
+      }),
+      this.profileApi.updateKitchenWindow({
+        start: this.kitchenStart(),
+        end: this.kitchenEnd(),
+        nudgeEnabled: this.kitchenNudge()
+      }),
+      this.profileApi.setLeaderboardOptIn(this.leaderboard())
+    ]).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.saved.set(true);
+      },
+      error: (err) => {
+        this.saving.set(false);
+        this.saveError.set(err?.error?.title ?? 'Could not save changes.');
+      }
     });
   }
 

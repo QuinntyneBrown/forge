@@ -38,3 +38,40 @@ Per `docs/mocks/profile.html`, the page should include, in order:
 - Add `GoalsCardComponent`, `WindowsCardComponent`, `IntegrationsCardComponent`, `SaveCardComponent` and compose them under the existing profile page.
 - Move "Sign out" into the Save card and re-style as the outlined error variant.
 - Wire each switch to a real preference (or stub for now with the mock copy) so the structure is in place.
+
+## Resolution
+Built the entire surface inside `ProfilePage` rather than splitting into
+per-card components — the whole thing is one save action so a single
+component owning all the signals keeps state simple. Composed in two
+passes (initial structure + bindings) plus a follow-up that swapped
+`mat-slide-toggle` for plain `<button role="switch">` so `aria-checked`
+sits on the testable element, and added the Save wiring.
+
+- **Hero**: avatar (initials from `firstName[0]+lastName[0]`), display
+  name, email/member-since sub, and a tonal tier chip pulling
+  `Tier.name` from `GET /api/tier` (falls back to "Bronze" while loading).
+- **Goals card**: editable inputs for `dailyActiveCaloriesTarget`,
+  `dailyWorkoutMinutesTarget`, and `monthlyWeightGoalLb` — bound via
+  signals + `ngModel`, hydrated from the loaded user via `effect`.
+- **Windows card**: four `<input type="time">` fields for
+  `MorningWindowStart/End` and `KitchenClosedStart/End`, prefilled by
+  slicing the API's `HH:mm:ss` value down to `HH:mm`.
+- **Integrations card**: three `<button role="switch">` toggles for
+  `morningReminderEnabled`, `kitchenNudgeEnabled`, `leaderboardOptIn`
+  with an `[attr.aria-checked]` binding for a11y + testability.
+- **Save card**: pinned filled Save button + outlined error-red Sign
+  out. Save fires `forkJoin` of `PUT /api/profile`,
+  `PUT /api/profile/weight-goal`, `PUT /api/profile/morning-window`,
+  `PUT /api/profile/kitchen-window`, and
+  `PUT /api/profile/leaderboard-opt-in` — every endpoint already
+  exists, no backend changes needed.
+
+### Files changed
+- `frontend/projects/forge/src/app/pages/profile/profile.page.{ts,html,scss}` — full rebuild against the mock.
+- `frontend/projects/api/src/lib/profile.service.{ts,contract}.ts` — new
+  `updateMorningWindow`, `updateKitchenWindow`, `setLeaderboardOptIn`,
+  `setWeightGoal` methods wrapping pre-existing backend endpoints.
+- `frontend/e2e/pages/profile.page.ts` — POM extended with hero / goals
+  / windows / integrations / save locators.
+- `frontend/e2e/tests/profile-content-and-styling.spec.ts` — five-test
+  Bug 011 acceptance spec.
