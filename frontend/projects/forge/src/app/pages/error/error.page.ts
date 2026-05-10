@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 interface DiagnosticRow {
@@ -16,9 +17,28 @@ interface DiagnosticRow {
 })
 export class ErrorPage {
   private readonly route = inject(ActivatedRoute);
-  protected readonly traceId = this.route.snapshot.queryParamMap.get('traceId');
-  protected readonly errorCode =
-    this.route.snapshot.queryParamMap.get('code') ?? 'ERR_HEALTHKIT_OFFLINE · 0xA3';
+  private readonly queryParams = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap
+  });
+
+  protected readonly traceId = computed(() => this.queryParams().get('traceId'));
+
+  /** Driven by ?code=... query param. Falls back to the mock's default. */
+  protected readonly errorCodeLabel = computed(() => {
+    const raw = (this.queryParams().get('code') ?? '').trim();
+    if (!raw) {
+      return 'ERR_HEALTHKIT_OFFLINE · 0xA3';
+    }
+    // Numeric HTTP-style codes get an "Error " prefix; anything else
+    // (already an identifier like ERR_FOO) is rendered verbatim.
+    return /^\d+$/.test(raw) ? `Error ${raw}` : raw;
+  });
+
+  protected onRetry(): void {
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+  }
 
   protected readonly diagnostics: DiagnosticRow[] = [
     { label: 'Forge Fit servers', detail: 'Online · 32 ms', icon: 'check_circle', tone: 'ok' },

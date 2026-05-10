@@ -27,7 +27,7 @@
     </p>
 
     <span class="error-page__code-chip" data-testid="error-page-code-chip">
-      {{ errorCode }}
+      {{ errorCodeLabel() }}
     </span>
 
     <div class="error-page__actions">
@@ -35,6 +35,7 @@
         type="button"
         class="error-page__cta error-page__cta--filled"
         data-testid="error-page-retry-button"
+        (click)="onRetry()"
       >
         <span class="material-icons" aria-hidden="true">refresh</span>
         Retry sync
@@ -78,7 +79,7 @@
         data-testid="error-page-troubleshooting-link"
       >View troubleshooting guide ›</a>
       <p class="error-page__footer-meta" data-testid="error-page-footer-meta">
-        Trace ID: {{ traceId || 'n/a' }} · <a href="mailto:support@forgefit.app">contact support</a>
+        Trace ID: {{ traceId() || 'n/a' }} · <a href="mailto:support@forgefit.app">contact support</a>
       </p>
     </footer>
   </main>

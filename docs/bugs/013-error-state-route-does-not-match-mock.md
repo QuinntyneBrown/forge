@@ -39,3 +39,35 @@ Per `docs/mocks/error-state.html`:
 - Build an `ErrorStatePageComponent` that takes an error descriptor (code, title, sub, diagnostics list) and renders the layout above. The current implementation is closer to a generic "something failed" toast and should be replaced.
 - Add the banner as part of the app shell when an error condition is active (or as a fixed top section of the error route).
 - Provide a default descriptor that mirrors the mock for the `/error` showcase route, and let real callers pass their own.
+
+## Resolution
+The `/error` route now renders the full error-state mock layout. Earlier work
+already shipped the banner, hero illustration, diagnostics card, retry CTA,
+and dashboard CTA. This iteration closed the remaining gap by making the
+error-code chip query-param-driven.
+
+**File changes**
+- `frontend/projects/forge/src/app/pages/error/error.page.ts` — convert
+  `traceId` to a `computed` signal, add `errorCodeLabel` computed signal that
+  reads `?code=` from the route (numeric values render as `Error {code}`,
+  non-numeric values render verbatim, missing values fall back to
+  `ERR_HEALTHKIT_OFFLINE · 0xA3`), and wire the retry button to a
+  `window.location.reload()` handler.
+- `frontend/projects/forge/src/app/pages/error/error.page.html` — bind the
+  chip to `errorCodeLabel()`, the footer trace to `traceId()`, and the retry
+  button click to `onRetry()`.
+- `frontend/e2e/pages/error.page.ts` — new POM with locators for banner,
+  hero, code chip, retry button, diagnostics card, and individual rows.
+- `frontend/e2e/tests/error-state-content-and-styling.spec.ts` — new spec
+  covering each Bug 013 sub-item as its own `test()`.
+- `frontend/e2e/tests/error-state.spec.ts` — refreshed to assert the new
+  testids (`error-page-*`) since the route no longer mounts
+  `forge-sync-error-panel`; the underlying intent (traceId surfacing +
+  dashboard CTA) is preserved.
+
+**Approach**
+- Reused existing Material design tokens (`--md-sys-color-error-container`,
+  `--md-sys-color-primary`, etc.) — no hardcoded hex.
+- The chip's "numeric → Error N" formatting keeps the test's
+  `?code=500 → "Error 500"` contract while leaving the descriptive default
+  intact for the showcase landing case.
