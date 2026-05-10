@@ -14,3 +14,61 @@
   display: block;
   margin-top: 8px;
 }
+
+.sign-up-form__strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: -4px;
+}
+
+.sign-up-form__strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.sign-up-form__strength-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--md-sys-color-surface-container-high, #e2e9e6);
+}
+
+.sign-up-form__strength-bar--on {
+  background: var(--md-sys-color-secondary, #b8531a);
+}
+
+.sign-up-form__strength-bar--strong {
+  background: var(--md-sys-color-primary, #106b5c);
+}
+
+.sign-up-form__strength-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  min-width: 48px;
+}
+
+.sign-up-form__tos {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  line-height: 1.4;
+
+  input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--md-sys-color-primary, #106b5c);
+  }
+}
+
+.sign-up-form__tos-link {
+  color: var(--md-sys-color-primary, #106b5c);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -25,6 +25,10 @@ export class PasswordResetRequestFormComponent {
     });
   }
 
+  protected resend(): void {
+    this.submitted.set(false);
+  }
+
   protected onSubmit(): void {
     if (this.form.invalid || this.submitting()) {
       return;

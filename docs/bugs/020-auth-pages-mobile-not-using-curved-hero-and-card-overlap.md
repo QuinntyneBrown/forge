@@ -1,7 +1,7 @@
 # Bug 020: Auth screens on mobile/tablet are missing the curved hero, overlapping card, and pill primary button
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, computed, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +18,11 @@ export class SignUpFormComponent {
   protected readonly form;
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly submitting = signal(false);
+  private readonly password;
+
+  protected readonly passwordValue;
+  protected readonly strengthScore;
+  protected readonly strengthLabel;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -33,8 +39,31 @@ export class SignUpFormComponent {
           Validators.minLength(12),
           Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+/)
         ]
-      ]
+      ],
+      acceptTerms: [false, [Validators.requiredTrue]]
     });
+
+    this.password = this.form.controls.password;
+    this.passwordValue = toSignal(this.password.valueChanges, { initialValue: '' });
+    this.strengthScore = computed(() => this.scorePassword(this.passwordValue() || ''));
+    this.strengthLabel = computed(() => {
+      const s = this.strengthScore();
+      if (s === 0) return '';
+      if (s === 1) return 'Weak';
+      if (s === 2) return 'Fair';
+      if (s === 3) return 'Good';
+      return 'Strong';
+    });
+  }
+
+  private scorePassword(value: string): number {
+    if (!value) return 0;
+    let score = 0;
+    if (value.length >= 8) score++;
+    if (value.length >= 12) score++;
+    if (/[A-Z]/.test(value) && /[a-z]/.test(value)) score++;
+    if (/\d/.test(value) && /[^A-Za-z0-9]/.test(value)) score++;
+    return Math.min(4, score);
   }
 
   protected onSubmit(): void {
@@ -43,7 +72,8 @@ export class SignUpFormComponent {
     }
     this.submitting.set(true);
     this.errorMessage.set(null);
-    this.auth.register(this.form.getRawValue()).subscribe({
+    const { firstName, lastName, email, password } = this.form.getRawValue();
+    this.auth.register({ firstName, lastName, email, password }).subscribe({
       next: (result) => {
         this.submitting.set(false);
         this.signedUp.emit(result);
