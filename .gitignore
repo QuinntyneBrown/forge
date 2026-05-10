@@ -1,0 +1,21 @@
+# Claude Code session-local state
+.claude/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Build outputs
+bin/
+obj/
+dist/
+build/
