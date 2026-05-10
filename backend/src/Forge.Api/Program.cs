@@ -1,4 +1,5 @@
 using System.Text;
+using Forge.Api.HostedServices;
 using Forge.Api.Middleware;
 using Forge.Application;
 using Forge.Infrastructure;
@@ -48,6 +49,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddHostedService<NotificationDispatcherHostedService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

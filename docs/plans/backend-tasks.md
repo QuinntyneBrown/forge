@@ -331,7 +331,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** post a payload → `202`; one structured log line `healthkit.ingest.deferred` written.
 - **Guidance:** General (deferred integration as named no-op).
 
-### BT-032 — Notification dispatcher
+### BT-032 — Notification dispatcher ✅ done
 
 - **Requirements:** L2-025, L2-026.
 - **Slice:**
