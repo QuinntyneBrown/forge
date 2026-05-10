@@ -49,6 +49,31 @@ export class BottomNavPage {
   }
 
   /**
+   * Asserts that the bottom nav's bottom edge is pinned to the bottom
+   * of the viewport (within `slackPx`, default 1px). Used by the bug-019
+   * spec to ensure `position: fixed`/`sticky` is actually winning the
+   * cascade and that the nav's containing block IS the viewport (no
+   * `transform`/`filter`/`perspective` ancestor accidentally taking
+   * over).
+   */
+  async expectPinnedToBottom(
+    viewportHeight: number,
+    options: { slackPx?: number } = {}
+  ): Promise<void> {
+    const slack = options.slackPx ?? 1;
+    const box = await this.navBox();
+    const bottom = box.y + box.height;
+    const delta = Math.abs(bottom - viewportHeight);
+    if (delta > slack) {
+      throw new Error(
+        `Bottom nav not pinned to viewport bottom: nav.bottom=${bottom}px, ` +
+          `viewport.height=${viewportHeight}px, delta=${delta}px ` +
+          `(allowed slack: ${slack}px). The nav is floating mid-page.`
+      );
+    }
+  }
+
+  /**
    * Asserts that a given content locator (e.g. last card / last form
    * field) is fully visible and does NOT overlap the bottom nav. A
    * small slack (default 4px) accounts for shadow / focus ring
