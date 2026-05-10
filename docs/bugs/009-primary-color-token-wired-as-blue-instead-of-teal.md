@@ -1,7 +1,7 @@
 # Bug 009: Primary color token wired as blue instead of mock teal across the app
 
 ## Status
-Open
+Complete
 
 ## Severity
 High
