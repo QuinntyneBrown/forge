@@ -1,0 +1,30 @@
+.workout-detail {
+  padding: 24px 20px 96px;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workout-detail__header {
+  margin-bottom: 8px;
+}
+
+.workout-detail__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.workout-detail__error {
+  margin: 0;
+  color: var(--md-sys-color-error, #ba1a1a);
+  font-size: 13px;
+}
+
+.workout-detail__actions {
+  display: flex;
+  gap: 12px;
+}

@@ -1,0 +1,72 @@
+.workout-points-breakdown {
+  display: block;
+}
+
+.workout-points-breakdown__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.workout-points-breakdown__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.workout-points-breakdown__empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.workout-points-breakdown__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.workout-points-breakdown__row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.workout-points-breakdown__row-reason {
+  font-weight: 600;
+  color: var(--md-sys-color-primary, #006a64);
+}
+
+.workout-points-breakdown__row-description {
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.workout-points-breakdown__row-points {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.workout-points-breakdown__note {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.workout-points-breakdown__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--md-sys-color-outline-variant, #c4c8c5);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}

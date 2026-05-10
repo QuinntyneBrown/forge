@@ -294,7 +294,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/workout-create.spec.ts` — create a 22-min treadmill session with distance 2.1, avg HR 128, active calories 218 → server responds 201; navigate to `/dashboard`, ring shows the new session's contribution within 1 second.
 - **Guidance:** Frontend, Validation (client-side mirrors server-side ranges).
 
-### FT-029 — `WorkoutDetailPage` + `WorkoutPointsBreakdownComponent` + delete refund
+### FT-029 — `WorkoutDetailPage` + `WorkoutPointsBreakdownComponent` + delete refund ✅ done (spec pending DB)
 
 - **Requirements:** L2-009, L2-018, L2-019, L2-020. Mock: `workout-detail.html`.
 - **Slice:**

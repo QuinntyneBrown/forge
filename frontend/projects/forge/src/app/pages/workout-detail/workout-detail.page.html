@@ -1,0 +1,41 @@
+<forge-app-shell [destinations]="destinations">
+  <main class="workout-detail">
+    <header class="workout-detail__header">
+      <h2 class="workout-detail__title">Edit session</h2>
+    </header>
+
+    @if (errorMessage()) {
+      <p class="workout-detail__error" data-testid="workout-detail-error">
+        {{ errorMessage() }}
+      </p>
+    }
+
+    <forge-workout-detail-form
+      mode="edit"
+      [sessionId]="sessionId"
+      [session]="session()"
+      (saved)="onSaved()"
+    ></forge-workout-detail-form>
+
+    <forge-workout-points-breakdown [session]="session()"></forge-workout-points-breakdown>
+
+    <div class="workout-detail__actions">
+      <forge-button
+        variant="outlined"
+        testid="workout-detail-duplicate"
+        [disabled]="busy() || !session()"
+        (click)="onDuplicate()"
+      >
+        Duplicate
+      </forge-button>
+      <forge-button
+        variant="text"
+        testid="workout-detail-delete"
+        [disabled]="busy() || !session()"
+        (click)="onDelete()"
+      >
+        Delete session
+      </forge-button>
+    </div>
+  </main>
+</forge-app-shell>

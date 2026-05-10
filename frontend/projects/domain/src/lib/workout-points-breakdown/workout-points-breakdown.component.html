@@ -1,0 +1,28 @@
+<forge-card class="workout-points-breakdown" testid="workout-points-breakdown">
+  <div class="workout-points-breakdown__inner">
+    <h3 class="workout-points-breakdown__title">Points</h3>
+    @if (rows().length === 0) {
+      <p class="workout-points-breakdown__empty" data-testid="workout-points-breakdown-empty">
+        No session selected.
+      </p>
+    } @else {
+      <ul class="workout-points-breakdown__rows" data-testid="workout-points-breakdown-rows">
+        @for (row of rows(); track row.reason) {
+          <li class="workout-points-breakdown__row">
+            <span class="workout-points-breakdown__row-reason">{{ row.reason }}</span>
+            <span class="workout-points-breakdown__row-description">{{ row.description }}</span>
+            <span class="workout-points-breakdown__row-points">+{{ row.points }}</span>
+          </li>
+        }
+      </ul>
+      <p class="workout-points-breakdown__note">
+        Morning bonus and streak multiplier (if applicable) are applied by the
+        backend and reflected in the dashboard balance.
+      </p>
+      <div class="workout-points-breakdown__total">
+        <span>Subtotal (base)</span>
+        <span data-testid="workout-points-breakdown-total">+{{ total() }}</span>
+      </div>
+    }
+  </div>
+</forge-card>

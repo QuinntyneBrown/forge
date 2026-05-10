@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output, computed, signal } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, computed, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,9 +10,13 @@ import {
   EquipmentType,
   IEquipmentService,
   ISessionsService,
-  SESSIONS_SERVICE
+  SESSIONS_SERVICE,
+  Session,
+  UpdateSessionRequest
 } from 'api';
 import { ButtonComponent, CardComponent } from 'components';
+
+export type WorkoutDetailFormMode = 'create' | 'edit';
 
 @Component({
   selector: 'forge-workout-detail-form',
@@ -28,7 +32,17 @@ import { ButtonComponent, CardComponent } from 'components';
   styleUrl: './workout-detail-form.component.scss'
 })
 export class WorkoutDetailFormComponent implements OnInit {
+  @Input() mode: WorkoutDetailFormMode = 'create';
+  @Input() sessionId: string | null = null;
+
+  @Input() set session(value: Session | null) {
+    if (value) {
+      this.applySession(value);
+    }
+  }
+
   @Output() readonly created = new EventEmitter<{ id: string }>();
+  @Output() readonly saved = new EventEmitter<void>();
 
   protected readonly equipment = signal<EquipmentItem[]>([]);
   protected readonly submitting = signal(false);
@@ -37,6 +51,10 @@ export class WorkoutDetailFormComponent implements OnInit {
   protected readonly form;
   protected readonly equipmentValue = signal<EquipmentType>('Treadmill');
   protected readonly hideDistance = computed(() => this.equipmentValue() === 'BenchPress');
+
+  protected readonly submitLabel = computed(() =>
+    this.mode === 'edit' ? 'Save changes' : 'Save session'
+  );
 
   constructor(
     private readonly fb: FormBuilder,
@@ -88,8 +106,7 @@ export class WorkoutDetailFormComponent implements OnInit {
     const value = this.form.getRawValue();
     const startedAt = new Date(`${value.date}T${value.time}`).toISOString();
     const distance = this.hideDistance() ? null : value.distanceMiles;
-
-    const request: CreateSessionRequest = {
+    const body = {
       equipment: value.equipment,
       startedAt,
       durationMinutes: value.durationMinutes,
@@ -99,6 +116,22 @@ export class WorkoutDetailFormComponent implements OnInit {
       notes: value.notes && value.notes.length > 0 ? value.notes : null
     };
 
+    if (this.mode === 'edit' && this.sessionId) {
+      const request: UpdateSessionRequest = body;
+      this.sessions.update(this.sessionId, request).subscribe({
+        next: () => {
+          this.submitting.set(false);
+          this.saved.emit();
+        },
+        error: (err) => {
+          this.submitting.set(false);
+          this.errorMessage.set(err?.error?.title ?? 'Could not save session.');
+        }
+      });
+      return;
+    }
+
+    const request: CreateSessionRequest = body;
     this.sessions.create(request).subscribe({
       next: (result) => {
         this.submitting.set(false);
@@ -109,5 +142,23 @@ export class WorkoutDetailFormComponent implements OnInit {
         this.errorMessage.set(err?.error?.title ?? 'Could not save session.');
       }
     });
+  }
+
+  private applySession(session: Session): void {
+    const started = new Date(session.startedAt);
+    const isoDate = started.toISOString().slice(0, 10);
+    const isoTime = started.toTimeString().slice(0, 5);
+
+    this.form.patchValue({
+      equipment: session.equipment,
+      date: isoDate,
+      time: isoTime,
+      durationMinutes: session.durationMinutes,
+      distanceMiles: session.distanceMiles,
+      avgHeartRateBpm: session.avgHeartRateBpm,
+      activeCalories: session.activeCalories,
+      notes: session.notes
+    });
+    this.equipmentValue.set(session.equipment);
   }
 }
