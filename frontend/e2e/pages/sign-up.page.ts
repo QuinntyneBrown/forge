@@ -5,6 +5,8 @@ export class SignUpPage {
   readonly lastNameInput: Locator;
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
+  readonly confirmPasswordInput: Locator;
+  readonly confirmPasswordError: Locator;
   readonly submitButton: Locator;
   readonly errorMessage: Locator;
   readonly hero: Locator;
@@ -20,6 +22,8 @@ export class SignUpPage {
     this.lastNameInput = page.getByTestId('sign-up-last-name');
     this.emailInput = page.getByTestId('sign-up-email');
     this.passwordInput = page.getByTestId('sign-up-password');
+    this.confirmPasswordInput = page.getByTestId('sign-up-confirm-password');
+    this.confirmPasswordError = page.getByTestId('sign-up-confirm-password-error');
     this.submitButton = page.getByTestId('sign-up-submit');
     this.errorMessage = page.getByTestId('sign-up-error');
     this.hero = page.locator('.sign-up-page__hero');
@@ -41,6 +45,9 @@ export class SignUpPage {
     await this.lastNameInput.fill(lastName);
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
+    // Bug 028 added a Confirm password field with a cross-field validator; the
+    // helper fills it with the same value so existing specs still submit.
+    await this.confirmPasswordInput.fill(password);
     // Bug 020 introduced a required Terms-of-Service checkbox; the submit button
     // is now disabled until the checkbox is ticked.
     await this.tosCheckbox.check();

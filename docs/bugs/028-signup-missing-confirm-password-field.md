@@ -1,7 +1,7 @@
 # Bug 028: Sign-up form is missing the Confirm password field
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, Output, computed, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
@@ -28,20 +28,24 @@ export class SignUpFormComponent {
     private readonly fb: FormBuilder,
     @Inject(AUTH_SERVICE) private readonly auth: IAuthService
   ) {
-    this.form = this.fb.nonNullable.group({
-      firstName: ['', [Validators.required, Validators.maxLength(64)]],
-      lastName: ['', [Validators.required, Validators.maxLength(64)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(12),
-          Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+/)
-        ]
-      ],
-      acceptTerms: [false, [Validators.requiredTrue]]
-    });
+    this.form = this.fb.nonNullable.group(
+      {
+        firstName: ['', [Validators.required, Validators.maxLength(64)]],
+        lastName: ['', [Validators.required, Validators.maxLength(64)]],
+        email: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(12),
+            Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+/)
+          ]
+        ],
+        confirmPassword: ['', [Validators.required]],
+        acceptTerms: [false, [Validators.requiredTrue]]
+      },
+      { validators: [matchPasswordValidator] }
+    );
 
     this.password = this.form.controls.password;
     this.passwordValue = toSignal(this.password.valueChanges, { initialValue: '' });
@@ -66,6 +70,10 @@ export class SignUpFormComponent {
     return Math.min(4, score);
   }
 
+  protected get passwordMismatch(): boolean {
+    return this.form.errors?.['passwordMismatch'] === true;
+  }
+
   protected onSubmit(): void {
     if (this.form.invalid || this.submitting()) {
       return;
@@ -84,4 +92,11 @@ export class SignUpFormComponent {
       }
     });
   }
+}
+
+function matchPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  const pw = control.get('password')?.value;
+  const cp = control.get('confirmPassword')?.value;
+  if (!pw || !cp) return null;
+  return pw === cp ? null : { passwordMismatch: true };
 }
