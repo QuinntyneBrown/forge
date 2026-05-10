@@ -219,7 +219,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** asserted in `dashboard.spec.ts` (FT-024).
 - **Guidance:** Frontend.
 
-### FT-021 — `WeightProgressCardComponent`
+### FT-021 — `WeightProgressCardComponent` ✅ done
 
 - **Requirements:** L2-014, L2-015. Mock: `dashboard.html`.
 - **Slice:**

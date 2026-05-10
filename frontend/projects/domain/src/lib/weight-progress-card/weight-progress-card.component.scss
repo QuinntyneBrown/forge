@@ -1,0 +1,35 @@
+.weight-progress-card {
+  display: block;
+}
+
+.weight-progress-card__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+
+.weight-progress-card__goal {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.weight-progress-card__status {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.weight-progress-card__status--on-track {
+  color: var(--md-sys-color-tertiary, #006a64);
+}
+
+.weight-progress-card__status--behind {
+  color: var(--md-sys-color-error, #ba1a1a);
+}
+
+.weight-progress-card__mtd {
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}

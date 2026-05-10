@@ -1,0 +1,18 @@
+<forge-card class="weight-progress-card" testid="weight-progress-card">
+  <div class="weight-progress-card__inner">
+    <span class="weight-progress-card__goal" data-testid="weight-progress-card-goal">
+      {{ goalLabel() }}
+    </span>
+    <span
+      class="weight-progress-card__status"
+      [class.weight-progress-card__status--on-track]="status() === 'on-track'"
+      [class.weight-progress-card__status--behind]="status() === 'behind'"
+      data-testid="weight-progress-card-status"
+    >
+      {{ statusLabel() }}
+    </span>
+    <span class="weight-progress-card__mtd" data-testid="weight-progress-card-mtd">
+      {{ mtdLossLabel() }}
+    </span>
+  </div>
+</forge-card>
