@@ -72,7 +72,7 @@ Conventions:
 - **Acceptance test:** valid token → password updated, sign-in with new password works, all prior refresh tokens are revoked. Reused / expired tokens → `400`.
 - **Guidance:** Authentication.
 
-### BT-006 — Account deletion
+### BT-006 — Account deletion ✅ done
 
 - **Requirements:** L2-006, L2-050.
 - **Slice:**
