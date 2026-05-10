@@ -32,6 +32,9 @@ export class DashboardPage {
   readonly badgeItems: Locator;
   readonly sparkline: Locator;
 
+  // Bug 031: fixed bottom-right "+ Log workout" FAB (orange, mirrors workouts-list).
+  readonly logWorkoutFab: Locator;
+
   constructor(private readonly page: Page) {
     this.greeting = page.getByTestId('dashboard-greeting');
 
@@ -70,6 +73,8 @@ export class DashboardPage {
     this.badgeRow = page.getByTestId('dashboard-badge-row');
     this.badgeItems = page.getByTestId('dashboard-badge');
     this.sparkline = page.getByTestId('dashboard-sparkline');
+
+    this.logWorkoutFab = page.getByTestId('dashboard-log-workout-fab');
   }
 
   async waitForLoad(): Promise<void> {
