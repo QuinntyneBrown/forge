@@ -39,7 +39,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** existing `sign-in.spec.ts` (sign-in submit button) passes; new `tests/components/button.smoke.spec.ts` mounts each variant in a story-style harness route and asserts the rendered DOM contains the expected `mat-*` host class.
 - **Guidance:** Frontend, General.
 
-### FT-003 — `IconButtonComponent` wrapping `<button mat-icon-button>`
+### FT-003 — `IconButtonComponent` wrapping `<button mat-icon-button>` ✅ done
 
 - **Requirements:** L2-046.
 - **Slice:**
