@@ -34,4 +34,11 @@ export class AuthService implements IAuthService {
   requestPasswordReset(email: string): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/api/auth/password-reset/request`, { email });
   }
+
+  confirmPasswordReset(token: string, newPassword: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/api/auth/password-reset/confirm`,
+      { token, newPassword }
+    );
+  }
 }

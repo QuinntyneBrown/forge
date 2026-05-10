@@ -10,6 +10,7 @@ export interface IAuthService {
   refresh(refreshToken: string): Observable<AuthResult>;
   signOut(refreshToken: string): Observable<void>;
   requestPasswordReset(email: string): Observable<void>;
+  confirmPasswordReset(token: string, newPassword: string): Observable<void>;
 }
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('IAuthService');
