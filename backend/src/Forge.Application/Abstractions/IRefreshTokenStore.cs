@@ -8,4 +8,5 @@ public interface IRefreshTokenStore
     Task<RefreshToken?> ConsumeAsync(string rawToken, CancellationToken cancellationToken);
     Task RevokeFamilyAsync(Guid familyId, CancellationToken cancellationToken);
     Task RevokeByPresentedTokenAsync(string rawToken, CancellationToken cancellationToken);
+    Task RevokeAllForUserAsync(Guid userId, CancellationToken cancellationToken);
 }

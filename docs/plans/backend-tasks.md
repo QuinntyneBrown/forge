@@ -63,7 +63,7 @@ Conventions:
 - **Acceptance test:** request reset for unknown email → `202`; request for known email → `202` and a row inserted into `PasswordResetTokens`.
 - **Guidance:** Authentication, General (deferred-integration shape).
 
-### BT-005 — Password reset confirm
+### BT-005 — Password reset confirm ✅ done
 
 - **Requirements:** L2-004 (confirm leg), L2-031.
 - **Slice:**

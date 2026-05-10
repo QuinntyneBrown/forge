@@ -58,4 +58,14 @@ public class AuthController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return Accepted();
     }
+
+    [HttpPost("password-reset/confirm")]
+    public async Task<IActionResult> ConfirmPasswordReset(
+        [FromBody] ConfirmPasswordResetRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new ConfirmPasswordResetCommand(request.Token, request.NewPassword);
+        await _mediator.Send(command, cancellationToken);
+        return NoContent();
+    }
 }

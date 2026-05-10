@@ -55,6 +55,16 @@ public class ExceptionHandlingMiddleware
                 Title = "Invalid credentials."
             }, options: null, contentType: ProblemJson);
         }
+        catch (InvalidPasswordResetTokenException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Invalid password reset token.",
+                Detail = ex.Message
+            }, options: null, contentType: ProblemJson);
+        }
         catch (SignInLockedException ex)
         {
             context.Response.StatusCode = StatusCodes.Status429TooManyRequests;

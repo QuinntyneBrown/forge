@@ -101,6 +101,22 @@ public class RefreshTokenStore : IRefreshTokenStore
         await RevokeFamilyAsync(token.FamilyId, cancellationToken);
     }
 
+    public async Task RevokeAllForUserAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var now = _clock.UtcNow;
+        var tokens = await _db.RefreshTokens
+            .Where(t => t.UserId == userId && t.RevokedAt == null)
+            .ToListAsync(cancellationToken);
+        foreach (var token in tokens)
+        {
+            token.RevokedAt = now;
+        }
+        if (tokens.Count > 0)
+        {
+            await _db.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     private static string GenerateRawToken()
     {
         var bytes = RandomNumberGenerator.GetBytes(RawTokenBytes);
