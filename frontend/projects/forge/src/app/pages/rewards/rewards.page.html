@@ -1,6 +1,45 @@
 <forge-app-shell [destinations]="destinations">
   <main class="rewards">
-    <forge-tier-card></forge-tier-card>
-    <forge-rewards-catalog></forge-rewards-catalog>
+    <section class="rewards__hero" data-testid="rewards-balance-hero">
+      <p class="rewards__hero-eyebrow">Points balance</p>
+      <h2 class="rewards__hero-amount" data-testid="rewards-balance-amount">
+        {{ balance() | number }}<span class="rewards__hero-amount-unit">pts</span>
+      </h2>
+      <p class="rewards__hero-sub">{{ balanceSub() }}</p>
+
+      <div class="rewards__tier">
+        <div class="rewards__tier-medal" aria-hidden="true">
+          <span class="material-icons">workspace_premium</span>
+        </div>
+        <div class="rewards__tier-info">
+          <p class="rewards__tier-name">{{ tierName() }}</p>
+          <p class="rewards__tier-sub">{{ tierProgressLabel() }}</p>
+          <div class="rewards__tier-bar">
+            <span class="rewards__tier-bar-fill" [style.width.%]="tierProgressPercent()"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rewards__body">
+      <section class="rewards__section" data-testid="rewards-achievements-section">
+        <h3 class="rewards__section-title">Recent achievements</h3>
+        <div class="rewards__achievements">
+          <forge-tier-card></forge-tier-card>
+        </div>
+      </section>
+
+      <section class="rewards__section" data-testid="rewards-in-flight-section">
+        <h3 class="rewards__section-title">In-flight</h3>
+        <p class="rewards__section-empty">
+          Track your in-flight goals here. Progress updates as you log workouts.
+        </p>
+      </section>
+
+      <section class="rewards__section rewards__section--full" data-testid="rewards-redeem-section">
+        <h3 class="rewards__section-title">Redeem</h3>
+        <forge-rewards-catalog></forge-rewards-catalog>
+      </section>
+    </div>
   </main>
 </forge-app-shell>

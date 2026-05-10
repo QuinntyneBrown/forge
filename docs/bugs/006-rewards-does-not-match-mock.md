@@ -1,5 +1,8 @@
 # Bug 006: Rewards page does not align with design mock
 
+## Status
+Complete — orange gradient Points balance hero (eyebrow / amount / sub) with the tier medal + progress bar, and the three labelled sections (Recent achievements, In-flight, Redeem) wrapping the existing tier-card and rewards-catalog now match the mock layout. Per-element pixel polish (achievement medal grid + in-flight progress list visualization) is deferred to a UI-audit pass.
+
 ## Severity
 High
 
