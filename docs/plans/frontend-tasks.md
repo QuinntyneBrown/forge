@@ -203,7 +203,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** verified inside `dashboard.spec.ts` (FT-024).
 - **Guidance:** Frontend.
 
-### FT-019 — `DailyRingCardComponent`
+### FT-019 — `DailyRingCardComponent` ✅ done
 
 - **Requirements:** L2-011, L2-012. Mock: `dashboard.html`.
 - **Slice:**

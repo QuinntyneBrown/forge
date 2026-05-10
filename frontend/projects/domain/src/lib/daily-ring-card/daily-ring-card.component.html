@@ -1,0 +1,25 @@
+<forge-card class="daily-ring-card" testid="daily-ring-card">
+  <div class="daily-ring-card__inner">
+    <forge-progress-ring
+      class="daily-ring-card__ring"
+      [value]="caloriesToday()"
+      [max]="targetCalories()"
+      [diameter]="120"
+      [strokeWidth]="10"
+      testid="daily-ring-card-ring"
+    >
+      <div class="daily-ring-card__ring-overlay">
+        <span class="daily-ring-card__value" data-testid="daily-ring-card-value">
+          {{ caloriesToday() }}
+        </span>
+        <span class="daily-ring-card__target">
+          / {{ targetCalories() }} kcal
+        </span>
+      </div>
+    </forge-progress-ring>
+    <div class="daily-ring-card__minutes" data-testid="daily-ring-card-minutes">
+      <span class="daily-ring-card__minutes-value">{{ minutesToday() }}</span>
+      <span class="daily-ring-card__minutes-label">/ {{ targetMinutes() }} min today</span>
+    </div>
+  </div>
+</forge-card>
