@@ -258,7 +258,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.4 — Workouts
 
-### FT-025 — `SessionsService` + contract
+### FT-025 — `SessionsService` + contract ✅ done
 
 - **Requirements:** L2-007, L2-008, L2-009.
 - **Slice:**

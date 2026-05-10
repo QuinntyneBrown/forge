@@ -22,7 +22,9 @@ import {
   REWARDS_SERVICE,
   RewardsService,
   LEADERBOARD_SERVICE,
-  LeaderboardService
+  LeaderboardService,
+  SESSIONS_SERVICE,
+  SessionsService
 } from 'api';
 import { AuthStateService } from './auth-state.service';
 import { authInterceptor } from './auth.interceptor';
@@ -43,6 +45,7 @@ export const appConfig: ApplicationConfig = {
     { provide: DASHBOARD_SERVICE, useClass: DashboardService },
     { provide: REWARDS_SERVICE, useClass: RewardsService },
     { provide: LEADERBOARD_SERVICE, useClass: LeaderboardService },
+    { provide: SESSIONS_SERVICE, useClass: SessionsService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };
