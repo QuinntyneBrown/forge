@@ -62,4 +62,15 @@ public class ProfileController : ControllerBase
             cancellationToken);
         return NoContent();
     }
+
+    [HttpPut("kitchen-window")]
+    public async Task<IActionResult> UpdateKitchenWindow(
+        [FromBody] UpdateKitchenWindowRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(
+            new UpdateKitchenWindowCommand(request.Start, request.End, request.NudgeEnabled),
+            cancellationToken);
+        return NoContent();
+    }
 }

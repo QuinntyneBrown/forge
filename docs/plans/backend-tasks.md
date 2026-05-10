@@ -210,7 +210,7 @@ Conventions:
 - **Acceptance test:** update window to 05:00–08:00; `GET /api/me` reflects.
 - **Guidance:** Validation.
 
-### BT-019 — Update kitchen window + nudge toggle
+### BT-019 — Update kitchen window + nudge toggle ✅ done
 
 - **Requirements:** L2-017, L2-026.
 - **Slice:**
