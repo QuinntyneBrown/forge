@@ -1,7 +1,7 @@
 # Bug 015: Mobile bottom navigation overlaps page content on multiple screens
 
 ## Status
-Open
+Complete
 
 ## Severity
 High
@@ -33,3 +33,27 @@ The bottom nav is rendered as a fixed bar with no corresponding bottom padding o
 - In the app shell layout, when the bottom-nav variant is active, set `padding-bottom: 96px` (or `calc(96px + env(safe-area-inset-bottom))`) on the main content scroll container.
 - Verify the same on tablet — the nav rail only kicks in at `>=1100px` per the mock breakpoints; tablet (768–1099px) still uses the bottom nav.
 - Add a visual regression snapshot at mobile + tablet for each authenticated route once fixed.
+
+## Resolution
+Shell-level fix. The bottom inset is now reserved once on the
+`<main class="app-shell__main">` container and removed from each page.
+
+- `frontend/projects/forge/src/styles.scss` (added):
+  defines the global token
+  `--bottom-nav-safe-area: calc(64px + env(safe-area-inset-bottom, 0px))`
+  matching the bottom-nav `min-height: 64px` plus the device safe-area.
+- `frontend/projects/components/src/lib/app-shell/app-shell.component.html`
+  and `.scss`: when `showBottomNav()` is true (i.e. `<992px`,
+  matching the existing `RAIL_BREAKPOINT`), the main scroll container
+  gets the modifier class `.app-shell__main--with-bottom-nav` which
+  applies `padding-bottom: var(--bottom-nav-safe-area, 64px)`. On
+  desktop (>=992px) the nav-rail is shown instead and no bottom inset
+  is applied.
+- Removed the duplicated `padding-bottom: 96px` magic numbers from the
+  per-page scss files (`dashboard`, `workouts`, `workout-new`,
+  `workout-detail`, `profile`, `rewards`, `error`). Page authors no
+  longer need to remember this.
+
+Verified by `frontend/e2e/tests/bottom-nav-overlap.spec.ts` (4 passing
+checks: architectural assertion + last-element-visible on /dashboard,
+/workouts, /rewards at mobile viewport 390x844).
