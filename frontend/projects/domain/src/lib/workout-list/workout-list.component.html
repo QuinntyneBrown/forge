@@ -1,8 +1,26 @@
 <section class="workout-list" data-testid="workout-list">
   <header class="workout-list__header">
-    <h2 class="workout-list__title">Workouts</h2>
+    <div>
+      <h2 class="workout-list__title" data-testid="workout-list-page-title">Sessions</h2>
+      <p class="workout-list__subtitle" data-testid="workout-list-page-subtitle">{{ subtitle() }}</p>
+    </div>
     <forge-button testid="workout-list-new" (click)="newSession()">New session</forge-button>
   </header>
+
+  <div class="workout-list__summary" data-testid="workout-list-summary">
+    <div class="workout-list__summary-tile" data-testid="workout-list-summary-minutes">
+      <span class="workout-list__summary-label">Minutes</span>
+      <span class="workout-list__summary-value">{{ summaryMinutes() }} min</span>
+    </div>
+    <div class="workout-list__summary-tile" data-testid="workout-list-summary-calories">
+      <span class="workout-list__summary-label">Calories</span>
+      <span class="workout-list__summary-value">{{ summaryCalories() }}</span>
+    </div>
+    <div class="workout-list__summary-tile" data-testid="workout-list-summary-points">
+      <span class="workout-list__summary-label">Points</span>
+      <span class="workout-list__summary-value">+{{ summaryPoints() }}</span>
+    </div>
+  </div>
 
   <div class="workout-list__filters">
     <mat-chip-listbox
@@ -55,27 +73,50 @@
       <forge-button (click)="newSession()">Log your first session</forge-button>
     </forge-empty-state>
   } @else {
-    <ul class="workout-list__rows" data-testid="workout-list-rows">
-      @for (session of sessions(); track session.id) {
-        <li class="workout-list__row">
-          <forge-card class="workout-list__card" [testid]="'workout-list-row-' + session.id">
-            <button
-              class="workout-list__row-button"
-              type="button"
-              (click)="openSession(session.id)"
-              [attr.data-testid]="'workout-list-open-' + session.id"
-            >
-              <span class="workout-list__row-equipment">{{ session.equipment }}</span>
-              <span class="workout-list__row-meta">
-                {{ session.durationMinutes }} min · {{ session.activeCalories }} kcal
-              </span>
-              @if (session.notes) {
-                <span class="workout-list__row-notes">{{ session.notes }}</span>
-              }
-            </button>
-          </forge-card>
-        </li>
+    <div class="workout-list__rows" data-testid="workout-list-rows">
+      @for (group of dayGroups(); track group.key) {
+        <div class="workout-list__day" data-testid="workout-list-day-group">
+          <h3 class="workout-list__day-label">{{ group.label }}</h3>
+          <ul class="workout-list__day-rows">
+            @for (session of group.sessions; track session.id) {
+              <li class="workout-list__row">
+                <button
+                  class="workout-list__row-button"
+                  type="button"
+                  (click)="openSession(session.id)"
+                  [attr.data-testid]="'workout-list-row-' + session.id"
+                >
+                  <span
+                    class="workout-list__row-icon"
+                    [class]="'workout-list__row-icon ' + tintFor(session.equipment)"
+                    data-testid="workout-list-row-icon"
+                    aria-hidden="true"
+                  >
+                    <span class="material-icons">{{ iconFor(session.equipment) }}</span>
+                  </span>
+                  <span class="workout-list__row-main">
+                    <span class="workout-list__row-equipment">{{ session.equipment }}</span>
+                    <span class="workout-list__row-meta" data-testid="workout-list-row-meta">
+                      <span class="workout-list__row-meta-item">
+                        <span class="material-icons" aria-hidden="true">timer</span>
+                        {{ session.durationMinutes }} min
+                      </span>
+                      <span class="workout-list__row-meta-item">
+                        <span class="material-icons" aria-hidden="true">local_fire_department</span>
+                        {{ session.activeCalories }} cal
+                      </span>
+                    </span>
+                  </span>
+                  <span class="workout-list__row-stack" data-testid="workout-list-row-points">
+                    <span class="workout-list__row-points">+{{ pointsFor(session) }}</span>
+                    <span class="workout-list__row-time">{{ timeOfDay(session) }}</span>
+                  </span>
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
       }
-    </ul>
+    </div>
   }
 </section>

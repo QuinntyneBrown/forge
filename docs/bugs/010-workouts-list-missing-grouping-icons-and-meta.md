@@ -1,7 +1,7 @@
 # Bug 010: Workouts list is missing day grouping, equipment icons, meta icons, points and times
 
 ## Status
-Open
+Complete
 
 ## Severity
 High
