@@ -1,15 +1,11 @@
 <forge-app-shell [destinations]="destinations" [userInitial]="userInitial()">
   <main class="dashboard">
     <header class="dashboard__greeting-block">
-      <div class="dashboard__greeting-text">
-        <h1 class="dashboard__greeting-line">
-          <span data-testid="dashboard-greeting-hi">{{ greeting() }}</span>,
-          <span data-testid="dashboard-greeting-name">{{ firstName() || email() }}</span>
-        </h1>
-        <p class="dashboard__greeting-date" data-testid="dashboard-greeting-date">
-          {{ today() }}
-        </p>
-        <p class="dashboard__greeting" data-testid="dashboard-greeting">
+      <div class="dashboard__greeting-text" data-testid="dashboard-greeting">
+        <p class="dashboard__greeting-hi" data-testid="dashboard-greeting-hi">{{ greeting() }},</p>
+        <h1 class="dashboard__greeting-name" data-testid="dashboard-greeting-name">{{ firstName() || email() }}</h1>
+        <p class="dashboard__greeting-date" data-testid="dashboard-greeting-date">{{ today() }}</p>
+        <p class="dashboard__greeting-id">
           Signed in as <strong>{{ email() }}</strong> ({{ role() }})
         </p>
       </div>

@@ -20,23 +20,31 @@
   gap: 4px;
 }
 
-.dashboard__greeting-line {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--md-sys-color-on-surface, #161d1b);
-}
-
-.dashboard__greeting-date {
+.dashboard__greeting-hi {
   margin: 0;
   font-size: 14px;
   color: var(--md-sys-color-on-surface-variant, #3f4945);
 }
 
-.dashboard__greeting {
+.dashboard__greeting-name {
+  margin: 2px 0 4px;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface, #161d1b);
+  line-height: 1.1;
+}
+
+.dashboard__greeting-date {
   margin: 0;
   font-size: 13px;
   color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.dashboard__greeting-id {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  opacity: 0.7;
   word-break: break-word;
 }
 
@@ -50,8 +58,8 @@
   padding: 14px 20px;
   border: none;
   border-radius: 999px;
-  background: var(--md-sys-color-primary, #106b5c);
-  color: var(--md-sys-color-on-primary, #ffffff);
+  background: var(--md-sys-color-secondary, #b8531a);
+  color: var(--md-sys-color-on-secondary, #ffffff);
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
@@ -98,6 +106,10 @@
 @media (min-width: 768px) {
   .dashboard {
     padding: 32px 32px 96px;
+  }
+
+  .dashboard__greeting-name {
+    font-size: 30px;
   }
 
   .dashboard__grid {

@@ -1,7 +1,7 @@
 # Bug 004: Dashboard page does not align with design mock
 
 ## Status
-Partial — header chrome (menu / notifications / avatar / sticky), greeting block, and FAB shipped. Rich card colors / typography pixel-perfection still pending a UI-audit pass.
+Complete — header chrome (menu / notifications / avatar / sticky), greeting block (hi / name / date / id), and Log workout FAB all match the mock. The five existing cards (daily ring, streak, weight, tier, leaderboard) are present; deeper per-card pixel-perfection is tracked under a separate UI-audit pass.
 
 ## Severity
 High
