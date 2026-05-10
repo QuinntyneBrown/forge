@@ -36,18 +36,43 @@ public class PointsScorer : IPointsScorer
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == session.UserId, cancellationToken);
 
-        if (user is not null && IsWithinMorningWindow(session.StartedAt, user))
+        if (user is not null)
         {
-            _db.PointsLedger.Add(new PointsLedger
+            if (IsWithinMorningWindow(session.StartedAt, user))
             {
-                Id = Guid.NewGuid(),
-                UserId = session.UserId,
-                SessionId = session.Id,
-                Reason = PointsLedgerReason.MorningBonus,
-                Points = ScoringConstants.MorningBonusPoints,
-                Description = "Morning bonus",
-                CreatedAt = now
-            });
+                _db.PointsLedger.Add(new PointsLedger
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = session.UserId,
+                    SessionId = session.Id,
+                    Reason = PointsLedgerReason.MorningBonus,
+                    Points = ScoringConstants.MorningBonusPoints,
+                    Description = "Morning bonus",
+                    CreatedAt = now
+                });
+            }
+
+            var streakDays = await ConsecutiveStreakDays(session.UserId, user.TimeZoneId, cancellationToken);
+            var multiplier = Math.Min(
+                ScoringConstants.StreakMultiplierCap,
+                1.00m + ScoringConstants.StreakStepPerDay * streakDays);
+            if (multiplier > 1.00m)
+            {
+                var streakBonus = (int)Math.Floor(basePoints * (multiplier - 1.00m));
+                if (streakBonus > 0)
+                {
+                    _db.PointsLedger.Add(new PointsLedger
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = session.UserId,
+                        SessionId = session.Id,
+                        Reason = PointsLedgerReason.StreakMultiplier,
+                        Points = streakBonus,
+                        Description = $"Streak multiplier ×{multiplier:0.00}",
+                        CreatedAt = now
+                    });
+                }
+            }
         }
 
         await _db.SaveChangesAsync(cancellationToken);
@@ -55,16 +80,8 @@ public class PointsScorer : IPointsScorer
 
     private static bool IsWithinMorningWindow(DateTimeOffset startedAt, User user)
     {
-        TimeZoneInfo tz;
-        try
-        {
-            tz = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
-        }
-        catch (TimeZoneNotFoundException)
-        {
-            return false;
-        }
-        catch (InvalidTimeZoneException)
+        var tz = TryFindTimeZone(user.TimeZoneId);
+        if (tz is null)
         {
             return false;
         }
@@ -72,5 +89,50 @@ public class PointsScorer : IPointsScorer
         var local = TimeZoneInfo.ConvertTime(startedAt, tz);
         var localTime = TimeOnly.FromTimeSpan(local.TimeOfDay);
         return localTime >= user.MorningWindowStart && localTime <= user.MorningWindowEnd;
+    }
+
+    private async Task<int> ConsecutiveStreakDays(Guid userId, string timeZoneId, CancellationToken cancellationToken)
+    {
+        var today = _clock.TodayInTimeZone(timeZoneId);
+        var since = today.AddDays(-90);
+        var sinceUtc = new DateTimeOffset(since.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero);
+
+        var raw = await _db.WorkoutSessions
+            .AsNoTracking()
+            .Where(s => s.UserId == userId && s.StartedAt >= sinceUtc)
+            .Select(s => s.StartedAt)
+            .ToListAsync(cancellationToken);
+
+        var tz = TryFindTimeZone(timeZoneId);
+        var distinctDays = raw
+            .Select(t => DateOnly.FromDateTime(
+                tz is null ? t.UtcDateTime : TimeZoneInfo.ConvertTime(t, tz).DateTime))
+            .Distinct()
+            .ToHashSet();
+
+        var streak = 0;
+        var cursor = today;
+        while (distinctDays.Contains(cursor))
+        {
+            streak++;
+            cursor = cursor.AddDays(-1);
+        }
+        return streak;
+    }
+
+    private static TimeZoneInfo? TryFindTimeZone(string ianaTimeZoneId)
+    {
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById(ianaTimeZoneId);
+        }
+        catch (TimeZoneNotFoundException)
+        {
+            return null;
+        }
+        catch (InvalidTimeZoneException)
+        {
+            return null;
+        }
     }
 }

@@ -256,7 +256,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** session at 05:12 with default window → `+44` and `+25` rows appear; session at 09:00 → only `+44` row.
 - **Guidance:** Backend.
 
-### BT-024 — Streak multiplier
+### BT-024 — Streak multiplier ✅ done
 
 - **Requirements:** L2-020.
 - **Slice:**

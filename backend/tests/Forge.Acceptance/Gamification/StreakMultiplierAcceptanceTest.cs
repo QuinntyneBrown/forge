@@ -129,12 +129,23 @@ public class StreakMultiplierAcceptanceTest : IAsyncLifetime
         }
 
         var ledgerAfterDay7 = await LedgerFor(auth.UserId);
-        var streakRowsAfterDay7 = ledgerAfterDay7
+        var day7StreakRow = ledgerAfterDay7
+            .SingleOrDefault(l => l.Reason == PointsLedgerReason.StreakMultiplier
+                                  && l.SessionId == sessionIds[6]);
+        Assert.NotNull(day7StreakRow);
+        Assert.Equal(3, day7StreakRow!.Points);
+
+        // Day 1 (streak = 1) and day 2 (streak = 2) round to zero bonus and
+        // are skipped. Days 3-7 each produce a streak row.
+        var streakRowSessionIds = ledgerAfterDay7
             .Where(l => l.Reason == PointsLedgerReason.StreakMultiplier)
-            .ToList();
-        Assert.Single(streakRowsAfterDay7);
-        Assert.Equal(sessionIds[6], streakRowsAfterDay7[0].SessionId);
-        Assert.Equal(3, streakRowsAfterDay7[0].Points);
+            .Select(l => l.SessionId)
+            .ToHashSet();
+        Assert.Equal(5, streakRowSessionIds.Count);
+        for (var i = 2; i < 7; i++)
+        {
+            Assert.Contains(sessionIds[i], streakRowSessionIds);
+        }
 
         // Skip a day, then post again. consecutiveDays for the new session is 1
         // because the immediately-prior calendar day has no session.
