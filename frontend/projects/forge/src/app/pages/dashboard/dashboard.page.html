@@ -1,8 +1,14 @@
-<forge-app-shell [destinations]="destinations">
+<forge-app-shell [destinations]="destinations" [userInitial]="userInitial()">
   <main class="dashboard">
-    <header class="dashboard__header">
-      <div>
-        <h1 class="dashboard__title">Dashboard</h1>
+    <header class="dashboard__greeting-block">
+      <div class="dashboard__greeting-text">
+        <h1 class="dashboard__greeting-line">
+          <span data-testid="dashboard-greeting-hi">{{ greeting() }}</span>,
+          <span data-testid="dashboard-greeting-name">{{ firstName() || email() }}</span>
+        </h1>
+        <p class="dashboard__greeting-date" data-testid="dashboard-greeting-date">
+          {{ today() }}
+        </p>
         <p class="dashboard__greeting" data-testid="dashboard-greeting">
           Signed in as <strong>{{ email() }}</strong> ({{ role() }})
         </p>
@@ -19,5 +25,15 @@
       <forge-tier-card></forge-tier-card>
       <forge-leaderboard-card class="dashboard__cell dashboard__cell--span-2"></forge-leaderboard-card>
     </section>
+
+    <button
+      type="button"
+      class="dashboard__fab"
+      data-testid="dashboard-log-workout-fab"
+      (click)="logWorkout()"
+    >
+      <span aria-hidden="true">+</span>
+      Log workout
+    </button>
   </main>
 </forge-app-shell>

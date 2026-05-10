@@ -1,5 +1,8 @@
 # Bug 004: Dashboard page does not align with design mock
 
+## Status
+Partial — header chrome (menu / notifications / avatar / sticky), greeting block, and FAB shipped. Rich card colors / typography pixel-perfection still pending a UI-audit pass.
+
 ## Severity
 High
 

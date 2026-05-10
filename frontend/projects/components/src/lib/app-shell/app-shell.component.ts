@@ -17,6 +17,7 @@ const RAIL_BREAKPOINT = '(min-width: 992px)';
 export class AppShellComponent {
   @Input({ required: true }) destinations: NavDestination[] = [];
   @Input() title = 'Forge Fit';
+  @Input() userInitial: string | null = null;
 
   private readonly breakpoints = inject(BreakpointObserver);
 

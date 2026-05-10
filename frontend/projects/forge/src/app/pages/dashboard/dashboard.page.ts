@@ -18,6 +18,12 @@ const PRIMARY_DESTINATIONS: NavDestination[] = [
   { label: 'Profile', icon: 'person', routerLink: '/profile' }
 ];
 
+const DATE_FORMAT: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+};
+
 @Component({
   selector: 'app-dashboard-page',
   imports: [
@@ -43,6 +49,18 @@ export class DashboardPage implements OnInit {
   protected readonly role = computed(
     () => this.currentUser()?.role ?? this.auth.snapshot()?.role ?? 'unknown'
   );
+  protected readonly firstName = computed(() => this.currentUser()?.firstName ?? '');
+  protected readonly userInitial = computed(() => {
+    const name = this.firstName();
+    if (name.length > 0) {
+      return name.charAt(0).toUpperCase();
+    }
+    const email = this.email();
+    return email.length > 0 ? email.charAt(0).toUpperCase() : '?';
+  });
+
+  protected readonly greeting = signal(this.computeGreeting());
+  protected readonly today = signal(this.computeTodayLabel());
 
   constructor(
     @Inject(AUTH_SERVICE) private readonly authApi: IAuthService,
@@ -52,11 +70,12 @@ export class DashboardPage implements OnInit {
   ngOnInit(): void {
     this.meApi.getMe().subscribe({
       next: (user) => this.currentUser.set(user),
-      error: () => {
-        // Auth interceptor handles 401. Other errors fall back to the
-        // AuthStateService snapshot via the computed defaults.
-      }
+      error: () => undefined
     });
+  }
+
+  protected logWorkout(): void {
+    this.router.navigate(['/workouts', 'new']);
   }
 
   protected signOut(): void {
@@ -75,5 +94,20 @@ export class DashboardPage implements OnInit {
       next: () => finalize(),
       error: () => finalize()
     });
+  }
+
+  private computeGreeting(): string {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      return 'Good morning';
+    }
+    if (hour < 18) {
+      return 'Good afternoon';
+    }
+    return 'Good evening';
+  }
+
+  private computeTodayLabel(): string {
+    return new Date().toLocaleDateString(undefined, DATE_FORMAT);
   }
 }

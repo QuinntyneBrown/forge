@@ -16,6 +16,46 @@
   gap: 12px;
   background: var(--md-sys-color-surface-container, #e8efec);
   color: var(--md-sys-color-on-surface, #161d1b);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-shell__spacer {
+  flex: 1;
+}
+
+.app-shell__icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary, #106b5c);
+    outline-offset: 2px;
+  }
+}
+
+.app-shell__avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--md-sys-color-primary, #106b5c);
+  color: var(--md-sys-color-on-primary, #ffffff);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .app-shell__brand-mark {

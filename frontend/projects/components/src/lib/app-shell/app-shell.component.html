@@ -1,7 +1,31 @@
 <div class="app-shell" [class.app-shell--desktop]="showNavRail()">
   <mat-toolbar class="app-shell__topbar" data-testid="app-shell-topbar">
+    <button
+      type="button"
+      class="app-shell__icon-btn"
+      aria-label="Open menu"
+      data-testid="app-shell-menu-button"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
     <span class="app-shell__brand-mark">F</span>
     <span class="app-shell__title">{{ title }}</span>
+    <span class="app-shell__spacer"></span>
+    <button
+      type="button"
+      class="app-shell__icon-btn"
+      aria-label="Notifications"
+      data-testid="app-shell-notification-button"
+    >
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <span
+      class="app-shell__avatar"
+      data-testid="app-shell-avatar"
+      [attr.aria-label]="userInitial ? 'User ' + userInitial : 'User'"
+    >
+      {{ userInitial ?? '?' }}
+    </span>
   </mat-toolbar>
 
   <div class="app-shell__body">
