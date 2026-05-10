@@ -73,4 +73,13 @@ public class ProfileController : ControllerBase
             cancellationToken);
         return NoContent();
     }
+
+    [HttpPut("leaderboard-opt-in")]
+    public async Task<IActionResult> SetLeaderboardOptIn(
+        [FromBody] SetLeaderboardOptInRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new SetLeaderboardOptInCommand(request.LeaderboardOptIn), cancellationToken);
+        return NoContent();
+    }
 }

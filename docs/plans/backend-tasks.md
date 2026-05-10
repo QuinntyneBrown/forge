@@ -219,7 +219,7 @@ Conventions:
 - **Acceptance test:** update window + toggle nudge off; `GET /api/me` reflects.
 - **Guidance:** Validation.
 
-### BT-020 — Set leaderboard opt-in
+### BT-020 — Set leaderboard opt-in ✅ done
 
 - **Requirements:** L2-027.
 - **Slice:**
