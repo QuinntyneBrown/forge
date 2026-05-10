@@ -1,0 +1,33 @@
+/* mat-chip supplies the M3 chip shape, padding, and typography. The variant
+   modifiers map each status to a token-driven background + foreground via
+   mat-chip's CSS custom properties. */
+
+:host {
+  display: inline-flex;
+}
+
+.badge--success {
+  --mdc-chip-elevated-container-color: var(--md-sys-color-primary-container, #9ff2dd);
+  --mdc-chip-label-text-color: var(--md-sys-color-on-primary-container, #00211b);
+}
+
+.badge--warning {
+  --mdc-chip-elevated-container-color: var(--md-sys-color-secondary-container, #ffdbc8);
+  --mdc-chip-label-text-color: var(--md-sys-color-on-secondary-container, #341000);
+}
+
+.badge--error {
+  --mdc-chip-elevated-container-color: #ffd9d4;
+  --mdc-chip-label-text-color: #410002;
+}
+
+.badge--neutral {
+  --mdc-chip-elevated-container-color: var(--md-sys-color-surface-container, #e8efec);
+  --mdc-chip-label-text-color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.badge__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

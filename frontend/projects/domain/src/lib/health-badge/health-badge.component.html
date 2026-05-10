@@ -1,11 +1,10 @@
 <forge-card title="Server status">
-  <div
+  <forge-badge
     class="health-badge"
-    [class.health-badge--healthy]="isHealthy()"
-    [class.health-badge--unhealthy]="!isHealthy()"
-    data-testid="health-badge"
+    [variant]="badgeVariant()"
+    testid="health-badge"
   >
     <span class="health-badge__dot"></span>
     <span class="health-badge__label">{{ status() }}</span>
-  </div>
+  </forge-badge>
 </forge-card>

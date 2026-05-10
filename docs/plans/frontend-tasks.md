@@ -96,7 +96,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-019 (DailyRingCardComponent — first consumer).
 - **Guidance:** Frontend.
 
-### FT-009 — `BadgeComponent` wrapping `<mat-chip>` styled as a status pill
+### FT-009 — `BadgeComponent` wrapping `<mat-chip>` styled as a status pill ✅ done
 
 - **Requirements:** L2-022, L2-024.
 - **Slice:**

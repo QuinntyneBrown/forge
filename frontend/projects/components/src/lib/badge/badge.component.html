@@ -1,0 +1,13 @@
+<mat-chip
+  class="badge"
+  [class.badge--success]="variant === 'success'"
+  [class.badge--warning]="variant === 'warning'"
+  [class.badge--error]="variant === 'error'"
+  [class.badge--neutral]="variant === 'neutral'"
+  [attr.data-testid]="testid"
+  disableRipple
+>
+  <span class="badge__content">
+    <ng-content></ng-content>
+  </span>
+</mat-chip>

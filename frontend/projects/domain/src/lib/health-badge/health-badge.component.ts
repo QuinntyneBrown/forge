@@ -1,16 +1,19 @@
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { Component, Inject, OnInit, computed, signal } from '@angular/core';
 import { HEALTH_SERVICE, IHealthService } from 'api';
-import { CardComponent } from 'components';
+import { BadgeComponent, BadgeVariant, CardComponent } from 'components';
 
 @Component({
   selector: 'forge-health-badge',
-  imports: [CardComponent],
+  imports: [CardComponent, BadgeComponent],
   templateUrl: './health-badge.component.html',
   styleUrl: './health-badge.component.scss'
 })
 export class HealthBadgeComponent implements OnInit {
   protected readonly status = signal<string>('Loading…');
   protected readonly isHealthy = signal<boolean>(false);
+  protected readonly badgeVariant = computed<BadgeVariant>(() =>
+    this.isHealthy() ? 'success' : 'error'
+  );
 
   constructor(@Inject(HEALTH_SERVICE) private readonly health: IHealthService) {}
 

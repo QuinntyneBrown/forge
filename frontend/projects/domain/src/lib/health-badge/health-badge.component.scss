@@ -1,22 +1,5 @@
-.health-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.health-badge--healthy {
-  background: var(--md-sys-color-primary-container, #9ff2dd);
-  color: var(--md-sys-color-on-primary-container, #00211b);
-}
-
-.health-badge--unhealthy {
-  background: #ffd9d4;
-  color: #410002;
-}
+/* <forge-badge> wraps mat-chip and supplies the M3 chip shape and palette via
+   the variant input. The BEM hooks below position content inside the chip. */
 
 .health-badge__dot {
   width: 8px;
