@@ -42,13 +42,34 @@
   padding: 0;
 }
 
+.sign-in-page__footer {
+  padding: 24px 16px 32px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.sign-in-page__sign-up-link {
+  color: var(--md-sys-color-primary, #106b5c);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @media (min-width: 768px) {
   .sign-in-page {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "hero card"
+      "footer footer";
   }
 
   .sign-in-page__hero {
+    grid-area: hero;
     padding: 64px 48px;
     border-radius: 0;
   }
@@ -58,6 +79,7 @@
   }
 
   .sign-in-page__card {
+    grid-area: card;
     margin: 0;
     padding: 64px 48px;
     display: flex;
@@ -68,5 +90,9 @@
     width: 100%;
     max-width: 420px;
     margin: 0 auto;
+  }
+
+  .sign-in-page__footer {
+    grid-area: footer;
   }
 }
