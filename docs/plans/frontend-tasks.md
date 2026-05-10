@@ -114,7 +114,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-027 (zero-row variant) or FT-034, whichever lands first.
 - **Guidance:** Frontend (intentional non-Material primitive — Material has no equivalent; explicitly noted in FP1 §3).
 
-### FT-011 — `ErrorBannerComponent` (pure layout primitive — hand-rolled)
+### FT-011 — `ErrorBannerComponent` (pure layout primitive — hand-rolled) ✅ done
 
 - **Requirements:** L2-024, L2-029.
 - **Slice:**

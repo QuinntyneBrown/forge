@@ -11,6 +11,7 @@ export * from './lib/switch/switch.component';
 export * from './lib/chip/chip.component';
 export * from './lib/progress-ring/progress-ring.component';
 export * from './lib/empty-state/empty-state.component';
+export * from './lib/error-banner/error-banner.component';
 export * from './lib/bottom-nav/bottom-nav.component';
 export * from './lib/nav-rail/nav-rail.component';
 export * from './lib/app-shell/app-shell.component';

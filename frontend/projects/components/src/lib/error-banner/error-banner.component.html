@@ -1,0 +1,13 @@
+<div class="error-banner" role="alert" [attr.data-testid]="testid">
+  <div class="error-banner__body">
+    @if (title) {
+      <h4 class="error-banner__title">{{ title }}</h4>
+    }
+    @if (message) {
+      <p class="error-banner__message">{{ message }}</p>
+    }
+  </div>
+  <div class="error-banner__cta">
+    <ng-content></ng-content>
+  </div>
+</div>
