@@ -1,0 +1,22 @@
+<forge-card class="leaderboard-card" testid="leaderboard-card">
+  <div class="leaderboard-card__inner">
+    <h3 class="leaderboard-card__title">Leaderboard</h3>
+    @if (entries().length === 0) {
+      <p class="leaderboard-card__empty" data-testid="leaderboard-card-empty">
+        No one to compare with yet.
+      </p>
+    } @else {
+      <ol class="leaderboard-card__list" data-testid="leaderboard-card-list">
+        @for (entry of entries(); track entry.userId) {
+          <li class="leaderboard-card__row">
+            <span class="leaderboard-card__rank">#{{ entry.rank }}</span>
+            <span class="leaderboard-card__name">
+              {{ entry.firstName }} {{ entry.lastName }}
+            </span>
+            <span class="leaderboard-card__points">{{ entry.points }} pts</span>
+          </li>
+        }
+      </ol>
+    }
+  </div>
+</forge-card>

@@ -20,7 +20,9 @@ import {
   PROFILE_SERVICE,
   ProfileService,
   REWARDS_SERVICE,
-  RewardsService
+  RewardsService,
+  LEADERBOARD_SERVICE,
+  LeaderboardService
 } from 'api';
 import { AuthStateService } from './auth-state.service';
 import { authInterceptor } from './auth.interceptor';
@@ -40,6 +42,7 @@ export const appConfig: ApplicationConfig = {
     { provide: PROFILE_SERVICE, useClass: ProfileService },
     { provide: DASHBOARD_SERVICE, useClass: DashboardService },
     { provide: REWARDS_SERVICE, useClass: RewardsService },
+    { provide: LEADERBOARD_SERVICE, useClass: LeaderboardService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };

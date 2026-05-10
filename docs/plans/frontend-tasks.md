@@ -238,7 +238,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** asserted in `dashboard.spec.ts` (FT-024).
 - **Guidance:** Frontend.
 
-### FT-023 — `LeaderboardCardComponent` + `LeaderboardService`
+### FT-023 — `LeaderboardCardComponent` + `LeaderboardService` ✅ done
 
 - **Requirements:** L2-027. Mock: `dashboard.html`.
 - **Slice:**

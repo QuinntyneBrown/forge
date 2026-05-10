@@ -1,0 +1,51 @@
+.leaderboard-card {
+  display: block;
+}
+
+.leaderboard-card__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.leaderboard-card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.leaderboard-card__empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.leaderboard-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard-card__row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.leaderboard-card__rank {
+  font-weight: 600;
+  color: var(--md-sys-color-primary, #006a64);
+}
+
+.leaderboard-card__points {
+  font-variant-numeric: tabular-nums;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
