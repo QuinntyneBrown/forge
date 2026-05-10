@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
 import { ButtonComponent, CardComponent, CheckboxComponent } from 'components';
 
@@ -10,7 +11,7 @@ export interface SignedInEvent {
 
 @Component({
   selector: 'forge-sign-in-form',
-  imports: [ReactiveFormsModule, CardComponent, ButtonComponent, CheckboxComponent],
+  imports: [ReactiveFormsModule, RouterLink, CardComponent, ButtonComponent, CheckboxComponent],
   templateUrl: './sign-in-form.component.html',
   styleUrl: './sign-in-form.component.scss'
 })
@@ -18,9 +19,9 @@ export class SignInFormComponent {
   @Output() readonly signedIn = new EventEmitter<SignedInEvent>();
 
   protected readonly form;
-  protected errorMessage: string | null = null;
-  protected submitting = false;
-  protected rememberMe = false;
+  protected readonly errorMessage = signal<string | null>(null);
+  protected readonly submitting = signal(false);
+  protected readonly rememberMe = signal(false);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -33,23 +34,23 @@ export class SignInFormComponent {
   }
 
   protected onRememberMeChange(checked: boolean): void {
-    this.rememberMe = checked;
+    this.rememberMe.set(checked);
   }
 
   protected onSubmit(): void {
-    if (this.form.invalid || this.submitting) {
+    if (this.form.invalid || this.submitting()) {
       return;
     }
-    this.submitting = true;
-    this.errorMessage = null;
+    this.submitting.set(true);
+    this.errorMessage.set(null);
     this.auth.signIn(this.form.getRawValue()).subscribe({
       next: (result) => {
-        this.submitting = false;
-        this.signedIn.emit({ result, rememberMe: this.rememberMe });
+        this.submitting.set(false);
+        this.signedIn.emit({ result, rememberMe: this.rememberMe() });
       },
       error: (err) => {
-        this.submitting = false;
-        this.errorMessage = err?.error?.title ?? 'Sign-in failed.';
+        this.submitting.set(false);
+        this.errorMessage.set(err?.error?.title ?? 'Sign-in failed.');
       }
     });
   }

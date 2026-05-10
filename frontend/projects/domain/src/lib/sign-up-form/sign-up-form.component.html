@@ -45,8 +45,8 @@
       <mat-hint>At least 12 characters with upper, lower, digit, and a symbol.</mat-hint>
     </mat-form-field>
 
-    @if (errorMessage) {
-      <p class="sign-up-form__error" data-testid="sign-up-error">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+      <p class="sign-up-form__error" data-testid="sign-up-error">{{ errorMessage() }}</p>
     }
 
     <forge-button
@@ -54,10 +54,10 @@
       variant="filled"
       type="submit"
       [disabled]="form.invalid"
-      [loading]="submitting"
+      [loading]="submitting()"
       testid="sign-up-submit"
     >
-      {{ submitting ? 'Creating account…' : 'Create account' }}
+      {{ submitting() ? 'Creating account…' : 'Create account' }}
     </forge-button>
   </form>
 </forge-card>

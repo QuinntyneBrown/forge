@@ -14,7 +14,7 @@ import { ButtonComponent, CardComponent } from 'components';
 export class PasswordResetRequestFormComponent {
   protected readonly form;
   protected readonly submitted = signal(false);
-  protected submitting = false;
+  protected readonly submitting = signal(false);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -26,20 +26,20 @@ export class PasswordResetRequestFormComponent {
   }
 
   protected onSubmit(): void {
-    if (this.form.invalid || this.submitting) {
+    if (this.form.invalid || this.submitting()) {
       return;
     }
-    this.submitting = true;
+    this.submitting.set(true);
     this.auth.requestPasswordReset(this.form.controls.email.value).subscribe({
       // 202 always — same UX whether the email exists or not (L2-004 ac 1).
       next: () => {
-        this.submitting = false;
+        this.submitting.set(false);
         this.submitted.set(true);
       },
       error: () => {
         // The request leg is designed to never reveal account existence; even
         // network errors land on the same confirmation screen.
-        this.submitting = false;
+        this.submitting.set(false);
         this.submitted.set(true);
       }
     });

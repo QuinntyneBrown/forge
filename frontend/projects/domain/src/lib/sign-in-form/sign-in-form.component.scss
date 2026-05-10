@@ -35,6 +35,25 @@
   }
 }
 
+.sign-in-form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sign-in-form__forgot {
+  color: var(--md-sys-color-primary, #106b5c);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .sign-in-form__error {
   margin: 0;
   font-size: 14px;

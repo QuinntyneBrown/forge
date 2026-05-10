@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,8 +15,8 @@ export class SignUpFormComponent {
   @Output() readonly signedUp = new EventEmitter<AuthResult>();
 
   protected readonly form;
-  protected errorMessage: string | null = null;
-  protected submitting = false;
+  protected readonly errorMessage = signal<string | null>(null);
+  protected readonly submitting = signal(false);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -38,19 +38,19 @@ export class SignUpFormComponent {
   }
 
   protected onSubmit(): void {
-    if (this.form.invalid || this.submitting) {
+    if (this.form.invalid || this.submitting()) {
       return;
     }
-    this.submitting = true;
-    this.errorMessage = null;
+    this.submitting.set(true);
+    this.errorMessage.set(null);
     this.auth.register(this.form.getRawValue()).subscribe({
       next: (result) => {
-        this.submitting = false;
+        this.submitting.set(false);
         this.signedUp.emit(result);
       },
       error: (err) => {
-        this.submitting = false;
-        this.errorMessage = err?.error?.title ?? 'Sign-up failed.';
+        this.submitting.set(false);
+        this.errorMessage.set(err?.error?.title ?? 'Sign-up failed.');
       }
     });
   }

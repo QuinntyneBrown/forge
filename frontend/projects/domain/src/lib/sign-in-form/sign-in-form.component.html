@@ -22,17 +22,27 @@
       />
     </label>
 
-    <forge-checkbox
-      class="sign-in-form__remember"
-      [checked]="rememberMe"
-      (checkedChange)="onRememberMeChange($event)"
-      testid="sign-in-remember-me"
-    >
-      Remember me
-    </forge-checkbox>
+    <div class="sign-in-form__row">
+      <forge-checkbox
+        class="sign-in-form__remember"
+        [checked]="rememberMe()"
+        (checkedChange)="onRememberMeChange($event)"
+        testid="sign-in-remember-me"
+      >
+        Remember me
+      </forge-checkbox>
 
-    @if (errorMessage) {
-      <p class="sign-in-form__error" data-testid="sign-in-error">{{ errorMessage }}</p>
+      <a
+        class="sign-in-form__forgot"
+        routerLink="/password-reset"
+        data-testid="sign-in-forgot-password"
+      >
+        Forgot password?
+      </a>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="sign-in-form__error" data-testid="sign-in-error">{{ errorMessage() }}</p>
     }
 
     <forge-button
@@ -40,10 +50,10 @@
       variant="filled"
       type="submit"
       [disabled]="form.invalid"
-      [loading]="submitting"
+      [loading]="submitting()"
       testid="sign-in-submit"
     >
-      {{ submitting ? 'Signing in…' : 'Sign in' }}
+      {{ submitting() ? 'Signing in…' : 'Sign in' }}
     </forge-button>
   </form>
 </forge-card>
