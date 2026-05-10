@@ -17,7 +17,7 @@ Conventions:
 
 ## Phase BI1.1 — Migration foundation, sessions CRUD, auth completeness
 
-### BT-001 — Initial EF migration replacing `EnsureCreated`
+### BT-001 — Initial EF migration replacing `EnsureCreated` ✅ done
 
 - **Requirements:** L2-001..L2-002, L2-031..L2-038, L2-049 (migration baseline).
 - **Slice:**

@@ -10,6 +10,10 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<WorkoutSession> WorkoutSessions => Set<WorkoutSession>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<SignInAttempt> SignInAttempts => Set<SignInAttempt>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +35,42 @@ public class AppDbContext : DbContext, IAppDbContext
             b.Property(s => s.DistanceMiles).HasPrecision(6, 2);
             b.Property(s => s.Notes).HasMaxLength(2000);
             b.HasIndex(s => new { s.UserId, s.StartedAt });
+        });
+
+        modelBuilder.Entity<RefreshToken>(b =>
+        {
+            b.HasKey(t => t.Id);
+            b.Property(t => t.TokenHash).HasMaxLength(128).IsRequired();
+            b.HasIndex(t => t.TokenHash).IsUnique();
+            b.HasIndex(t => t.FamilyId);
+            b.HasIndex(t => t.UserId);
+        });
+
+        modelBuilder.Entity<SignInAttempt>(b =>
+        {
+            b.HasKey(a => a.Id);
+            b.Property(a => a.Email).HasMaxLength(254).IsRequired();
+            b.Property(a => a.IpAddress).HasMaxLength(64);
+            b.Property(a => a.UserAgent).HasMaxLength(512);
+            b.HasIndex(a => new { a.Email, a.OccurredAt });
+        });
+
+        modelBuilder.Entity<AuditLog>(b =>
+        {
+            b.HasKey(a => a.Id);
+            b.Property(a => a.Event).HasMaxLength(64).IsRequired();
+            b.Property(a => a.IpAddress).HasMaxLength(64);
+            b.Property(a => a.UserAgent).HasMaxLength(512);
+            b.HasIndex(a => new { a.UserId, a.OccurredAt });
+            b.HasIndex(a => a.Event);
+        });
+
+        modelBuilder.Entity<PasswordResetToken>(b =>
+        {
+            b.HasKey(t => t.Id);
+            b.Property(t => t.TokenHash).HasMaxLength(128).IsRequired();
+            b.HasIndex(t => t.TokenHash).IsUnique();
+            b.HasIndex(t => t.UserId);
         });
     }
 }
