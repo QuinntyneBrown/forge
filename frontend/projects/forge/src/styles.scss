@@ -31,6 +31,15 @@ html {
   --md-sys-color-primary-container: #9ff2dd;
   --md-sys-color-on-primary-container: #00211b;
 
+  /* Material 3 system tokens — override the values mat.theme(...) emits
+     from the spring-green palette so every Angular Material surface
+     paints in the Forge Fit teal #106b5c instead of the palette's
+     #006d33 (which renders ~44 RGB-distance away from the mock). */
+  --mat-sys-primary: #106b5c;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #9ff2dd;
+  --mat-sys-on-primary-container: #00211b;
+
   --md-sys-color-secondary: #b8531a;
   --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-secondary-container: #ffdbc8;
