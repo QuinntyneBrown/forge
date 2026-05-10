@@ -104,7 +104,7 @@ Conventions:
 - **Acceptance test:** 5 failed sign-ins in a row → 6th returns `429` even with the correct password. Advance the `FakeClock` (BT-006a) by 16 minutes, correct password works again.
 - **Guidance:** Authentication, Backend.
 
-### BT-008 — Security audit log
+### BT-008 — Security audit log ✅ done
 
 - **Requirements:** L2-035, L2-043 (related logging concern).
 - **Slice:**

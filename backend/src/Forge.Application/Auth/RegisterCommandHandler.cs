@@ -12,19 +12,22 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResul
     private readonly IJwtTokenIssuer _tokens;
     private readonly IRefreshTokenStore _refreshTokens;
     private readonly IClock _clock;
+    private readonly IAuditLogger _audit;
 
     public RegisterCommandHandler(
         IAppDbContext db,
         IPasswordHasher hasher,
         IJwtTokenIssuer tokens,
         IRefreshTokenStore refreshTokens,
-        IClock clock)
+        IClock clock,
+        IAuditLogger audit)
     {
         _db = db;
         _hasher = hasher;
         _tokens = tokens;
         _refreshTokens = refreshTokens;
         _clock = clock;
+        _audit = audit;
     }
 
     public async Task<AuthResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -53,6 +56,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResul
 
         var accessToken = _tokens.Issue(user);
         var refresh = await _refreshTokens.IssueAsync(user.Id, familyId: null, cancellationToken);
+        await _audit.WriteAsync("register.success", user.Id, new { user.Email }, cancellationToken);
         return new AuthResult(accessToken, refresh.RawToken, user.Id, user.Email, user.Role);
     }
 }
