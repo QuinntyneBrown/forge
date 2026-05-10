@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IRefreshTokenStore, RefreshTokenStore>();
         services.AddScoped<IAuditLogger, AuditLogger>();
         services.AddScoped<ISignInThrottle, SignInThrottle>();
+        services.AddScoped<IPasswordResetEmailSender, Deferred.LoggingPasswordResetEmailSender>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, HttpContextCurrentUser>();

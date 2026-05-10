@@ -50,7 +50,7 @@ Conventions:
 - **Acceptance test:** sign in, sign out, attempt to refresh → `401`.
 - **Guidance:** Authentication.
 
-### BT-004 — Password reset request (no-op email)
+### BT-004 — Password reset request (no-op email) ✅ done
 
 - **Requirements:** L2-004 (request leg).
 - **Slice:**

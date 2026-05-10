@@ -48,4 +48,14 @@ public class AuthController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return NoContent();
     }
+
+    [HttpPost("password-reset/request")]
+    public async Task<IActionResult> RequestPasswordReset(
+        [FromBody] RequestPasswordResetRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new RequestPasswordResetCommand(request.Email);
+        await _mediator.Send(command, cancellationToken);
+        return Accepted();
+    }
 }
