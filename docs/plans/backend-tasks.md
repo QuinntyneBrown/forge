@@ -143,7 +143,7 @@ Conventions:
 - **Acceptance test:** duplicate a session; new row appears with today's date and unchanged equipment/duration; ledger has fresh +base rows for the duplicate.
 - **Guidance:** Backend.
 
-### BT-012 — Delete session with point refund
+### BT-012 — Delete session with point refund ✅ done
 
 - **Requirements:** L2-009 (delete leg).
 - **Slice:**
@@ -264,7 +264,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** seed 7 consecutive days of 22-min sessions in the user's local time zone (`FakeClock` advances per day); the 7th session writes `+44`, `+25`-or-not, `+6 (Streak multiplier ×1.07)`. Skip a day; the next session resets to multiplier 1.00.
 - **Guidance:** Backend.
 
-### BT-025 — Refunds on update / delete
+### BT-025 — Refunds on update / delete ✅ done
 
 - **Requirements:** L2-009, L2-018..L2-020 (refund leg).
 - **Slice:**

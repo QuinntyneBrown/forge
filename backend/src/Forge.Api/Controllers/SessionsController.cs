@@ -48,6 +48,13 @@ public class SessionsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteSessionCommand(id), cancellationToken);
+        return NoContent();
+    }
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         Guid id,
