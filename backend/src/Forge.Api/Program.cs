@@ -31,6 +31,20 @@ builder.Services
         };
     });
 
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>()
+    ?? new[] { "http://localhost:4200", "https://localhost:4200" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("web", policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
+});
+
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -53,6 +67,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("web");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

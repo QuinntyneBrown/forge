@@ -1,0 +1,10 @@
+<section class="card">
+  @if (title) {
+    <header class="card__header">
+      <h2 class="card__title">{{ title }}</h2>
+    </header>
+  }
+  <div class="card__body">
+    <ng-content></ng-content>
+  </div>
+</section>

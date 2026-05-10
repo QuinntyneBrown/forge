@@ -1,0 +1,67 @@
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sign-in-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sign-in-form__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  letter-spacing: 0.02em;
+}
+
+.sign-in-form__input {
+  padding: 14px 14px;
+  border: 1px solid var(--md-sys-color-outline, #6f7975);
+  border-radius: 8px;
+  background: var(--md-sys-color-surface-container-lowest, #fff);
+  color: var(--md-sys-color-on-surface, #161d1b);
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: var(--md-sys-color-primary, #106b5c);
+    border-width: 2px;
+    padding: 13px 13px;
+  }
+}
+
+.sign-in-form__error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--md-sys-color-error, #ba1a1a);
+}
+
+.sign-in-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 999px;
+  background: var(--md-sys-color-primary, #106b5c);
+  color: var(--md-sys-color-on-primary, #fff);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}

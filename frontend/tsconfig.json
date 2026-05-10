@@ -5,13 +5,13 @@
   "compilerOptions": {
     "paths": {
       "api": [
-        "./dist/api"
+        "./projects/api/src/public-api.ts"
       ],
       "components": [
-        "./dist/components"
+        "./projects/components/src/public-api.ts"
       ],
       "domain": [
-        "./dist/domain"
+        "./projects/domain/src/public-api.ts"
       ]
     },
     "strict": true,

@@ -1,0 +1,72 @@
+.sign-in-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-in-page__hero {
+  padding: 32px 20px 40px;
+  color: #fff;
+  background: radial-gradient(120% 80% at 80% 0%, #1b7a6a 0%, #0e5a4d 50%, #063a30 100%);
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+}
+
+.sign-in-page__brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+  font-weight: 800;
+}
+
+.sign-in-page__title {
+  margin: 24px 0 6px;
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+.sign-in-page__subtitle {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+  max-width: 460px;
+}
+
+.sign-in-page__card {
+  margin: -20px 16px 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .sign-in-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sign-in-page__hero {
+    padding: 64px 48px;
+    border-radius: 0;
+  }
+
+  .sign-in-page__title {
+    font-size: 44px;
+  }
+
+  .sign-in-page__card {
+    margin: 0;
+    padding: 64px 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sign-in-page__card forge-sign-in-form {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
