@@ -152,7 +152,7 @@ Conventions:
 - **Acceptance test:** create a 22-min treadmill session (+44 base points). Delete it. Assert balance is back to pre-session value.
 - **Guidance:** Backend.
 
-### BT-013 — List equipment
+### BT-013 — List equipment ✅ done
 
 - **Requirements:** L2-010.
 - **Slice:**
