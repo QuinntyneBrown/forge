@@ -134,7 +134,12 @@
     <div class="workout-list__rows" data-testid="workout-list-rows">
       @for (group of dayGroups(); track group.key) {
         <div class="workout-list__day" data-testid="workout-list-day-group">
-          <h3 class="workout-list__day-label">{{ group.label }}</h3>
+          <h3
+            class="workout-list__day-label"
+            data-testid="workout-list-day-group-label"
+          >
+            {{ group.label }}
+          </h3>
           <ul class="workout-list__day-rows">
             @for (session of group.sessions; track session.id) {
               <li class="workout-list__row">
@@ -148,26 +153,57 @@
                     class="workout-list__row-icon"
                     [class]="'workout-list__row-icon ' + tintFor(session.equipment)"
                     data-testid="workout-list-row-icon"
-                    aria-hidden="true"
+                    role="img"
+                    [attr.aria-label]="labelFor(session.equipment)"
                   >
-                    <span class="material-icons">{{ iconFor(session.equipment) }}</span>
+                    <span class="material-icons" aria-hidden="true">{{ iconFor(session.equipment) }}</span>
                   </span>
                   <span class="workout-list__row-main">
-                    <span class="workout-list__row-equipment">{{ session.equipment }}</span>
+                    <span class="workout-list__row-equipment">{{ labelFor(session.equipment) }}</span>
                     <span class="workout-list__row-meta" data-testid="workout-list-row-meta">
-                      <span class="workout-list__row-meta-item">
+                      <span
+                        class="workout-list__row-meta-item"
+                        data-testid="workout-list-row-meta-duration"
+                      >
                         <span class="material-icons" aria-hidden="true">timer</span>
                         {{ session.durationMinutes }} min
                       </span>
-                      <span class="workout-list__row-meta-item">
+                      <span
+                        class="workout-list__row-meta-item"
+                        data-testid="workout-list-row-meta-calories"
+                      >
                         <span class="material-icons" aria-hidden="true">local_fire_department</span>
                         {{ session.activeCalories }} cal
                       </span>
+                      @if (session.distanceMiles != null) {
+                        <span
+                          class="workout-list__row-meta-item"
+                          data-testid="workout-list-row-meta-distance"
+                        >
+                          <span class="material-icons" aria-hidden="true">straighten</span>
+                          {{ session.distanceMiles }} mi
+                        </span>
+                      }
+                      @if (session.avgHeartRateBpm != null) {
+                        <span
+                          class="workout-list__row-meta-item"
+                          data-testid="workout-list-row-meta-hr"
+                        >
+                          <span class="material-icons" aria-hidden="true">favorite</span>
+                          {{ session.avgHeartRateBpm }} bpm
+                        </span>
+                      }
                     </span>
                   </span>
                   <span class="workout-list__row-stack" data-testid="workout-list-row-points">
-                    <span class="workout-list__row-points">+{{ pointsFor(session) }}</span>
-                    <span class="workout-list__row-time">{{ timeOfDay(session) }}</span>
+                    <span
+                      class="workout-list__row-points"
+                      data-testid="workout-list-row-points-value"
+                    >+{{ pointsFor(session) }} pts</span>
+                    <span
+                      class="workout-list__row-time"
+                      data-testid="workout-list-row-time"
+                    >{{ timeOfDay(session) }}</span>
                   </span>
                 </button>
               </li>

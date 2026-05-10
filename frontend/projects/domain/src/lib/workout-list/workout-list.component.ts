@@ -51,6 +51,13 @@ const EQUIPMENT_TINT: Record<string, string> = {
   Elliptical: 'workout-list__row-icon--blue'
 };
 
+const EQUIPMENT_LABEL: Record<string, string> = {
+  Treadmill: 'Treadmill',
+  IndoorBike: 'Indoor bike',
+  BenchPress: 'Bench press',
+  Elliptical: 'Elliptical'
+};
+
 @Component({
   selector: 'forge-workout-list',
   imports: [
@@ -176,6 +183,10 @@ export class WorkoutListComponent implements OnInit {
 
   protected tintFor(equipment: string): string {
     return EQUIPMENT_TINT[equipment] ?? 'workout-list__row-icon--green';
+  }
+
+  protected labelFor(equipment: string): string {
+    return EQUIPMENT_LABEL[equipment] ?? equipment;
   }
 
   protected pointsFor(s: Session): number {
