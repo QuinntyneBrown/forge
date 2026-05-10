@@ -290,7 +290,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** redeem with sufficient balance → 200, balance decreases by cost, redemption row created. Redeem with insufficient balance → 400 `INSUFFICIENT_POINTS`, no balance change.
 - **Guidance:** Backend, Validation (custom error code).
 
-### BT-028 — Get current tier
+### BT-028 — Get current tier ✅ done
 
 - **Requirements:** L2-022.
 - **Slice:**

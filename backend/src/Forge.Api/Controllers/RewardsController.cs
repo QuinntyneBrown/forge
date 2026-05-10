@@ -30,4 +30,11 @@ public class RewardsController : ControllerBase
         var result = await _mediator.Send(new RedeemRewardCommand(id), cancellationToken);
         return Ok(result);
     }
+
+    [HttpGet("/api/tier")]
+    public async Task<ActionResult<TierDto>> Tier(CancellationToken cancellationToken)
+    {
+        var tier = await _mediator.Send(new GetCurrentTierQuery(), cancellationToken);
+        return Ok(tier);
+    }
 }
