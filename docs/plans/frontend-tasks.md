@@ -78,7 +78,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-031.
 - **Guidance:** Frontend.
 
-### FT-007 — `ChipComponent` wrapping `<mat-chip>` inside `<mat-chip-listbox>`
+### FT-007 — `ChipComponent` wrapping `<mat-chip>` inside `<mat-chip-listbox>` ✅ done
 
 - **Requirements:** L2-008.
 - **Slice:**
