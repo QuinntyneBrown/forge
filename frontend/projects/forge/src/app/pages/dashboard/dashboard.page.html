@@ -32,7 +32,7 @@
             data-testid="dashboard-hero-start-workout"
             (click)="logWorkout()"
           >
-            <span class="material-symbols-rounded" aria-hidden="true">play_arrow</span>
+            <span class="material-icons" aria-hidden="true">play_arrow</span>
             Start morning workout
           </button>
           <button
@@ -41,7 +41,7 @@
             data-testid="dashboard-hero-view-sessions"
             (click)="viewTodaysSessions()"
           >
-            <span class="material-symbols-rounded" aria-hidden="true">history</span>
+            <span class="material-icons" aria-hidden="true">history</span>
             View today's sessions
           </button>
         </div>
@@ -83,7 +83,7 @@
                 [class.dashboard__badge-medal--gold]="badge.tint === 'gold'"
                 [class.dashboard__badge-medal--teal]="badge.tint === 'teal'"
               >
-                <span class="material-symbols-rounded" aria-hidden="true">{{ badge.icon }}</span>
+                <span class="material-icons" aria-hidden="true">{{ badge.icon }}</span>
               </div>
               <p class="dashboard__badge-title">{{ badge.title }}</p>
               <p class="dashboard__badge-sub">{{ badge.sub }}</p>
@@ -107,14 +107,14 @@
         <p class="dashboard__card-sub">{{ eatingWindowSub() }}</p>
         <div class="dashboard__window">
           <div class="dashboard__window-icon">
-            <span class="material-symbols-rounded" aria-hidden="true">nights_stay</span>
+            <span class="material-icons" aria-hidden="true">nights_stay</span>
           </div>
           <div class="dashboard__window-info">
             <p class="dashboard__window-range">{{ eatingWindowRange() }}</p>
             <p class="dashboard__window-meta">Kitchen-closed window</p>
           </div>
           <span class="dashboard__window-chip">
-            <span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+            <span class="material-icons" aria-hidden="true">check_circle</span>
             On track
           </span>
         </div>
@@ -145,7 +145,7 @@
                   class="dashboard__session-icon"
                   [class.dashboard__session-icon--amber]="s.tint === 'amber'"
                 >
-                  <span class="material-symbols-rounded" aria-hidden="true">{{ s.icon }}</span>
+                  <span class="material-icons" aria-hidden="true">{{ s.icon }}</span>
                 </div>
                 <div class="dashboard__session-main">
                   <p class="dashboard__session-title">{{ s.title }}</p>
