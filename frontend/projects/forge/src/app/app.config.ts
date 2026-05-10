@@ -24,7 +24,9 @@ import {
   LEADERBOARD_SERVICE,
   LeaderboardService,
   SESSIONS_SERVICE,
-  SessionsService
+  SessionsService,
+  EQUIPMENT_SERVICE,
+  EquipmentService
 } from 'api';
 import { AuthStateService } from './auth-state.service';
 import { authInterceptor } from './auth.interceptor';
@@ -46,6 +48,7 @@ export const appConfig: ApplicationConfig = {
     { provide: REWARDS_SERVICE, useClass: RewardsService },
     { provide: LEADERBOARD_SERVICE, useClass: LeaderboardService },
     { provide: SESSIONS_SERVICE, useClass: SessionsService },
+    { provide: EQUIPMENT_SERVICE, useClass: EquipmentService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };

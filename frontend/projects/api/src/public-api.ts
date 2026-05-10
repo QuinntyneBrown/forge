@@ -31,3 +31,6 @@ export * from './lib/models/create-session-request.model';
 export * from './lib/models/update-session-request.model';
 export * from './lib/sessions.service.contract';
 export * from './lib/sessions.service';
+export * from './lib/models/equipment-type.model';
+export * from './lib/equipment.service.contract';
+export * from './lib/equipment.service';

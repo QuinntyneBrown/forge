@@ -267,7 +267,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** verified inside FT-027/FT-028/FT-029.
 - **Guidance:** Frontend.
 
-### FT-026 — `EquipmentService` + contract
+### FT-026 — `EquipmentService` + contract ✅ done
 
 - **Requirements:** L2-010.
 - **Slice:**
