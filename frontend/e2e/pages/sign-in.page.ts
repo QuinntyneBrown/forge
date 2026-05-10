@@ -5,12 +5,18 @@ export class SignInPage {
   readonly passwordInput: Locator;
   readonly submitButton: Locator;
   readonly errorMessage: Locator;
+  readonly hero: Locator;
+  readonly formCard: Locator;
+  readonly pageRoot: Locator;
 
   constructor(private readonly page: Page) {
     this.emailInput = page.getByTestId('sign-in-email');
     this.passwordInput = page.getByTestId('sign-in-password');
     this.submitButton = page.getByTestId('sign-in-submit');
     this.errorMessage = page.getByTestId('sign-in-error');
+    this.hero = page.locator('.sign-in-page__hero');
+    this.formCard = page.locator('.sign-in-page__card');
+    this.pageRoot = page.locator('.sign-in-page');
   }
 
   async goto(): Promise<void> {
