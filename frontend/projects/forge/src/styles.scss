@@ -17,6 +17,15 @@ html {
 /* Forge Fit Material 3 design tokens */
 
 :root {
+  /* Pin Material's M3 system tokens to the Forge Fit palette so mat-flat
+     and friends paint the brand teal (otherwise mat.theme(...) emits
+     light-dark() values from the chosen palette which don't quite hit
+     #106b5c). */
+  --mat-sys-primary: #106b5c;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #9ff2dd;
+  --mat-sys-on-primary-container: #00211b;
+
   --md-sys-color-primary: #106b5c;
   --md-sys-color-on-primary: #ffffff;
   --md-sys-color-primary-container: #9ff2dd;
