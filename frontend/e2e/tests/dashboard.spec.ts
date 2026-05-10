@@ -7,8 +7,8 @@
 // ILeaderboardService.
 
 import { expect, test } from '@playwright/test';
-import { DashboardPage } from './pom/dashboard.page';
-import { SignInPage } from './pom/sign-in.page';
+import { DashboardPage } from '../pages/dashboard.page';
+import { SignInPage } from '../pages/sign-in.page';
 
 const API_BASE = 'https://localhost:5001';
 const PASSWORD = 'ForgeFit!2026';

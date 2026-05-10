@@ -7,8 +7,8 @@
 // BT-019 / BT-020) so the form omits them.
 
 import { expect, test } from '@playwright/test';
-import { ProfilePage } from './pom/profile.page';
-import { SignInPage } from './pom/sign-in.page';
+import { ProfilePage } from '../pages/profile.page';
+import { SignInPage } from '../pages/sign-in.page';
 
 const TEST_PASSWORD = 'ForgeFit!2026';
 const API_BASE = 'https://localhost:5001';

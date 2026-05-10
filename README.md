@@ -55,6 +55,8 @@ The frontend is an Angular workspace under `frontend/` with:
 - `projects/api` - backend models, tokens, and API services
 - `projects/components` - reusable presentational components
 - `projects/domain` - feature-oriented UI components built on the API layer
+- `e2e/tests` - Playwright end-to-end specs
+- `e2e/pages` - Playwright page objects and test helpers
 
 Routing currently covers:
 
@@ -68,8 +70,9 @@ Routing currently covers:
 
 ```text
 backend/   .NET solution, API, application, domain, infrastructure, tests
-frontend/  Angular workspace, app, libraries, Playwright tests
-docs/      Product brief, mocks, screenshots, plans, specs, QA notes
+frontend/  Angular workspace, app, libraries, Playwright E2E suite
+docs/      Product brief, specs, static mocks, and screenshots
+scripts/   Local startup and provisioning scripts
 ```
 
 ## Getting Started
@@ -140,14 +143,7 @@ npm run e2e
 
 ### Design mock workflow
 
-The root workspace also includes static product mocks and screenshot generation:
-
-```bash
-npm install
-npm run render-mocks
-```
-
-Open `docs/mocks/index.html` to review the current mock set.
+Static product mocks and generated screenshots live under `docs/mocks`. Open `docs/mocks/index.html` to review the current mock set.
 
 ## Quality and CI
 
@@ -162,7 +158,7 @@ Near-term work is focused on:
 
 - expanding the Angular UI to cover workouts, rewards, and leaderboard flows
 - continuing to connect the existing backend APIs to feature-complete frontend screens
-- hardening deployment and operational documentation under `docs/runbooks`
+- hardening deployment automation and operational documentation
 
 ## Contributing
 

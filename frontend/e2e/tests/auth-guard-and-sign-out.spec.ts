@@ -8,8 +8,8 @@
 // the in-memory session, and routes back to /sign-in.
 
 import { expect, test } from '@playwright/test';
-import { DashboardPage } from './pom/dashboard.page';
-import { SignInPage } from './pom/sign-in.page';
+import { DashboardPage } from '../pages/dashboard.page';
+import { SignInPage } from '../pages/sign-in.page';
 
 const TEST_PASSWORD = 'ForgeFit!2026';
 const API_BASE = 'https://localhost:5001';

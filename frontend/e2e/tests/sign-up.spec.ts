@@ -5,8 +5,8 @@
 // Exercises FT-012 (SignUpFormComponent) end to end against the live backend.
 
 import { expect, test } from '@playwright/test';
-import { DashboardPage } from './pom/dashboard.page';
-import { SignUpPage } from './pom/sign-up.page';
+import { DashboardPage } from '../pages/dashboard.page';
+import { SignUpPage } from '../pages/sign-up.page';
 
 test('signs up a new account and lands on the dashboard', async ({ page }) => {
   const email = `signup-${Date.now()}@forgefit.app`;

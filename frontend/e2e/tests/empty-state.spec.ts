@@ -5,7 +5,7 @@
 // renders NotFoundPage.
 
 import { expect, test } from '@playwright/test';
-import { SignInPage } from './pom/sign-in.page';
+import { SignInPage } from '../pages/sign-in.page';
 
 const API_BASE = 'https://localhost:5001';
 const PASSWORD = 'ForgeFit!2026';

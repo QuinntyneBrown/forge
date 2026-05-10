@@ -12,8 +12,8 @@
 // health badge moves to /error-state per FT-033.
 
 import { expect, test } from '@playwright/test';
-import { DashboardPage } from './pom/dashboard.page';
-import { SignInPage } from './pom/sign-in.page';
+import { DashboardPage } from '../pages/dashboard.page';
+import { SignInPage } from '../pages/sign-in.page';
 
 const TEST_EMAIL = `mf1-${Date.now()}@forgefit.app`;
 const TEST_PASSWORD = 'ForgeFit!2026';
