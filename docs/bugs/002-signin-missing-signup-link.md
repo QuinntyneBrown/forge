@@ -1,5 +1,8 @@
 # Bug 002: No link on sign-in page to sign up
 
+## Status
+Complete
+
 ## Severity
 Medium
 
