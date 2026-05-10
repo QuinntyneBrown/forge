@@ -1,6 +1,6 @@
-import { Component, computed, Inject, inject } from '@angular/core';
+import { Component, Inject, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AUTH_SERVICE, IAuthService } from 'api';
+import { AUTH_SERVICE, CurrentUser, IAuthService, IMeService, ME_SERVICE } from 'api';
 import { AppShellComponent, NavDestination } from 'components';
 import { HealthBadgeComponent } from 'domain';
 import { AuthStateService } from '../../auth-state.service';
@@ -18,15 +18,34 @@ const PRIMARY_DESTINATIONS: NavDestination[] = [
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss'
 })
-export class DashboardPage {
+export class DashboardPage implements OnInit {
   private readonly auth = inject(AuthStateService);
   private readonly router = inject(Router);
 
   protected readonly destinations = PRIMARY_DESTINATIONS;
-  protected readonly email = computed(() => this.auth.snapshot()?.email ?? 'unknown');
-  protected readonly role = computed(() => this.auth.snapshot()?.role ?? 'unknown');
+  protected readonly currentUser = signal<CurrentUser | null>(null);
+  protected readonly email = computed(
+    () => this.currentUser()?.email ?? this.auth.snapshot()?.email ?? 'unknown'
+  );
+  protected readonly role = computed(
+    () => this.currentUser()?.role ?? this.auth.snapshot()?.role ?? 'unknown'
+  );
 
-  constructor(@Inject(AUTH_SERVICE) private readonly authApi: IAuthService) {}
+  constructor(
+    @Inject(AUTH_SERVICE) private readonly authApi: IAuthService,
+    @Inject(ME_SERVICE) private readonly meApi: IMeService
+  ) {}
+
+  ngOnInit(): void {
+    this.meApi.getMe().subscribe({
+      next: (user) => this.currentUser.set(user),
+      error: () => {
+        // Auth interceptor handles 401 (refresh+retry or sign-out). Anything
+        // else falls back silently to AuthStateService snapshot via the
+        // computed defaults so the dashboard isn't blank on transient errors.
+      }
+    });
+  }
 
   protected signOut(): void {
     const refreshToken = this.auth.refreshToken;

@@ -166,7 +166,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/sign-in-remember-me.spec.ts` — sign in with Remember me checked, close + reopen the browser context (Playwright `storageState`), verify session resumes on `/dashboard` without re-prompt. Sign in with Remember me unchecked → fresh context shows `/sign-in`.
 - **Guidance:** Authentication, Frontend.
 
-### FT-016 — `MeService` (read leg + delete account)
+### FT-016 — `MeService` (read leg + delete account) ✅ done
 
 - **Requirements:** L2-005 (read), L2-006.
 - **Slice:**

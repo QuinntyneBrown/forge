@@ -12,7 +12,9 @@ import {
   AUTH_SERVICE,
   AuthService,
   HEALTH_SERVICE,
-  HealthService
+  HealthService,
+  ME_SERVICE,
+  MeService
 } from 'api';
 import { AuthStateService } from './auth-state.service';
 import { authInterceptor } from './auth.interceptor';
@@ -28,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     { provide: API_BASE_URL, useValue: 'https://localhost:5001' },
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: HEALTH_SERVICE, useClass: HealthService },
+    { provide: ME_SERVICE, useClass: MeService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };
