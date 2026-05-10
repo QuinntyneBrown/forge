@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
-  AUTH_SERVICE,
   CurrentUser,
-  IAuthService,
   IMeService,
   ISessionsService,
   ME_SERVICE,
@@ -213,7 +211,6 @@ export class DashboardPage implements OnInit {
   protected readonly pointsTotal = signal<number>(2840);
 
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authApi: IAuthService,
     @Inject(ME_SERVICE) private readonly meApi: IMeService,
     @Inject(SESSIONS_SERVICE) private readonly sessionsApi: ISessionsService
   ) {}
@@ -235,24 +232,6 @@ export class DashboardPage implements OnInit {
 
   protected viewTodaysSessions(): void {
     this.router.navigate(['/workouts']);
-  }
-
-  protected signOut(): void {
-    const refreshToken = this.auth.refreshToken;
-    const finalize = (): void => {
-      this.auth.clear();
-      this.router.navigate(['/sign-in']);
-    };
-
-    if (!refreshToken) {
-      finalize();
-      return;
-    }
-
-    this.authApi.signOut(refreshToken).subscribe({
-      next: () => finalize(),
-      error: () => finalize()
-    });
   }
 
   private toDashboardSession(s: Session): DashboardSession {

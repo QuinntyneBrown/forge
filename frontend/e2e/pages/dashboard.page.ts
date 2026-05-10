@@ -2,7 +2,6 @@ import { Locator, Page } from '@playwright/test';
 
 export class DashboardPage {
   readonly greeting: Locator;
-  readonly signOutButton: Locator;
   readonly dailyRingCard: Locator;
   readonly dailyRingValue: Locator;
   readonly dailyRingMinutes: Locator;
@@ -35,7 +34,6 @@ export class DashboardPage {
 
   constructor(private readonly page: Page) {
     this.greeting = page.getByTestId('dashboard-greeting');
-    this.signOutButton = page.getByTestId('sign-out');
 
     this.dailyRingCard = page.getByTestId('daily-ring-card');
     this.dailyRingValue = page.getByTestId('daily-ring-card-value');
