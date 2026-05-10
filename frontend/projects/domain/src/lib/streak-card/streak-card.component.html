@@ -1,0 +1,11 @@
+<forge-card class="streak-card" testid="streak-card">
+  <div class="streak-card__inner">
+    <div class="streak-card__count">
+      <span class="streak-card__count-value" data-testid="streak-card-days">{{ streakDays() }}</span>
+      <span class="streak-card__count-label">day streak</span>
+    </div>
+    <forge-badge [variant]="badgeVariant()" testid="streak-card-multiplier">
+      {{ multiplierLabel() }}
+    </forge-badge>
+  </div>
+</forge-card>

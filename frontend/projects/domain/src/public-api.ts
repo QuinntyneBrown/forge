@@ -9,3 +9,4 @@ export * from './lib/password-reset-confirm-form/password-reset-confirm-form.com
 export * from './lib/profile-form/profile-form.component';
 export * from './lib/health-badge/health-badge.component';
 export * from './lib/daily-ring-card/daily-ring-card.component';
+export * from './lib/streak-card/streak-card.component';
