@@ -1,7 +1,8 @@
 .rewards {
+  /* Bottom inset is applied at the app-shell level (bug 015). */
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 0 96px;
+  padding: 0;
 }
 
 .rewards__hero {
@@ -137,6 +138,182 @@
   border-radius: 12px;
   background: var(--md-sys-color-surface-container-lowest, #fff);
   border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+}
+
+/* Achievement medals grid */
+.rewards__achievements {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rewards__achievement {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--md-sys-color-surface-container-lowest, #fff);
+  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.rewards__achievement-medal {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+
+  .material-icons {
+    font-size: 28px;
+  }
+}
+
+.rewards__achievement-medal--gold {
+  background: #ffe7b0;
+  color: #5a3a00;
+}
+
+.rewards__achievement-medal--teal {
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+}
+
+.rewards__achievement-medal--blue {
+  background: #c3e8ff;
+  color: #001e2c;
+}
+
+.rewards__achievement-medal--orange {
+  background: var(--md-sys-color-secondary-container, #ffdbc8);
+  color: var(--md-sys-color-on-secondary-container, #341000);
+}
+
+.rewards__achievement-count {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--md-sys-color-secondary, #b8531a);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-surface-container-lowest, #fff);
+}
+
+.rewards__achievement-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.rewards__achievement-sub {
+  margin: 0;
+  font-size: 11px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+/* In-flight progress rows */
+.rewards__in-flight {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rewards__progress {
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-container-lowest, #fff);
+  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+}
+
+.rewards__progress-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.rewards__progress-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+
+  .material-icons {
+    font-size: 22px;
+  }
+}
+
+.rewards__progress-icon--orange {
+  background: var(--md-sys-color-secondary-container, #ffdbc8);
+  color: var(--md-sys-color-on-secondary-container, #341000);
+}
+
+.rewards__progress-icon--blue {
+  background: #c3e8ff;
+  color: #001e2c;
+}
+
+.rewards__progress-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.rewards__progress-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #161d1b);
+}
+
+.rewards__progress-sub {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.rewards__progress-counter {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--md-sys-color-primary, #106b5c);
+  flex-shrink: 0;
+}
+
+.rewards__progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--md-sys-color-surface-container-high, #e2e9e6);
+  overflow: hidden;
+}
+
+.rewards__progress-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--md-sys-color-primary, #106b5c), #1b7a6a);
+}
+
+@media (min-width: 768px) {
+  .rewards__achievements {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .rewards__achievements {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1100px) {

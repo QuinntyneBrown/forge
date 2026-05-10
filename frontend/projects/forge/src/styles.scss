@@ -55,6 +55,11 @@ html {
   --shape-lg: 16px;
   --shape-xl: 28px;
   --shape-full: 999px;
+
+  /* Reserved bottom inset so the fixed/sticky mobile bottom-nav never
+     covers the last piece of page content. Matches the bottom-nav
+     min-height (64px) plus the device safe-area inset. Bug 015. */
+  --bottom-nav-safe-area: calc(64px + env(safe-area-inset-bottom, 0px));
 }
 
 body {

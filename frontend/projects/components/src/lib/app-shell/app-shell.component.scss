@@ -91,6 +91,15 @@
   overflow: auto;
 }
 
+/* Bug 015: when the bottom-nav variant is active (mobile + tablet,
+   <992px), reserve --bottom-nav-safe-area at the bottom of the main
+   scroll container so individual pages don't have to remember to add
+   `padding-bottom: 96px` themselves. Falls back to 64px when the token
+   is undefined. */
+.app-shell__main--with-bottom-nav {
+  padding-bottom: var(--bottom-nav-safe-area, 64px);
+}
+
 .app-shell__bottom {
   flex: 0 0 auto;
 }

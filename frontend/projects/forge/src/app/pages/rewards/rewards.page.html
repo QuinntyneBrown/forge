@@ -25,15 +25,58 @@
       <section class="rewards__section" data-testid="rewards-achievements-section">
         <h3 class="rewards__section-title">Recent achievements</h3>
         <div class="rewards__achievements">
-          <forge-tier-card></forge-tier-card>
+          @for (a of achievements; track a.title) {
+            <div class="rewards__achievement" data-testid="rewards-achievement-medal">
+              <div
+                class="rewards__achievement-medal"
+                [class]="'rewards__achievement-medal rewards__achievement-medal--' + a.tone"
+                data-testid="rewards-achievement-medal-icon"
+              >
+                <span class="material-icons" aria-hidden="true">{{ a.icon }}</span>
+                @if (a.count) {
+                  <span class="rewards__achievement-count">×{{ a.count }}</span>
+                }
+              </div>
+              <p
+                class="rewards__achievement-title"
+                data-testid="rewards-achievement-medal-title"
+              >{{ a.title }}</p>
+              <p class="rewards__achievement-sub">{{ a.sub }}</p>
+            </div>
+          }
         </div>
       </section>
 
       <section class="rewards__section" data-testid="rewards-in-flight-section">
         <h3 class="rewards__section-title">In-flight</h3>
-        <p class="rewards__section-empty">
-          Track your in-flight goals here. Progress updates as you log workouts.
-        </p>
+        <div class="rewards__in-flight">
+          @for (p of inFlight; track p.title) {
+            <div class="rewards__progress" data-testid="rewards-in-flight-row">
+              <div class="rewards__progress-top">
+                <div
+                  class="rewards__progress-icon"
+                  [class]="'rewards__progress-icon rewards__progress-icon--' + p.tone"
+                >
+                  <span class="material-icons" aria-hidden="true">{{ p.icon }}</span>
+                </div>
+                <div class="rewards__progress-main">
+                  <p class="rewards__progress-title">{{ p.title }}</p>
+                  <p class="rewards__progress-sub">{{ p.sub }}</p>
+                </div>
+                <span
+                  class="rewards__progress-counter"
+                  data-testid="rewards-in-flight-counter"
+                >{{ p.current }} / {{ p.target }}</span>
+              </div>
+              <div class="rewards__progress-bar" data-testid="rewards-in-flight-bar">
+                <span
+                  class="rewards__progress-bar-fill"
+                  [style.width.%]="(p.current / p.target) * 100"
+                ></span>
+              </div>
+            </div>
+          }
+        </div>
       </section>
 
       <section class="rewards__section rewards__section--full" data-testid="rewards-redeem-section">

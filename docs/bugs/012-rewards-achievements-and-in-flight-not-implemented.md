@@ -1,7 +1,7 @@
 # Bug 012: Rewards "Recent achievements" is a single text card and "In-flight" is a placeholder
 
 ## Status
-Open
+Complete
 
 ## Severity
 High

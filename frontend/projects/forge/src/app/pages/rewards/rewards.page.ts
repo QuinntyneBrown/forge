@@ -52,6 +52,25 @@ export class RewardsPage implements OnInit {
     return Math.min(100, Math.max(0, Math.round((balance / total) * 100)));
   });
 
+  // Static catalog mirrors docs/mocks/rewards.html. The backend doesn't yet
+  // expose user achievements / in-flight goals, so the page renders the mock
+  // copy as a structural scaffold ready for real data.
+  protected readonly achievements = [
+    { tone: 'gold', icon: 'wb_sunny', count: 7, title: 'Morning Warrior', sub: 'Workout before 7 AM' },
+    { tone: 'teal', icon: 'local_fire_department', count: 3, title: '1500-Cal Club', sub: 'Hit daily calorie goal' },
+    { tone: 'blue', icon: 'nightlight', count: 5, title: 'Night Resister', sub: 'No food after 8 PM' },
+    { tone: 'orange', icon: 'emoji_events', count: 1, title: 'Iron Week', sub: 'All 4 machines this week' },
+    { tone: 'teal', icon: 'timer', count: null as number | null, title: '300-Min Week', sub: '5 hours moved' },
+    { tone: 'gold', icon: 'monitor_weight', count: null, title: 'First 5 lb Down', sub: 'Trend confirmed' }
+  ];
+
+  protected readonly inFlight = [
+    { tone: 'teal', icon: 'wb_sunny', title: 'Morning Warrior x10', sub: '10 morning workouts in 14 days', current: 7, target: 10 },
+    { tone: 'orange', icon: 'monitor_weight', title: '-20 lb May', sub: 'Monthly weight goal — trend confirmed', current: 5.2, target: 20 },
+    { tone: 'blue', icon: 'nightlight', title: 'Night Resister x10', sub: '10 fasted nights in a row', current: 5, target: 10 },
+    { tone: 'teal', icon: 'local_fire_department', title: '1500-Cal Club ×7', sub: 'Hit 1,500 active cal seven days in a row', current: 3, target: 7 }
+  ];
+
   constructor(
     @Inject(DASHBOARD_SERVICE) private readonly dashboard: IDashboardService,
     @Inject(REWARDS_SERVICE) private readonly rewardsApi: IRewardsService

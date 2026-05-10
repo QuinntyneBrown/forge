@@ -32,7 +32,10 @@
     @if (showNavRail()) {
       <forge-nav-rail [destinations]="destinations" class="app-shell__rail"></forge-nav-rail>
     }
-    <main class="app-shell__main">
+    <main
+      class="app-shell__main"
+      [class.app-shell__main--with-bottom-nav]="showBottomNav()"
+    >
       <ng-content></ng-content>
     </main>
   </div>

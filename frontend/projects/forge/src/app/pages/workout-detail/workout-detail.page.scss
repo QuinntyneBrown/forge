@@ -1,5 +1,6 @@
 .workout-detail {
-  padding: 24px 20px 96px;
+  /* Bottom inset is applied at the app-shell level (bug 015). */
+  padding: 24px 20px 0;
   max-width: 720px;
   margin: 0 auto;
   display: flex;
