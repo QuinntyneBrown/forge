@@ -88,6 +88,17 @@ public class RefreshTokenStore : IRefreshTokenStore
         }
     }
 
+    public async Task RevokeByPresentedTokenAsync(string rawToken, CancellationToken cancellationToken)
+    {
+        var hash = ComputeHash(rawToken);
+        var token = await _db.RefreshTokens.FirstOrDefaultAsync(t => t.TokenHash == hash, cancellationToken);
+        if (token is null)
+        {
+            return;
+        }
+        await RevokeFamilyAsync(token.FamilyId, cancellationToken);
+    }
+
     private static string GenerateRawToken()
     {
         var bytes = RandomNumberGenerator.GetBytes(RawTokenBytes);

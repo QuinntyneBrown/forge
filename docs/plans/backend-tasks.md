@@ -41,7 +41,7 @@ Conventions:
 - **Acceptance test:** `RefreshTokenAcceptanceTest` — registers a user, exchanges the refresh token once (succeeds), replays the consumed refresh token (`401` and entire family revoked → next valid attempt also `401`).
 - **Guidance:** Authentication, Backend (CQS, IAppDbContext).
 
-### BT-003 — Sign-out
+### BT-003 — Sign-out ✅ done
 
 - **Requirements:** L2-003.
 - **Slice:**

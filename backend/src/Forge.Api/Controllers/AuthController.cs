@@ -1,5 +1,6 @@
 using Forge.Application.Auth;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forge.Api.Controllers;
@@ -37,5 +38,14 @@ public class AuthController : ControllerBase
         var command = new RefreshTokenCommand(request.RefreshToken);
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPost("sign-out")]
+    [Authorize]
+    public async Task<IActionResult> SignOut([FromBody] SignOutRequest request, CancellationToken cancellationToken)
+    {
+        var command = new SignOutCommand(request.RefreshToken);
+        await _mediator.Send(command, cancellationToken);
+        return NoContent();
     }
 }
