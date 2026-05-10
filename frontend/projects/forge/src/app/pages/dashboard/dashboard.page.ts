@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import {
   CurrentUser,
@@ -102,6 +103,7 @@ const SPARKLINE_BARS = [35, 55, 42, 78, 60, 88, 96];
 export class DashboardPage implements OnInit {
   private readonly auth = inject(AuthStateService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly destinations = PRIMARY_DESTINATIONS;
   protected readonly currentUser = signal<CurrentUser | null>(null);
@@ -216,14 +218,17 @@ export class DashboardPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.meApi.getMe().subscribe({
+    this.meApi.getMe().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (user) => this.currentUser.set(user),
       error: () => undefined
     });
-    this.sessionsApi.list({ range: 'today', page: 1, pageSize: 25 }).subscribe({
-      next: (page) => this.todaysSessions.set(page.items.map((s) => this.toDashboardSession(s))),
-      error: () => this.todaysSessions.set([])
-    });
+    this.sessionsApi
+      .list({ range: 'today', page: 1, pageSize: 25 })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (page) => this.todaysSessions.set(page.items.map((s) => this.toDashboardSession(s))),
+        error: () => this.todaysSessions.set([])
+      });
   }
 
   protected logWorkout(): void {

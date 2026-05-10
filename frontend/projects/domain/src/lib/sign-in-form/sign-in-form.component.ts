@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, Output, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Inject, Output, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
@@ -23,6 +24,7 @@ export class SignInFormComponent {
   protected readonly submitting = signal(false);
   protected readonly rememberMe = signal(false);
   protected readonly showPassword = signal(false);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected toggleShowPassword(): void {
     this.showPassword.update((v) => !v);
@@ -48,7 +50,7 @@ export class SignInFormComponent {
     }
     this.submitting.set(true);
     this.errorMessage.set(null);
-    this.auth.signIn(this.form.getRawValue()).subscribe({
+    this.auth.signIn(this.form.getRawValue()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.submitting.set(false);
         this.signedIn.emit({ result, rememberMe: this.rememberMe() });

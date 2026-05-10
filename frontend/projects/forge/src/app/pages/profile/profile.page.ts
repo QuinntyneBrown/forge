@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -38,6 +39,7 @@ export class ProfilePage implements OnInit {
   private readonly profileApi = inject<IProfileService>(PROFILE_SERVICE);
   private readonly rewardsApi = inject<IRewardsService>(REWARDS_SERVICE);
   private readonly authApi = inject<IAuthService>(AUTH_SERVICE);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly destinations = PRIMARY_DESTINATIONS;
   protected readonly currentUser = signal<CurrentUser | null>(null);
@@ -108,11 +110,11 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.meApi.getMe().subscribe({
+    this.meApi.getMe().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (user) => this.currentUser.set(user),
       error: () => undefined
     });
-    this.rewardsApi.getCurrentTier().subscribe({
+    this.rewardsApi.getCurrentTier().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (t) => this.tier.set(t),
       error: () => undefined
     });
@@ -159,7 +161,7 @@ export class ProfilePage implements OnInit {
     if (this.deleting()) return;
     this.deleting.set(true);
     this.deleteError.set(null);
-    this.meApi.deleteMe().subscribe({
+    this.meApi.deleteMe().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.deleting.set(false);
         this.confirmingDelete.set(false);
@@ -210,16 +212,18 @@ export class ProfilePage implements OnInit {
         nudgeEnabled: this.kitchenNudge()
       }),
       this.profileApi.setLeaderboardOptIn(this.leaderboard())
-    ]).subscribe({
-      next: () => {
-        this.saving.set(false);
-        this.saved.set(true);
-      },
-      error: (err) => {
-        this.saving.set(false);
-        this.saveError.set(err?.error?.title ?? 'Could not save changes.');
-      }
-    });
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.saving.set(false);
+          this.saved.set(true);
+        },
+        error: (err) => {
+          this.saving.set(false);
+          this.saveError.set(err?.error?.title ?? 'Could not save changes.');
+        }
+      });
   }
 
   protected onDeleted(): void {
@@ -237,7 +241,7 @@ export class ProfilePage implements OnInit {
       finalize();
       return;
     }
-    this.authApi.signOut(refreshToken).subscribe({
+    this.authApi.signOut(refreshToken).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => finalize(),
       error: () => finalize()
     });

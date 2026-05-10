@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, Output, computed, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Inject, Output, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +20,7 @@ export class SignUpFormComponent {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly submitting = signal(false);
   private readonly password;
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly passwordValue;
   protected readonly strengthScore;
@@ -81,7 +83,7 @@ export class SignUpFormComponent {
     this.submitting.set(true);
     this.errorMessage.set(null);
     const { firstName, lastName, email, password } = this.form.getRawValue();
-    this.auth.register({ firstName, lastName, email, password }).subscribe({
+    this.auth.register({ firstName, lastName, email, password }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.submitting.set(false);
         this.signedUp.emit(result);

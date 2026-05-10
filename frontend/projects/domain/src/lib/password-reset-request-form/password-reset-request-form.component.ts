@@ -1,4 +1,5 @@
-import { Component, Inject, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +16,7 @@ export class PasswordResetRequestFormComponent {
   protected readonly form;
   protected readonly submitted = signal(false);
   protected readonly submitting = signal(false);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -34,7 +36,7 @@ export class PasswordResetRequestFormComponent {
       return;
     }
     this.submitting.set(true);
-    this.auth.requestPasswordReset(this.form.controls.email.value).subscribe({
+    this.auth.requestPasswordReset(this.form.controls.email.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       // 202 always — same UX whether the email exists or not (L2-004 ac 1).
       next: () => {
         this.submitting.set(false);

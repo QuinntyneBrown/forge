@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, computed, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HEALTH_SERVICE, IHealthService } from 'api';
 import { BadgeComponent, BadgeVariant, CardComponent } from 'components';
 
@@ -14,11 +15,12 @@ export class HealthBadgeComponent implements OnInit {
   protected readonly badgeVariant = computed<BadgeVariant>(() =>
     this.isHealthy() ? 'success' : 'error'
   );
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(@Inject(HEALTH_SERVICE) private readonly health: IHealthService) {}
 
   ngOnInit(): void {
-    this.health.getStatus().subscribe({
+    this.health.getStatus().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.status.set(result.status);
         this.isHealthy.set(result.status === 'Healthy');
