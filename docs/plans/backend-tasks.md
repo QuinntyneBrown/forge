@@ -272,7 +272,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** create a session, modify duration from 22 → 30; ledger has `-44 (Refund)` and `+60 (Base)`; net balance reflects the new total.
 - **Guidance:** Backend.
 
-### BT-026 — List rewards catalog
+### BT-026 — List rewards catalog ✅ done
 
 - **Requirements:** L2-021 (read leg).
 - **Slice:**
