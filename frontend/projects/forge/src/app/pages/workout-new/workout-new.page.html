@@ -12,24 +12,71 @@
       </p>
     </section>
 
-    <div class="workout-new__body">
+    <div class="workout-new__body" data-testid="workout-new-body">
       <section class="workout-new__card" data-testid="workout-new-session-details-card">
         <h3 class="workout-new__card-title">
           <span class="material-icons" aria-hidden="true">edit_note</span>
           Session details
         </h3>
-        <forge-workout-detail-form (created)="onCreated($event)"></forge-workout-detail-form>
+        <forge-workout-detail-form
+          #form
+          (created)="onCreated($event)"
+        ></forge-workout-detail-form>
       </section>
 
-      <section class="workout-new__actions">
-        <button
-          type="button"
-          class="workout-new__cancel"
-          data-testid="workout-new-cancel"
-          (click)="onCancel()"
-        >
-          Cancel
-        </button>
+      <section class="workout-new__card" data-testid="workout-new-points-card">
+        <h3 class="workout-new__card-title">
+          <span class="material-icons" aria-hidden="true">workspace_premium</span>
+          Points Breakdown
+        </h3>
+        <div class="workout-new__points">
+          <div class="workout-new__points-row" data-testid="workout-new-points-base">
+            <span class="workout-new__points-label">
+              <span class="material-icons" aria-hidden="true">timer</span>
+              Base — 2 pts per minute logged
+            </span>
+            <span class="workout-new__points-value">+{{ basePoints() }}</span>
+          </div>
+          <div class="workout-new__points-row">
+            <span class="workout-new__points-label">
+              <span class="material-icons" aria-hidden="true">wb_sunny</span>
+              Morning bonus (before 7 AM)
+            </span>
+            <span class="workout-new__points-value">+25</span>
+          </div>
+          <div class="workout-new__points-row">
+            <span class="workout-new__points-label">
+              <span class="material-icons" aria-hidden="true">trending_up</span>
+              Streak multiplier
+            </span>
+            <span class="workout-new__points-value">×1.0+</span>
+          </div>
+          <div class="workout-new__points-total" data-testid="workout-new-points-total">
+            <span>Estimated total</span>
+            <span class="workout-new__points-total-num">+{{ basePoints() }} pts</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="workout-new__card" data-testid="workout-new-actions-card">
+        <h3 class="workout-new__card-title">
+          <span class="material-icons" aria-hidden="true">tune</span>
+          Actions
+        </h3>
+        <p class="workout-new__actions-note">
+          Tap Save in the session details above to log this workout, or cancel
+          to return to the dashboard.
+        </p>
+        <div class="workout-new__actions">
+          <button
+            type="button"
+            class="workout-new__cancel"
+            data-testid="workout-new-cancel"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+        </div>
       </section>
     </div>
   </main>

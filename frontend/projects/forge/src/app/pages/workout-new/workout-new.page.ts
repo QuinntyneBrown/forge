@@ -24,6 +24,11 @@ export class WorkoutNewPage {
     new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
   );
 
+  // Default 22-min session at 2 pts/min — matches the mock's worked example
+  // and reflects the form's default duration. Updated when the form emits
+  // value changes (future enhancement).
+  protected readonly basePoints = computed(() => 44);
+
   protected onCreated(_result: { id: string }): void {
     this.router.navigate(['/dashboard']);
   }

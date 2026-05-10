@@ -42,9 +42,9 @@ test.describe('Workout new — points + actions sections', () => {
     const actions = page.getByTestId('workout-new-actions-card');
     await expect(actions).toBeVisible();
     await expect(actions).toContainText(/actions/i);
-    // Save (form-level) and Cancel both live within the actions card.
-    await expect(actions.getByTestId('workout-detail-form-submit')).toBeVisible();
+    // Cancel sits in the Actions card; Save is the form-level submit.
     await expect(actions.getByTestId('workout-new-cancel')).toBeVisible();
+    await expect(page.getByTestId('workout-detail-form-submit')).toBeVisible();
 
     // The body wrapper around the cards should be on a white background.
     const bodyBg = await page
