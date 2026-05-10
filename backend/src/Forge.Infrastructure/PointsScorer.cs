@@ -16,6 +16,29 @@ public class PointsScorer : IPointsScorer
         _clock = clock;
     }
 
+    public async Task Refund(WorkoutSession session, CancellationToken cancellationToken)
+    {
+        var awarded = await _db.PointsLedger
+            .Where(l => l.SessionId == session.Id)
+            .SumAsync(l => (int?)l.Points, cancellationToken) ?? 0;
+        if (awarded == 0)
+        {
+            return;
+        }
+
+        _db.PointsLedger.Add(new PointsLedger
+        {
+            Id = Guid.NewGuid(),
+            UserId = session.UserId,
+            SessionId = session.Id,
+            Reason = PointsLedgerReason.Refund,
+            Points = -awarded,
+            Description = "Refund — session updated",
+            CreatedAt = _clock.UtcNow
+        });
+        await _db.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task Score(WorkoutSession session, CancellationToken cancellationToken)
     {
         var now = _clock.UtcNow;

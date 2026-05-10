@@ -41,6 +41,26 @@ public class SessionsController : ControllerBase
         return session is null ? NotFound() : Ok(session);
     }
 
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateSessionRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(
+            new UpdateSessionCommand(
+                id,
+                request.Equipment,
+                request.StartedAt,
+                request.DurationMinutes,
+                request.DistanceMiles,
+                request.AvgHeartRateBpm,
+                request.ActiveCalories,
+                request.Notes),
+            cancellationToken);
+        return NoContent();
+    }
+
     [HttpGet]
     public async Task<ActionResult<SessionPage>> List(
         [FromQuery] EquipmentType? equipment,

@@ -125,7 +125,7 @@ Conventions:
 - **Acceptance test:** seed 10 sessions across the four equipment types, query `?equipment=Treadmill` → only treadmill rows; query `?range=week` → only sessions in last 7 days; query `?search=zone` → only rows with `Notes` containing "zone".
 - **Guidance:** Backend (CQS, IAppDbContext, performance).
 
-### BT-010 — Update session
+### BT-010 — Update session ✅ done
 
 - **Requirements:** L2-009 (update leg).
 - **Slice:**
