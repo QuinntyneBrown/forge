@@ -26,7 +26,7 @@ Walked the Implementation Evaluation Rubric (criteria 1–10) against the BT-006
 
 `tests/Forge.Acceptance/Auth/ClockSeamAcceptanceTest.cs` was authored before the `RegisterCommandHandler` migration. Header: `// Traces to: BT-006a (IClock abstraction)`. The test:
 
-1. Provisions a per-test LocalDB and applies migrations.
+1. Provisions a per-test SqlExpress and applies migrations.
 2. Boots `WebApplicationFactory<Program>` with the canonical `ConfigureAppConfiguration` + `ConfigureTestServices` override pattern, **plus** swaps the registered `IClock` for a `FakeClock` pinned to `2026-05-10T05:12:00+00:00`.
 3. Posts to `/api/auth/register` against the per-test DB.
 4. Reads the persisted `User` row from a fresh `AppDbContext` and asserts `user.CreatedAt == PinnedNow` (exact equality, not approximate).
@@ -45,6 +45,6 @@ Walked the Implementation Evaluation Rubric (criteria 1–10) against the BT-006
 - The slice migrates two existing call sites (`RegisterCommandHandler.CreatedAt`, `RefreshTokenStore` timestamps) to demonstrate the seam end to end. `SignInCommandHandler` and other future handlers will be migrated in their own slices when they introduce time-dependent behavior — keeping each commit small and tightly scoped.
 - `SystemClock.TodayInTimeZone` throws `TimeZoneNotFoundException` for an unknown IANA id; that's acceptable because user time-zone strings come from server-side validation (BT-015 `UpdateProfileCommand` will validate against `TimeZoneInfo.GetSystemTimeZones()` before persisting).
 - Registering `IClock` as `Singleton` is safe because the implementation is stateless. If a future slice needs a per-request clock (e.g., for testing-via-headers in development), the registration switches to `Scoped` — a one-line change.
-- Tests run sequentially because each provisions and drops its own LocalDB. The 4-test suite completes in ~9 seconds locally, which is acceptable. If this grows past ~20s, the BT2 non-blocking observation about a shared `ForgeAcceptanceFactory` base class becomes worth acting on.
+- Tests run sequentially because each provisions and drops its own SqlExpress. The 4-test suite completes in ~9 seconds locally, which is acceptable. If this grows past ~20s, the BT2 non-blocking observation about a shared `ForgeAcceptanceFactory` base class becomes worth acting on.
 
 Pass 1 produces zero blocking findings. BT-006a is complete.

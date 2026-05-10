@@ -25,7 +25,7 @@ Conventions:
   - Generate migration `Initial_AuthAndSessions` capturing the MB1 schema (`Users`, `WorkoutSessions`) plus the empty tables for `RefreshTokens`, `SignInAttempts`, `AuditLog`, `PasswordResetTokens`. Add the matching domain types (one type per file).
   - Replace `db.Database.EnsureCreated()` in `Program.cs` with `await db.Database.MigrateAsync()`.
   - Add `dotnet ef database update` instructions to `docs/runbooks/backend.md`.
-- **Acceptance test:** `tests/Forge.Acceptance/Database/MigrationsAcceptanceTest.cs` — boots the API against a fresh LocalDB instance and asserts every required table exists by querying `INFORMATION_SCHEMA.TABLES`.
+- **Acceptance test:** `tests/Forge.Acceptance/Database/MigrationsAcceptanceTest.cs` — boots the API against a fresh SqlExpress instance and asserts every required table exists by querying `INFORMATION_SCHEMA.TABLES`.
 - **Guidance:** Backend (EF Core, Clean Architecture), General (one type per file).
 
 ### BT-002 — Refresh token issuance + rotation ✅ done

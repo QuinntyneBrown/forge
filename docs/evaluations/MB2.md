@@ -32,12 +32,12 @@ Walked the Implementation Evaluation Rubric (criteria 1–10) against the MB1 de
 
 ### Runtime checks (criteria 2, 10 — Requirements coverage in entirety + Build and run clean)
 
-Started the API via `dotnet run --project src/Forge.Api` against `(localdb)\mssqllocaldb`. `EnsureCreated` provisioned the schema. Ran the full sample-slice round-trip:
+Started the API via `dotnet run --project src/Forge.Api` against `.\SQLEXPRESS`. `EnsureCreated` provisioned the schema. Ran the full sample-slice round-trip:
 
 - `POST /api/auth/register` with `{ email, firstName, lastName, password }` → `200 OK` with `{ accessToken, userId, email, role }`. JWT decoded contains the documented claims.
 - `POST /api/auth/sign-in` with the same email + password → `200 OK` with a fresh JWT. Length 431 chars (HS256 / payload as expected).
 - `POST /api/sessions` with the access token + a treadmill session → `201 Created`, `Location` header populated, body returns the new session id.
-- `GET /api/sessions/{id}` with the access token → `200 OK`, body matches the persisted record (round-trips through HTTP → MediatR → EF Core → SQL Server LocalDB).
+- `GET /api/sessions/{id}` with the access token → `200 OK`, body matches the persisted record (round-trips through HTTP → MediatR → EF Core → SQL Server SqlExpress).
 - `GET /health` (no auth) → `200 { "status": "Healthy" }`.
 - `POST /api/sessions` without bearer token → `401`.
 - `POST /api/auth/sign-in` with the wrong password → `401` `{ "title": "Invalid credentials.", "status": 401 }`.
