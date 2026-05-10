@@ -87,7 +87,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-027.
 - **Guidance:** Frontend.
 
-### FT-008 — `ProgressRingComponent` wrapping `<mat-progress-spinner mode="determinate">`
+### FT-008 — `ProgressRingComponent` wrapping `<mat-progress-spinner mode="determinate">` ✅ done
 
 - **Requirements:** L2-011, L2-021.
 - **Slice:**

@@ -1,0 +1,12 @@
+<div class="progress-ring" [attr.data-testid]="testid">
+  <mat-progress-spinner
+    class="progress-ring__spinner"
+    mode="determinate"
+    [value]="percentage"
+    [diameter]="diameter"
+    [strokeWidth]="strokeWidth"
+  ></mat-progress-spinner>
+  <div class="progress-ring__content">
+    <ng-content></ng-content>
+  </div>
+</div>
