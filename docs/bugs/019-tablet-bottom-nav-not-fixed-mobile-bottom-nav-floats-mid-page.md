@@ -1,7 +1,7 @@
 # Bug 019: Bottom navigation does not stay pinned to the viewport bottom on short pages
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium
@@ -32,3 +32,13 @@ This is distinct from Bug 015 (content-padding) — even after Bug 015 reserves 
 - Verify the bottom-nav element is a child of `body` (or of a top-level shell whose containing block is the viewport).
 - If using a CDK `cdk-scrollable` or a layout component with its own scroll container, switch the bottom nav to `position: fixed` outside that container, or use `position: sticky; bottom: 0` on a flex-shrink:0 child of the scroll container.
 - Add a layout test that opens each route at mobile + tablet and asserts the nav's `getBoundingClientRect().bottom === window.innerHeight`.
+
+## Resolution
+
+No code change required — resolved as a side-effect of Bug 015.
+
+When Bug 015 reorganised the app-shell into a flex column (`min-height: 100vh`) with an inner `overflow:auto` main scroll container and the `<forge-bottom-nav>` as a sibling sticky child of the shell (`frontend/projects/components/src/lib/app-shell/app-shell.component.scss:1-105` and `frontend/projects/components/src/lib/bottom-nav/bottom-nav.component.scss:4-9`), the bottom-nav host's `position: sticky; bottom: 0` started resolving correctly — the shell's containing block IS the viewport at <992px, no ancestor introduces a `transform`/`filter`/`perspective`, and the inner main reserves `--bottom-nav-safe-area` so content never extends under the nav.
+
+Verified at mobile (390x844) and tablet (834x1112) on `/dashboard` and `/workouts`: nav.bottom === viewport.height both before AND after scrolling to the bottom of the page.
+
+A regression-lock acceptance test was added at `frontend/e2e/tests/bottom-nav-pinned.spec.ts` (uses the existing `frontend/e2e/pages/bottom-nav.page.ts` POM with a new `expectPinnedToBottom(viewportHeight)` helper). The spec also asserts the host's computed `position` is `fixed`/`sticky` and that no ancestor has a `transform`/`filter`/`perspective` that would silently steal the containing block of `position: fixed` descendants.

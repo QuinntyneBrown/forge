@@ -1,4 +1,4 @@
-// Acceptance Test for Bug 019
+// Acceptance Test for Bug 019 — regression-lock
 // Description: The bottom navigation strip must stay pinned to the bottom
 // edge of the viewport at all times on mobile and tablet viewports — both
 // before scrolling AND after scrolling the page (or any inner scroll
@@ -6,6 +6,17 @@
 // content padding. Bug 019 is specifically about the nav's `position`
 // actually being `fixed`/`sticky` and the containing block being the
 // viewport (no `transform`/`filter`/`perspective` ancestor stealing it).
+//
+// History: Bug 019 was reported against pre-Bug-015 screenshots. By the
+// time Bug 019 was investigated, Bug 015's app-shell layout fix (a flex
+// column shell with an inner overflow:auto main and the bottom nav as a
+// sibling sticky child of the shell) already made the nav pin correctly
+// at all tested viewports/routes. So this spec acts as a regression-lock:
+// it MUST pass on current main, and it would fail if a future change
+// (a) drops `position: sticky`/`fixed` on the nav, or
+// (b) introduces a `transform`/`filter`/`perspective` ancestor that
+//     would silently break the containing block, or
+// (c) re-introduces a layout where the nav scrolls with content.
 //
 // Verified at:
 //   - mobile (390x844) — /dashboard, /workouts
