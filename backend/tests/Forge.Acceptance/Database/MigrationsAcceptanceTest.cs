@@ -19,7 +19,7 @@ public class MigrationsAcceptanceTest : IAsyncLifetime
     public MigrationsAcceptanceTest()
     {
         _connectionString =
-            $@"Server=.\SQLEXPRESS;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
+            AcceptanceSqlServer.ForDatabase(_databaseName);
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
@@ -27,7 +27,7 @@ public class MigrationsAcceptanceTest : IAsyncLifetime
     public async Task DisposeAsync()
     {
         await using var conn = new SqlConnection(
-            @"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
+            AcceptanceSqlServer.MasterConnectionString);
         await conn.OpenAsync();
         await using var cmd = conn.CreateCommand();
         cmd.CommandText = $@"

@@ -29,7 +29,7 @@ public class DeleteSessionAcceptanceTest : IAsyncLifetime
     public DeleteSessionAcceptanceTest()
     {
         _connectionString =
-            $@"Server=.\SQLEXPRESS;Database={_databaseName};Trusted_Connection=True;TrustServerCertificate=True";
+            AcceptanceSqlServer.ForDatabase(_databaseName);
     }
 
     public async Task InitializeAsync()
@@ -76,7 +76,7 @@ public class DeleteSessionAcceptanceTest : IAsyncLifetime
         }
 
         await using var conn = new SqlConnection(
-            @"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True");
+            AcceptanceSqlServer.MasterConnectionString);
         await conn.OpenAsync();
         await using var cmd = conn.CreateCommand();
         cmd.CommandText = $@"
