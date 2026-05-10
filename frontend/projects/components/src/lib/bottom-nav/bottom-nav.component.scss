@@ -1,0 +1,48 @@
+/* Bottom navigation strip — Material 3 anatomy. The min-height enforces L2-046
+   touch-target compliance per item even when the icon glyph is smaller. */
+
+:host {
+  display: block;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.bottom-nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  background: var(--md-sys-color-surface-container, #e8efec);
+  border-top: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  min-height: 64px;
+}
+
+.bottom-nav__item {
+  flex: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 56px;
+  padding: 8px 4px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.bottom-nav__item--active {
+  color: var(--md-sys-color-primary, #106b5c);
+}
+
+.bottom-nav__icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.bottom-nav__label {
+  white-space: nowrap;
+}

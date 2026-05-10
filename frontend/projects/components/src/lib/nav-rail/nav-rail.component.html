@@ -1,0 +1,15 @@
+<nav class="nav-rail" data-testid="app-shell-nav-rail" aria-label="Primary">
+  <mat-nav-list class="nav-rail__list">
+    @for (dest of destinations; track dest.routerLink) {
+      <a
+        mat-list-item
+        class="nav-rail__item"
+        [routerLink]="dest.routerLink"
+        routerLinkActive="nav-rail__item--active"
+      >
+        <mat-icon class="nav-rail__icon" aria-hidden="true">{{ dest.icon }}</mat-icon>
+        <span class="nav-rail__label">{{ dest.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</nav>

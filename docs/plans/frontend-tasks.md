@@ -180,7 +180,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.2 — App shell (parallel with BI1.2)
 
-### FT-017 — `AppShellComponent` + `BottomNavComponent` + `NavRailComponent`
+### FT-017 — `AppShellComponent` + `BottomNavComponent` + `NavRailComponent` ✅ done
 
 - **Requirements:** L2-010, L2-013, L2-046, L2-030. Mocks: every authenticated screen.
 - **Slice:**

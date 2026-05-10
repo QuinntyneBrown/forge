@@ -1,0 +1,19 @@
+<div class="app-shell" [class.app-shell--desktop]="showNavRail()">
+  <mat-toolbar class="app-shell__topbar" data-testid="app-shell-topbar">
+    <span class="app-shell__brand-mark">F</span>
+    <span class="app-shell__title">{{ title }}</span>
+  </mat-toolbar>
+
+  <div class="app-shell__body">
+    @if (showNavRail()) {
+      <forge-nav-rail [destinations]="destinations" class="app-shell__rail"></forge-nav-rail>
+    }
+    <main class="app-shell__main">
+      <ng-content></ng-content>
+    </main>
+  </div>
+
+  @if (showBottomNav()) {
+    <forge-bottom-nav [destinations]="destinations" class="app-shell__bottom"></forge-bottom-nav>
+  }
+</div>

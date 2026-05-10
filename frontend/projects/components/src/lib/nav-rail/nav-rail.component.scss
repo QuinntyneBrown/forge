@@ -1,0 +1,39 @@
+/* Desktop navigation rail — Material 3 anatomy. Sticks to the left edge so the
+   primary destinations remain visible while page content scrolls. */
+
+:host {
+  display: block;
+}
+
+.nav-rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 220px;
+  background: var(--md-sys-color-surface-container-low, #eef5f2);
+  border-right: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  padding-top: 8px;
+}
+
+.nav-rail__list {
+  padding: 0;
+}
+
+.nav-rail__item {
+  --mat-list-list-item-label-text-color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.nav-rail__item--active {
+  --mat-list-list-item-label-text-color: var(--md-sys-color-primary, #106b5c);
+  --mat-list-list-item-leading-icon-color: var(--md-sys-color-primary, #106b5c);
+}
+
+.nav-rail__icon {
+  margin-right: 16px;
+}
+
+.nav-rail__label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}

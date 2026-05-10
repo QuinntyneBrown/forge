@@ -1,0 +1,12 @@
+<nav class="bottom-nav" data-testid="app-shell-bottom-nav" aria-label="Primary">
+  @for (dest of destinations; track dest.routerLink) {
+    <a
+      class="bottom-nav__item"
+      [routerLink]="dest.routerLink"
+      routerLinkActive="bottom-nav__item--active"
+    >
+      <mat-icon class="bottom-nav__icon" aria-hidden="true">{{ dest.icon }}</mat-icon>
+      <span class="bottom-nav__label">{{ dest.label }}</span>
+    </a>
+  }
+</nav>
