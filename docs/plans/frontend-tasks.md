@@ -14,6 +14,7 @@ Conventions:
 - Every backend-facing service has a sibling `*.service.contract.ts` exporting an interface + `InjectionToken`. Domain components inject via `@Inject(*_SERVICE)` — never the concrete class.
 - BEM class names everywhere. Every reusable presentation component lives in `components` and wraps an Angular Material 3 component (per FP1 §3) unless explicitly marked as a pure layout primitive.
 - Library imports respect: `components → nothing`, `domain → api + components`, `forge → api + domain`. Each task is implemented inside its target library only — never crosses a forbidden boundary.
+- **"Verified inside" tasks ship with their downstream consumer.** When a task's "Acceptance test" line says *"verified inside `<other-spec>`"*, the wrapper / service is **not** implemented as a standalone PR — it lands in the same commit as the FT-* listed in its acceptance line, and that consumer's spec is the gating acceptance test. The pair (wrapper + first consumer) is the vertical slice. This applies to FT-003, FT-005, FT-006, FT-007, FT-008, FT-009, FT-010, FT-011, and FT-016. Each affected task ends with a "Ships with" line naming the consumer task it rides along with.
 
 ## Phase FI1.0 — Material wrapping in `components` (foundation)
 
@@ -45,6 +46,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
   - `projects/components/src/lib/icon-button/icon-button.component.{ts,html,scss}`. `<ng-content>` projects the Material Symbols glyph. 48×48dp hit area.
   - Public API export.
 - **Acceptance test:** verified indirectly by FT-027 workout list (three-dot menu) and FT-031 profile page (password reveal). No standalone spec required.
+- **Ships with:** FT-027 (first consumer).
 - **Guidance:** Frontend.
 
 ### FT-004 — `FieldComponent` wrapping `<mat-form-field appearance="outline">`
@@ -61,6 +63,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/checkbox/checkbox.component.{ts,html,scss}` exposes `[checked]` / `(checkedChange)`.
 - **Acceptance test:** the Remember me toggle in FT-015 (auth persistence) is asserted by `sign-in-remember-me.spec.ts` (added in FT-015).
+- **Ships with:** FT-015.
 - **Guidance:** Frontend.
 
 ### FT-006 — `SwitchComponent` wrapping `<mat-slide-toggle>`
@@ -69,6 +72,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/switch/switch.component.{ts,html,scss}`.
 - **Acceptance test:** verified inside `profile.spec.ts` (FT-031), which toggles the kitchen-closes nudge and the leaderboard opt-in.
+- **Ships with:** FT-031.
 - **Guidance:** Frontend.
 
 ### FT-007 — `ChipComponent` wrapping `<mat-chip>` inside `<mat-chip-listbox>`
@@ -77,6 +81,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/chip/chip.component.{ts,html,scss}`. `[selected]` modifier.
 - **Acceptance test:** verified inside `workouts-list.spec.ts` (FT-027) when the test selects the Treadmill chip.
+- **Ships with:** FT-027.
 - **Guidance:** Frontend.
 
 ### FT-008 — `ProgressRingComponent` wrapping `<mat-progress-spinner mode="determinate">`
@@ -85,6 +90,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/progress-ring/progress-ring.component.{ts,html,scss}` exposes `[value]` and `[max]`. Computes `value/max * 100` as the spinner's `value` input.
 - **Acceptance test:** verified inside `dashboard.spec.ts` (FT-024) and `rewards-redeem.spec.ts` (FT-030).
+- **Ships with:** FT-019 (DailyRingCardComponent — first consumer).
 - **Guidance:** Frontend.
 
 ### FT-009 — `BadgeComponent` wrapping `<mat-chip>` styled as a status pill
@@ -93,6 +99,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/badge/badge.component.{ts,html,scss}` exposes `[variant: 'success' | 'warning' | 'error' | 'neutral']`. SCSS maps each variant to a token-driven background + foreground.
 - **Acceptance test:** existing `sign-in.spec.ts` already asserts `<forge-health-badge>` resolves to "Healthy"; that domain component will compose `BadgeComponent` post-FT-009 and the assertion stands.
+- **Ships with:** the `<forge-health-badge>` composition swap that satisfies the existing sign-in.spec.ts. The wrapper + the swap land in one commit.
 - **Guidance:** Frontend.
 
 ### FT-010 — `EmptyStateComponent` (pure layout primitive — hand-rolled)
@@ -101,6 +108,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/empty-state/empty-state.component.{ts,html,scss}` projects an illustration slot, headline (`[title]`), copy (`[message]`), primary CTA (`<ng-content>`).
 - **Acceptance test:** `empty-state.spec.ts` (FT-034).
+- **Ships with:** FT-027 (zero-row variant) or FT-034, whichever lands first.
 - **Guidance:** Frontend (intentional non-Material primitive — Material has no equivalent; explicitly noted in FP1 §3).
 
 ### FT-011 — `ErrorBannerComponent` (pure layout primitive — hand-rolled)
@@ -109,6 +117,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Slice:**
   - `projects/components/src/lib/error-banner/error-banner.component.{ts,html,scss}` exposes `[title]`, `[message]`, retry CTA via `<ng-content>`.
 - **Acceptance test:** `error-state.spec.ts` (FT-033).
+- **Ships with:** FT-033.
 - **Guidance:** Frontend (intentional non-Material primitive).
 
 ## Phase FI1.1 — Auth surfaces (parallel with BI1.1)
@@ -163,6 +172,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
   - `current-user.model.ts` DTO.
   - DI registration in `app.config.ts`.
 - **Acceptance test:** verified inside `profile.spec.ts` (FT-031) and `account-deletion.spec.ts` (FT-032). No standalone spec.
+- **Ships with:** FT-031.
 - **Guidance:** Frontend (interface-driven service consumption).
 
 ## Phase FI1.2 — App shell (parallel with BI1.2)
