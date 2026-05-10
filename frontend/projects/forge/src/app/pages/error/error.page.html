@@ -1,6 +1,85 @@
-<main class="error-page">
-  <header class="error-page__header">
-    <h1 class="error-page__title">Sync error</h1>
+<div class="error-page">
+  <header class="error-page__banner" data-testid="error-page-banner">
+    <span class="material-icons" aria-hidden="true">cloud_off</span>
+    <span class="error-page__banner-text">
+      Apple Watch sync paused — last successful sync 14 minutes ago.
+    </span>
+    <a href="#" class="error-page__banner-link">Retry now</a>
   </header>
-  <forge-sync-error-panel [traceId]="traceId"></forge-sync-error-panel>
-</main>
+
+  <main class="error-page__main">
+    <section class="error-page__hero" data-testid="error-page-hero">
+      <div class="error-page__hero-circle">
+        <div class="error-page__hero-square">
+          <span class="material-icons" aria-hidden="true">watch</span>
+          <span class="error-page__hero-cross" aria-hidden="true">
+            <span class="material-icons">close</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <h1 class="error-page__title">Couldn't sync with your Apple Watch</h1>
+    <p class="error-page__sub">
+      We tried to pull your latest workouts and heart-rate data but the watch
+      isn't responding. Anything already logged locally is safe — we just
+      can't enrich it until the sync completes.
+    </p>
+
+    <span class="error-page__code-chip" data-testid="error-page-code-chip">
+      ERR_HEALTHKIT_OFFLINE · 0xA3
+    </span>
+
+    <div class="error-page__actions">
+      <button
+        type="button"
+        class="error-page__cta error-page__cta--filled"
+        data-testid="error-page-retry-button"
+      >
+        <span class="material-icons" aria-hidden="true">refresh</span>
+        Retry sync
+      </button>
+      <a
+        routerLink="/dashboard"
+        class="error-page__cta error-page__cta--outlined"
+        data-testid="error-page-dashboard-button"
+      >
+        Go to dashboard
+      </a>
+    </div>
+
+    <section class="error-page__diagnostics" data-testid="error-page-diagnostics">
+      <h2 class="error-page__diagnostics-title">Diagnostics</h2>
+      <ul class="error-page__diagnostics-list">
+        @for (row of diagnostics; track row.label) {
+          <li
+            class="error-page__diagnostic"
+            data-testid="error-page-diagnostic-row"
+          >
+            <span
+              class="error-page__diagnostic-icon"
+              [class]="'error-page__diagnostic-icon error-page__diagnostic-icon--' + row.tone"
+            >
+              <span class="material-icons" aria-hidden="true">{{ row.icon }}</span>
+            </span>
+            <span class="error-page__diagnostic-main">
+              <strong>{{ row.label }}</strong>
+              <span>{{ row.detail }}</span>
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <footer class="error-page__footer">
+      <a
+        href="#"
+        class="error-page__footer-link"
+        data-testid="error-page-troubleshooting-link"
+      >View troubleshooting guide ›</a>
+      <p class="error-page__footer-meta" data-testid="error-page-footer-meta">
+        Trace ID: {{ traceId || 'n/a' }} · <a href="mailto:support@forgefit.app">contact support</a>
+      </p>
+    </footer>
+  </main>
+</div>

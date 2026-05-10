@@ -1,7 +1,7 @@
 # Bug 013: /error route does not match the error-state mock (missing illustration, banner, diagnostics)
 
 ## Status
-Open
+Complete
 
 ## Severity
 High

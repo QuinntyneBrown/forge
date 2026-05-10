@@ -1,14 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SyncErrorPanelComponent } from 'domain';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+
+interface DiagnosticRow {
+  label: string;
+  detail: string;
+  icon: string;
+  tone: 'ok' | 'warn' | 'idle' | 'error';
+}
 
 @Component({
   selector: 'app-error-page',
-  imports: [SyncErrorPanelComponent],
+  imports: [RouterLink],
   templateUrl: './error.page.html',
   styleUrl: './error.page.scss'
 })
 export class ErrorPage {
   private readonly route = inject(ActivatedRoute);
   protected readonly traceId = this.route.snapshot.queryParamMap.get('traceId');
+
+  protected readonly diagnostics: DiagnosticRow[] = [
+    { label: 'Forge Fit servers', detail: 'Online · 32 ms', icon: 'check_circle', tone: 'ok' },
+    { label: 'Internet', detail: 'Reachable · WiFi', icon: 'check_circle', tone: 'ok' },
+    { label: 'HealthKit authorization', detail: 'Permission needed for workouts', icon: 'warning', tone: 'warn' },
+    { label: 'Apple Watch reachable', detail: 'Last seen 14 min ago', icon: 'schedule', tone: 'idle' }
+  ];
 }
