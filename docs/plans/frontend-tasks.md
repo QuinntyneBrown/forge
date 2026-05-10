@@ -316,7 +316,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/rewards-redeem.spec.ts` — seed user with 1,250 pts, redeem 500 reward → balance 750 + redemption row. Try to redeem 5,000 reward → 400 banner appears, balance unchanged.
 - **Guidance:** Frontend.
 
-### FT-031 — `ProfileService` + `ProfileFormComponent` + `ProfilePage`
+### FT-031 — `ProfileService` + `ProfileFormComponent` + `ProfilePage` ⚠ BT-015 fields ✅ done; window/toggle fields wait for BT-018/019/020
 
 - **Requirements:** L2-005, L2-014..L2-017, L2-026, L2-027. Mock: `profile.html`.
 - **Slice:**

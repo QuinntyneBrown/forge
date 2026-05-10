@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
 import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { PasswordResetPage } from './pages/password-reset/password-reset.page';
+import { ProfilePage } from './pages/profile/profile.page';
 import { SignInPage } from './pages/sign-in/sign-in.page';
 import { SignUpPage } from './pages/sign-up/sign-up.page';
 
@@ -10,5 +11,6 @@ export const routes: Routes = [
   { path: 'sign-in', component: SignInPage },
   { path: 'sign-up', component: SignUpPage },
   { path: 'password-reset', component: PasswordResetPage },
-  { path: 'dashboard', component: DashboardPage, canActivate: [authGuard] }
+  { path: 'dashboard', component: DashboardPage, canActivate: [authGuard] },
+  { path: 'profile', component: ProfilePage, canActivate: [authGuard] }
 ];

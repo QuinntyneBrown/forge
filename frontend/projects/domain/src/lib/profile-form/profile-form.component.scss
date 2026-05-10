@@ -1,0 +1,37 @@
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-form__row--two {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  @media (min-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.profile-form__field {
+  width: 100%;
+}
+
+.profile-form__error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--md-sys-color-error, #ba1a1a);
+}
+
+.profile-form__saved {
+  margin: 0;
+  font-size: 14px;
+  color: var(--md-sys-color-primary, #106b5c);
+  font-weight: 500;
+}
+
+.profile-form__submit {
+  display: block;
+  margin-top: 8px;
+}

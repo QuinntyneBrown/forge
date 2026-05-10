@@ -14,7 +14,9 @@ import {
   HEALTH_SERVICE,
   HealthService,
   ME_SERVICE,
-  MeService
+  MeService,
+  PROFILE_SERVICE,
+  ProfileService
 } from 'api';
 import { AuthStateService } from './auth-state.service';
 import { authInterceptor } from './auth.interceptor';
@@ -31,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: HEALTH_SERVICE, useClass: HealthService },
     { provide: ME_SERVICE, useClass: MeService },
+    { provide: PROFILE_SERVICE, useClass: ProfileService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };
