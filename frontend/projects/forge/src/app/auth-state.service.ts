@@ -18,4 +18,8 @@ export class AuthStateService {
   get token(): string | null {
     return this.current()?.accessToken ?? null;
   }
+
+  get refreshToken(): string | null {
+    return this.current()?.refreshToken ?? null;
+  }
 }

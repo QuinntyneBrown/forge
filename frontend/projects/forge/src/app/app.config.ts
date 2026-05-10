@@ -10,6 +10,7 @@ import {
   HealthService
 } from 'api';
 import { authInterceptor } from './auth.interceptor';
+import { refreshInterceptor } from './refresh.interceptor';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideAnimationsAsync(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, refreshInterceptor])),
     { provide: API_BASE_URL, useValue: 'https://localhost:5001' },
     { provide: AUTH_SERVICE, useClass: AuthService },
     { provide: HEALTH_SERVICE, useClass: HealthService }

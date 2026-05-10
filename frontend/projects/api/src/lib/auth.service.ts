@@ -22,4 +22,12 @@ export class AuthService implements IAuthService {
   register(request: RegisterRequest): Observable<AuthResult> {
     return this.http.post<AuthResult>(`${this.baseUrl}/api/auth/register`, request);
   }
+
+  refresh(refreshToken: string): Observable<AuthResult> {
+    return this.http.post<AuthResult>(`${this.baseUrl}/api/auth/refresh`, { refreshToken });
+  }
+
+  signOut(refreshToken: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/api/auth/sign-out`, { refreshToken });
+  }
 }

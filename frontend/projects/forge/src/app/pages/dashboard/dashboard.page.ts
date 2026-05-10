@@ -1,5 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AUTH_SERVICE, IAuthService } from 'api';
 import { HealthBadgeComponent } from 'domain';
 import { AuthStateService } from '../../auth-state.service';
 
@@ -16,14 +17,23 @@ export class DashboardPage {
   protected readonly email = computed(() => this.auth.snapshot()?.email ?? 'unknown');
   protected readonly role = computed(() => this.auth.snapshot()?.role ?? 'unknown');
 
-  constructor() {
-    if (!this.auth.snapshot()) {
-      this.router.navigate(['/sign-in']);
-    }
-  }
+  constructor(@Inject(AUTH_SERVICE) private readonly authApi: IAuthService) {}
 
   protected signOut(): void {
-    this.auth.clear();
-    this.router.navigate(['/sign-in']);
+    const refreshToken = this.auth.refreshToken;
+    const finalize = (): void => {
+      this.auth.clear();
+      this.router.navigate(['/sign-in']);
+    };
+
+    if (!refreshToken) {
+      finalize();
+      return;
+    }
+
+    this.authApi.signOut(refreshToken).subscribe({
+      next: () => finalize(),
+      error: () => finalize()
+    });
   }
 }

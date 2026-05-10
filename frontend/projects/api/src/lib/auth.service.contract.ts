@@ -7,6 +7,8 @@ import { SignInRequest } from './models/sign-in-request.model';
 export interface IAuthService {
   signIn(request: SignInRequest): Observable<AuthResult>;
   register(request: RegisterRequest): Observable<AuthResult>;
+  refresh(refreshToken: string): Observable<AuthResult>;
+  signOut(refreshToken: string): Observable<void>;
 }
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('IAuthService');

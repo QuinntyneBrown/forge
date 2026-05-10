@@ -147,7 +147,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/password-reset.spec.ts` — request reset (always 202), call backend to fetch the issued token from the no-op email log, confirm with new password, sign in with new password, asserts old password fails.
 - **Guidance:** Frontend, Authentication.
 
-### FT-014 — `refreshInterceptor` + `authGuard`
+### FT-014 — `refreshInterceptor` + `authGuard` ✅ done
 
 - **Requirements:** L2-002 (refresh), L2-033, L2-038 (frontend side).
 - **Slice:**
