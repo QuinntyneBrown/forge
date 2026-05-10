@@ -81,17 +81,28 @@ Conventions:
 - **Acceptance test:** delete account, attempt sign-in → `401`. Inspect row → email is the sentinel pattern.
 - **Guidance:** Authentication, Data protection.
 
+### BT-006a — `IClock` abstraction
+
+- **Requirements:** Cross-cutting test seam for time-dependent slices (L2-016, L2-017, L2-019, L2-020, L2-024, L2-025, L2-026, L2-029, L2-034).
+- **Slice:**
+  - `Forge.Application/Abstractions/IClock.cs` exposing `DateTimeOffset UtcNow { get; }` and `DateOnly TodayInTimeZone(string ianaTimeZoneId)`.
+  - `Forge.Infrastructure/SystemClock.cs` — singleton, returns `DateTimeOffset.UtcNow` and computes today using `TimeZoneInfo.ConvertTimeBySystemTimeZoneId`.
+  - DI registration as `Singleton` in `Forge.Infrastructure/DependencyInjection.cs`.
+  - Every later slice that names a time boundary (BT-007 throttle window, BT-018/BT-019 window validation, BT-022/BT-023/BT-024 scoring, BT-029 dashboard "today", BT-032 notification dispatcher) reads time via `IClock` rather than `DateTimeOffset.UtcNow`.
+- **Acceptance test:** `ClockSeamAcceptanceTest` — register a `FakeClock` in the DI container, call any time-dependent handler, assert the persisted timestamp matches the fake's `UtcNow` rather than wall time.
+- **Guidance:** Backend (no clock-coupling); General (testability).
+
 ### BT-007 — Sign-in throttling and lockout
 
 - **Requirements:** L2-034.
 - **Slice:**
   - `Forge.Domain/SignInAttempt.cs` (added in BT-001 schema).
   - `Forge.Application/Abstractions/ISignInThrottle.cs` (`Task<ThrottleDecision> Check(string email, string ip, CancellationToken)`).
-  - `Forge.Infrastructure/SignInThrottle.cs` — counts `SignInAttempts` for the email in a rolling 15-minute window; if `≥ 5` failures, returns `Locked(retryAfter)`.
+  - `Forge.Infrastructure/SignInThrottle.cs` — counts `SignInAttempts` for the email in a rolling 15-minute window measured via `IClock.UtcNow`; if `≥ 5` failures, returns `Locked(retryAfter)`.
   - `SignInCommandHandler` calls `ISignInThrottle.Check` first; on lock, throws `SignInLockedException` mapped to `429` in `ExceptionHandlingMiddleware`.
   - Handler also writes `SignInAttempt` rows on success and failure paths.
-- **Acceptance test:** 5 failed sign-ins in a row → 6th returns `429` even with the correct password. After 15 minutes (use a test seam — inject `IClock` if necessary), correct password works again.
-- **Guidance:** Authentication, Backend (no clock-coupling — inject `IClock`).
+- **Acceptance test:** 5 failed sign-ins in a row → 6th returns `429` even with the correct password. Advance the `FakeClock` (BT-006a) by 16 minutes, correct password works again.
+- **Guidance:** Authentication, Backend.
 
 ### BT-008 — Security audit log
 
@@ -219,26 +230,23 @@ Conventions:
 
 ## Phase BI1.3 — Gamification
 
-### BT-021 — Migration `AddPointsAndRewards`
+### BT-021 — *(merged into BT-022)*
 
-- **Requirements:** L2-018..L2-022.
+Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it had no end-to-end value on its own; the migration ships alongside the first scorer slice instead. This ID is reserved for cross-references and intentionally left empty.
+
+### BT-022 — Migration `AddPointsAndRewards` + base points scoring + `IPointsScorer`
+
+- **Requirements:** L2-018, L2-021 (read leg foundation), L2-022 (read leg foundation).
 - **Slice:**
-  - Migration adds `PointsLedger`, `RewardCatalogItem`, `RewardRedemption`. Seeds the rewards catalog (5–10 rows: smoothie, rest-day pass, new socks, etc.).
+  - Migration `AddPointsAndRewards` adds `PointsLedger`, `RewardCatalogItem`, `RewardRedemption`. Seeds the rewards catalog (5–10 rows: smoothie, rest-day pass, new socks, etc.).
   - Domain types: `PointsLedger`, `PointsLedgerReason` enum, `RewardCatalogItem`, `RewardRedemption`.
   - `IAppDbContext` gains the three `DbSet`s.
-- **Acceptance test:** boot fresh DB; query `RewardCatalogItem` — seeded rows present.
-- **Guidance:** Backend (EF migrations, one type per file).
-
-### BT-022 — Base points scoring + IPointsScorer
-
-- **Requirements:** L2-018.
-- **Slice:**
-  - `Forge.Application/Gamification/ScoringConstants.cs` — `BasePointsPerMinute = 2`, `MorningBonusPoints = 25`, streak formula constants.
+  - `Forge.Application/Gamification/ScoringConstants.cs` — `BasePointsPerMinute = 2`, `MorningBonusPoints = 25`, streak formula constants, tier thresholds.
   - `Forge.Application/Abstractions/IPointsScorer.cs` (`Task Score(WorkoutSession session, CancellationToken)`).
-  - `Forge.Infrastructure/PointsScorer.cs` — appends a `Base` ledger row of `BasePointsPerMinute × DurationMinutes` for the session.
+  - `Forge.Infrastructure/PointsScorer.cs` — appends a `Base` ledger row of `BasePointsPerMinute × DurationMinutes` for the session. (Morning bonus + streak multiplier extend this in BT-023 / BT-024.)
   - `CreateSessionCommandHandler` calls `_scorer.Score(session, ct)` after `SaveChangesAsync` returns.
-- **Acceptance test:** create a 22-min session; ledger row `+44 (Base — 22 min logged)` appears.
-- **Guidance:** Backend.
+- **Acceptance test:** create a 22-min treadmill session against a fresh DB; assert `RewardCatalogItem` has the seeded rows AND the `PointsLedger` has one row `+44 (Base — 22 min logged)` for the user. End-to-end coverage of the migration plus the first behavioral scorer.
+- **Guidance:** Backend (EF migrations, CQS, one type per file).
 
 ### BT-023 — Morning bonus
 
@@ -252,8 +260,8 @@ Conventions:
 
 - **Requirements:** L2-020.
 - **Slice:**
-  - Extend `PointsScorer.Score` to compute `consecutiveDays` by querying distinct dates of prior `WorkoutSessions` for the user, applying the formula `multiplier = min(1.50, 1.00 + 0.01 × days)`. If multiplier > 1.00, append a `StreakMultiplier` ledger row of `floor(basePoints × (multiplier - 1.00))`.
-- **Acceptance test:** seed 7 consecutive days of 22-min sessions; the 7th session writes `+44`, `+25`-or-not, `+6 (Streak multiplier ×1.07)`. Skip a day; the next session resets to multiplier 1.00.
+  - Extend `PointsScorer.Score` to compute `consecutiveDays` by querying distinct calendar dates of prior `WorkoutSessions` for the user, evaluated in the user's `User.TimeZoneId` via `IClock.TodayInTimeZone(...)` (BT-006a). Apply the formula `multiplier = min(1.50, 1.00 + 0.01 × days)`. If multiplier > 1.00, append a `StreakMultiplier` ledger row of `floor(basePoints × (multiplier - 1.00))`.
+- **Acceptance test:** seed 7 consecutive days of 22-min sessions in the user's local time zone (`FakeClock` advances per day); the 7th session writes `+44`, `+25`-or-not, `+6 (Streak multiplier ×1.07)`. Skip a day; the next session resets to multiplier 1.00.
 - **Guidance:** Backend.
 
 ### BT-025 — Refunds on update / delete
@@ -376,9 +384,9 @@ Conventions:
 
 | Phase | Tasks                       | Comment |
 |-------|-----------------------------|---------|
-| BI1.1 | BT-001..BT-013              | Foundation + auth completeness + sessions CRUD. BT-001 must land first. |
+| BI1.1 | BT-001..BT-006, BT-006a, BT-007..BT-013 | Foundation + auth completeness + sessions CRUD. BT-001 must land first; BT-006a (`IClock`) lands before any time-sensitive slice. |
 | BI1.2 | BT-014..BT-020              | Profile / weight / windows. Depends on BI1.1 schema. |
-| BI1.3 | BT-021..BT-029              | Gamification end-to-end. BT-021 first; BT-022..BT-024 build the scorer; BT-025 ties refunds; BT-026..BT-029 expose read paths. |
+| BI1.3 | BT-022..BT-029              | Gamification end-to-end. BT-022 ships the migration + base scorer; BT-023..BT-024 extend the scorer; BT-025 ties refunds; BT-026..BT-029 expose read paths. (BT-021 was merged into BT-022 — its slot remains for cross-reference.) |
 | BI1.4 | BT-030..BT-036              | Leaderboard, deferred integrations, hardening. Can land in any order once the BI1.3 schema is in place. BT-036 (CI) is independent and can land at any point. |
 
 Each task is small enough that one BI1 loop iteration can: write the acceptance test (Playwright POM or backend integration), implement the slice, run the rubric eval, fix on find, and mark the task done.
