@@ -1,11 +1,15 @@
 // Acceptance Test
-// Traces to: L2-002 (sign-in), L2-013 (dashboard summary), L2-044 (health endpoint)
-// Description: The sample flow signs in against the live backend MVP, lands on the
-//   dashboard, and renders the user's email/role plus the health-badge value fetched
-//   from GET /health. Verifies the api/components/domain library separation works in
-//   practice (sign-in form in `domain` consumes IAuthService from `api`; the card it
-//   renders comes from `components`; the dashboard's health badge consumes
-//   IHealthService from `api`).
+// Traces to: L2-002 (sign-in), L2-013 (dashboard summary)
+// Description: The sample flow signs in against the live backend MVP and lands on
+//   the dashboard, where the user's email/role appear in the greeting. Verifies the
+//   api/components/domain library separation works end-to-end (sign-in form in
+//   `domain` consumes IAuthService from `api`; the card it renders comes from
+//   `components`; the dashboard greeting projects the CurrentUser DTO from
+//   IMeService).
+//
+// Health badge assertion was removed when FT-024 rewrote the dashboard to host
+// the five new cards (daily ring, streak, weight progress, tier, leaderboard);
+// health badge moves to /error-state per FT-033.
 
 import { expect, test } from '@playwright/test';
 import { DashboardPage } from './pom/dashboard.page';
@@ -39,7 +43,4 @@ test('signs in and renders backend data on the dashboard', async ({ page }) => {
 
   await expect(dashboard.greeting).toContainText(TEST_EMAIL);
   await expect(dashboard.greeting).toContainText('User');
-
-  await expect(dashboard.healthBadge).toBeVisible();
-  await expect(dashboard.healthBadge).toContainText('Healthy');
 });

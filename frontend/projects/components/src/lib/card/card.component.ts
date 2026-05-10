@@ -9,4 +9,5 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class CardComponent {
   @Input() title = '';
+  @Input() testid: string | null = null;
 }

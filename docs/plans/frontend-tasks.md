@@ -248,7 +248,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** asserted in `dashboard.spec.ts` (FT-024).
 - **Guidance:** Frontend.
 
-### FT-024 — `DashboardPage` rewrite + spec
+### FT-024 — `DashboardPage` rewrite + spec ✅ done
 
 - **Requirements:** L2-011..L2-014, L2-022, L2-027. Mock: `dashboard.html`.
 - **Slice:**

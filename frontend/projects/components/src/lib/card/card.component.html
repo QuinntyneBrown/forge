@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" class="card">
+<mat-card appearance="outlined" class="card" [attr.data-testid]="testid">
   @if (title) {
     <mat-card-header class="card__header">
       <mat-card-title class="card__title">{{ title }}</mat-card-title>

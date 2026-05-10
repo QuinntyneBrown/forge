@@ -2,7 +2,13 @@ import { Component, Inject, OnInit, computed, inject, signal } from '@angular/co
 import { Router } from '@angular/router';
 import { AUTH_SERVICE, CurrentUser, IAuthService, IMeService, ME_SERVICE } from 'api';
 import { AppShellComponent, NavDestination } from 'components';
-import { HealthBadgeComponent } from 'domain';
+import {
+  DailyRingCardComponent,
+  LeaderboardCardComponent,
+  StreakCardComponent,
+  TierCardComponent,
+  WeightProgressCardComponent
+} from 'domain';
 import { AuthStateService } from '../../auth-state.service';
 
 const PRIMARY_DESTINATIONS: NavDestination[] = [
@@ -14,7 +20,14 @@ const PRIMARY_DESTINATIONS: NavDestination[] = [
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [AppShellComponent, HealthBadgeComponent],
+  imports: [
+    AppShellComponent,
+    DailyRingCardComponent,
+    StreakCardComponent,
+    WeightProgressCardComponent,
+    TierCardComponent,
+    LeaderboardCardComponent
+  ],
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss'
 })
@@ -40,9 +53,8 @@ export class DashboardPage implements OnInit {
     this.meApi.getMe().subscribe({
       next: (user) => this.currentUser.set(user),
       error: () => {
-        // Auth interceptor handles 401 (refresh+retry or sign-out). Anything
-        // else falls back silently to AuthStateService snapshot via the
-        // computed defaults so the dashboard isn't blank on transient errors.
+        // Auth interceptor handles 401. Other errors fall back to the
+        // AuthStateService snapshot via the computed defaults.
       }
     });
   }
