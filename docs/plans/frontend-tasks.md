@@ -136,7 +136,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/sign-up.spec.ts` — register a fresh user → auto sign-in → land on `/dashboard`.
 - **Guidance:** Frontend, Authentication, General.
 
-### FT-013 — Password reset request + confirm
+### FT-013 — Password reset request + confirm ⚠ request leg ✅ done; confirm leg blocked on BT-005
 
 - **Requirements:** L2-004. Mock: `password-reset.html`.
 - **Slice:**
