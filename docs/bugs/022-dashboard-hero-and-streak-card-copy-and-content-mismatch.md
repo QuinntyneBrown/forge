@@ -1,7 +1,7 @@
 # Bug 022: Dashboard hero and streak/rewards cards have wrong copy and missing sub-content
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

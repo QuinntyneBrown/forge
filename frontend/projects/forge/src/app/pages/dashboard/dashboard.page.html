@@ -23,8 +23,51 @@
         <p class="dashboard__hero-eyebrow" data-testid="dashboard-hero-eyebrow">
           Today's active calories
         </p>
-        <h2 class="dashboard__hero-title">Keep the streak going</h2>
-        <forge-daily-ring-card class="dashboard__hero-ring"></forge-daily-ring-card>
+        <h2 class="dashboard__hero-title" data-testid="dashboard-hero-title">{{ heroTitle() }}</h2>
+        <div class="dashboard__hero-row">
+          <forge-daily-ring-card class="dashboard__hero-ring"></forge-daily-ring-card>
+          <ul class="dashboard__hero-stats">
+            <li
+              class="dashboard__hero-stat"
+              data-testid="dashboard-hero-stat"
+              data-testid-alt="dashboard-hero-stat-minutes"
+            >
+              <span class="dashboard__hero-stat-icon">
+                <span class="material-icons" aria-hidden="true">timer</span>
+              </span>
+              <span class="dashboard__hero-stat-text" data-testid="dashboard-hero-stat-minutes">
+                <span class="dashboard__hero-stat-label">Workout minutes</span>
+                <span class="dashboard__hero-stat-value">{{ todayMinutes() }} min</span>
+              </span>
+            </li>
+            <li
+              class="dashboard__hero-stat"
+              data-testid="dashboard-hero-stat"
+            >
+              <span class="dashboard__hero-stat-icon">
+                <span class="material-icons" aria-hidden="true">favorite</span>
+              </span>
+              <span class="dashboard__hero-stat-text" data-testid="dashboard-hero-stat-hr">
+                <span class="dashboard__hero-stat-label">Avg heart rate</span>
+                <span class="dashboard__hero-stat-value">
+                  @if (avgHeartRate() != null) { {{ avgHeartRate() }} bpm } @else { — }
+                </span>
+              </span>
+            </li>
+            <li
+              class="dashboard__hero-stat"
+              data-testid="dashboard-hero-stat"
+            >
+              <span class="dashboard__hero-stat-icon">
+                <span class="material-icons" aria-hidden="true">monitor_weight</span>
+              </span>
+              <span class="dashboard__hero-stat-text" data-testid="dashboard-hero-stat-weight">
+                <span class="dashboard__hero-stat-label">Weight trend</span>
+                <span class="dashboard__hero-stat-value">{{ weightTrend() }}</span>
+              </span>
+            </li>
+          </ul>
+        </div>
         <div class="dashboard__hero-cta">
           <button
             type="button"
@@ -49,8 +92,47 @@
 
       <!-- Streak / rewards card with sparkline + badge row -->
       <section class="dashboard__streak-rewards dashboard__cell--side">
-        <forge-streak-card></forge-streak-card>
-        <div class="dashboard__sparkline-block">
+        <p class="dashboard__card-eyebrow">Streak &amp; rewards</p>
+        <h3 class="dashboard__card-title" data-testid="dashboard-streak-title">{{ streakTitle() }}</h3>
+        <p class="dashboard__card-sub">
+          Best in the last 30 days. Keep going to hit Morning Warrior x10.
+        </p>
+        <div class="dashboard__streak-mini-grid">
+          <div class="dashboard__mini-stat" data-testid="dashboard-streak-points-today">
+            <span class="dashboard__mini-stat-label">Reward points today</span>
+            <span class="dashboard__mini-stat-value">+{{ pointsToday() }}<span class="dashboard__mini-stat-unit">pts</span></span>
+            <svg
+              class="dashboard__sparkline"
+              data-testid="dashboard-sparkline"
+              viewBox="0 0 100 30"
+              preserveAspectRatio="none"
+              role="img"
+              aria-label="Reward points trend over the last 7 days"
+            >
+              @for (bar of sparklineBars; track $index) {
+                <rect
+                  [attr.x]="$index * 14 + 2"
+                  [attr.y]="30 - (bar * 0.28)"
+                  width="10"
+                  [attr.height]="bar * 0.28"
+                  rx="2"
+                  class="dashboard__sparkline-bar"
+                />
+              }
+            </svg>
+          </div>
+          <div class="dashboard__mini-stat" data-testid="dashboard-streak-points-total">
+            <span class="dashboard__mini-stat-label">Total points balance</span>
+            <span class="dashboard__mini-stat-value">{{ pointsTotal() | number }}<span class="dashboard__mini-stat-unit">pts</span></span>
+            <a
+              routerLink="/rewards"
+              class="dashboard__mini-stat-link"
+              data-testid="dashboard-streak-redeem-link"
+            >Redeem ›</a>
+          </div>
+        </div>
+        <forge-streak-card class="dashboard__streak-multiplier"></forge-streak-card>
+        <div class="dashboard__sparkline-block" hidden>
           <p class="dashboard__sparkline-label">Reward points · last 7 days</p>
           <svg
             class="dashboard__sparkline"

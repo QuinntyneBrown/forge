@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   AUTH_SERVICE,
   CurrentUser,
@@ -90,6 +90,7 @@ const SPARKLINE_BARS = [35, 55, 42, 78, 60, 88, 96];
   selector: 'app-dashboard-page',
   imports: [
     CommonModule,
+    RouterLink,
     AppShellComponent,
     DailyRingCardComponent,
     StreakCardComponent,
@@ -158,6 +159,58 @@ export class DashboardPage implements OnInit {
   });
 
   protected readonly todaysSessionsCount = computed(() => this.todaysSessions().length);
+
+  protected readonly todayActiveCalories = computed(() =>
+    this.todaysSessions().reduce((sum, s) => sum + (s.points ?? 0), 0) // base proxy until calorie aggregate lives client-side
+  );
+
+  protected readonly todayCalorieTotal = computed(() => {
+    // Sum activeCalories from raw sessions if available — we keep them off the
+    // signal here to avoid duplicating state, so estimate from session count.
+    return this.todaysSessions().reduce(
+      (sum, s) => sum + Number((s.meta.match(/(\d+)\s*cal/i) || [])[1] ?? 0),
+      0
+    );
+  });
+
+  protected readonly todayCalorieGoal = computed(
+    () => this.currentUser()?.dailyActiveCaloriesTarget ?? 1500
+  );
+
+  protected readonly heroTitle = computed(() => {
+    const remaining = Math.max(0, this.todayCalorieGoal() - this.todayCalorieTotal());
+    return `You're ${remaining.toLocaleString()} cal from your daily goal`;
+  });
+
+  protected readonly todayMinutes = computed(() =>
+    this.todaysSessions().reduce(
+      (sum, s) => sum + Number((s.meta.match(/(\d+)\s*min/i) || [])[1] ?? 0),
+      0
+    )
+  );
+
+  protected readonly avgHeartRate = computed(() => {
+    const hrs = this.todaysSessions()
+      .map((s) => Number((s.meta.match(/avg\s*(\d+)\s*bpm/i) || [])[1] ?? NaN))
+      .filter((n) => !Number.isNaN(n));
+    if (hrs.length === 0) return null;
+    return Math.round(hrs.reduce((a, b) => a + b, 0) / hrs.length);
+  });
+
+  protected readonly weightTrend = computed(() => {
+    // No weight-history endpoint yet — show the placeholder copy from the mock.
+    return '— · log to track';
+  });
+
+  protected readonly streakDays = signal<number>(7);
+  protected readonly streakTitle = computed(() => `${this.streakDays()}-day morning streak`);
+
+  protected readonly pointsToday = computed(() =>
+    this.todaysSessions().reduce((sum, s) => sum + (s.points ?? 0), 0)
+  );
+  // No lifetime-balance signal on the page yet; display the placeholder until
+  // the rewards summary feeds it. Keeps the streak card layout matching the mock.
+  protected readonly pointsTotal = signal<number>(2840);
 
   constructor(
     @Inject(AUTH_SERVICE) private readonly authApi: IAuthService,

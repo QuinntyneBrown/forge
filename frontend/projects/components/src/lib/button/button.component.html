@@ -1,3 +1,13 @@
+<!--
+  Angular content projection happens once when the component is created — the
+  projected nodes get attached to the FIRST <ng-content> the compiler sees.
+  Repeating <ng-content> inside @switch branches only fills one branch (and
+  the wrong one if the active variant changes), so we declare the projected
+  label once in an <ng-template> and stamp it via ngTemplateOutlet inside
+  each branch. See bug 024.
+-->
+<ng-template #label><ng-content></ng-content></ng-template>
+
 @switch (variant) {
   @case ('outlined') {
     <button
@@ -10,7 +20,7 @@
       @if (loading) {
         <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
       }
-      <ng-content></ng-content>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
     </button>
   }
   @case ('text') {
@@ -24,7 +34,7 @@
       @if (loading) {
         <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
       }
-      <ng-content></ng-content>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
     </button>
   }
   @default {
@@ -38,7 +48,7 @@
       @if (loading) {
         <mat-spinner class="button__spinner" diameter="18"></mat-spinner>
       }
-      <ng-content></ng-content>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
     </button>
   }
 }
