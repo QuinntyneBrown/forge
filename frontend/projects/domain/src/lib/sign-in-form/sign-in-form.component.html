@@ -22,6 +22,15 @@
       />
     </label>
 
+    <forge-checkbox
+      class="sign-in-form__remember"
+      [checked]="rememberMe"
+      (checkedChange)="onRememberMeChange($event)"
+      testid="sign-in-remember-me"
+    >
+      Remember me
+    </forge-checkbox>
+
     @if (errorMessage) {
       <p class="sign-in-form__error" data-testid="sign-in-error">{{ errorMessage }}</p>
     }

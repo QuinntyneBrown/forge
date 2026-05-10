@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthResult } from 'api';
-import { SignInFormComponent } from 'domain';
+import { SignedInEvent, SignInFormComponent } from 'domain';
 import { AuthStateService } from '../../auth-state.service';
 
 @Component({
@@ -16,8 +15,8 @@ export class SignInPage {
     private readonly router: Router
   ) {}
 
-  protected onSignedIn(result: AuthResult): void {
-    this.auth.setSession(result);
+  protected onSignedIn(event: SignedInEvent): void {
+    this.auth.setSession(event.result, event.rememberMe);
     this.router.navigate(['/dashboard']);
   }
 }

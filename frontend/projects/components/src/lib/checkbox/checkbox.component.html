@@ -1,0 +1,11 @@
+<mat-checkbox
+  class="checkbox"
+  [checked]="checked"
+  [disabled]="disabled"
+  [attr.data-testid]="testid"
+  (change)="onChange($event)"
+>
+  <span class="checkbox__label">
+    <ng-content></ng-content>
+  </span>
+</mat-checkbox>

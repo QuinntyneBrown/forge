@@ -60,7 +60,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** the first consumer that successfully exercises the revised pattern (likely a profile-form or workout-detail-form slice).
 - **Guidance:** Frontend.
 
-### FT-005 — `CheckboxComponent` wrapping `<mat-checkbox>`
+### FT-005 — `CheckboxComponent` wrapping `<mat-checkbox>` ✅ done
 
 - **Requirements:** L2-002 (Remember me).
 - **Slice:**
@@ -157,7 +157,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Acceptance test:** `tests/refresh-and-guard.spec.ts` — sign in, force-expire the access token (drop it from `AuthStateService` via a test-only debug API or by calling a backend endpoint that rejects the current token), make an authed call → it transparently refreshes and succeeds. Visit `/dashboard` unauthed → redirected to `/sign-in?returnUrl=/dashboard`.
 - **Guidance:** Frontend, Authentication.
 
-### FT-015 — Remember-me persistence (refresh token in `localStorage`)
+### FT-015 — Remember-me persistence (refresh token in `localStorage`) ✅ done
 
 - **Requirements:** L2-002 (acceptance criterion 2), L2-033.
 - **Slice:**

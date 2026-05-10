@@ -1,20 +1,26 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AUTH_SERVICE, AuthResult, IAuthService } from 'api';
-import { ButtonComponent, CardComponent } from 'components';
+import { ButtonComponent, CardComponent, CheckboxComponent } from 'components';
+
+export interface SignedInEvent {
+  result: AuthResult;
+  rememberMe: boolean;
+}
 
 @Component({
   selector: 'forge-sign-in-form',
-  imports: [ReactiveFormsModule, CardComponent, ButtonComponent],
+  imports: [ReactiveFormsModule, CardComponent, ButtonComponent, CheckboxComponent],
   templateUrl: './sign-in-form.component.html',
   styleUrl: './sign-in-form.component.scss'
 })
 export class SignInFormComponent {
-  @Output() readonly signedIn = new EventEmitter<AuthResult>();
+  @Output() readonly signedIn = new EventEmitter<SignedInEvent>();
 
   protected readonly form;
   protected errorMessage: string | null = null;
   protected submitting = false;
+  protected rememberMe = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -26,6 +32,10 @@ export class SignInFormComponent {
     });
   }
 
+  protected onRememberMeChange(checked: boolean): void {
+    this.rememberMe = checked;
+  }
+
   protected onSubmit(): void {
     if (this.form.invalid || this.submitting) {
       return;
@@ -35,7 +45,7 @@ export class SignInFormComponent {
     this.auth.signIn(this.form.getRawValue()).subscribe({
       next: (result) => {
         this.submitting = false;
-        this.signedIn.emit(result);
+        this.signedIn.emit({ result, rememberMe: this.rememberMe });
       },
       error: (err) => {
         this.submitting = false;

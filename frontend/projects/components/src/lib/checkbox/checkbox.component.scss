@@ -1,0 +1,10 @@
+/* mat-checkbox supplies the M3 checkbox shape, palette, and hit area via
+   mat.theme(...). The BEM hooks remain so consumers can tune label spacing. */
+
+:host {
+  display: inline-flex;
+}
+
+.checkbox__label {
+  letter-spacing: 0.01em;
+}
