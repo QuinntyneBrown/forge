@@ -81,7 +81,7 @@ Conventions:
 - **Acceptance test:** delete account, attempt sign-in → `401`. Inspect row → email is the sentinel pattern.
 - **Guidance:** Authentication, Data protection.
 
-### BT-006a — `IClock` abstraction
+### BT-006a — `IClock` abstraction ✅ done
 
 - **Requirements:** Cross-cutting test seam for time-dependent slices (L2-016, L2-017, L2-019, L2-020, L2-024, L2-025, L2-026, L2-029, L2-034).
 - **Slice:**

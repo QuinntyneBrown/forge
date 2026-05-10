@@ -12,10 +12,12 @@ public class RefreshTokenStore : IRefreshTokenStore
     private static readonly TimeSpan DefaultLifetime = TimeSpan.FromDays(14);
 
     private readonly IAppDbContext _db;
+    private readonly IClock _clock;
 
-    public RefreshTokenStore(IAppDbContext db)
+    public RefreshTokenStore(IAppDbContext db, IClock clock)
     {
         _db = db;
+        _clock = clock;
     }
 
     public async Task<IssuedRefreshToken> IssueAsync(
@@ -25,7 +27,7 @@ public class RefreshTokenStore : IRefreshTokenStore
     {
         var rawToken = GenerateRawToken();
         var hash = ComputeHash(rawToken);
-        var now = DateTimeOffset.UtcNow;
+        var now = _clock.UtcNow;
 
         var token = new RefreshToken
         {
@@ -46,7 +48,7 @@ public class RefreshTokenStore : IRefreshTokenStore
     public async Task<RefreshToken?> ConsumeAsync(string rawToken, CancellationToken cancellationToken)
     {
         var hash = ComputeHash(rawToken);
-        var now = DateTimeOffset.UtcNow;
+        var now = _clock.UtcNow;
 
         var token = await _db.RefreshTokens.FirstOrDefaultAsync(t => t.TokenHash == hash, cancellationToken);
         if (token is null)
@@ -74,7 +76,7 @@ public class RefreshTokenStore : IRefreshTokenStore
 
     public async Task RevokeFamilyAsync(Guid familyId, CancellationToken cancellationToken)
     {
-        var now = DateTimeOffset.UtcNow;
+        var now = _clock.UtcNow;
         var members = await _db.RefreshTokens
             .Where(t => t.FamilyId == familyId && t.RevokedAt == null)
             .ToListAsync(cancellationToken);
