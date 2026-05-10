@@ -3,6 +3,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAuthService } from './auth.service.contract';
 import { AuthResult } from './models/auth-result.model';
+import { RegisterRequest } from './models/register-request.model';
 import { SignInRequest } from './models/sign-in-request.model';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -16,5 +17,9 @@ export class AuthService implements IAuthService {
 
   signIn(request: SignInRequest): Observable<AuthResult> {
     return this.http.post<AuthResult>(`${this.baseUrl}/api/auth/sign-in`, request);
+  }
+
+  register(request: RegisterRequest): Observable<AuthResult> {
+    return this.http.post<AuthResult>(`${this.baseUrl}/api/auth/register`, request);
   }
 }

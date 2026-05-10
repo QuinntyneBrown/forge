@@ -1,0 +1,16 @@
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sign-up-form__error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--md-sys-color-error, #ba1a1a);
+}
+
+.sign-up-form__submit {
+  display: block;
+  margin-top: 8px;
+}

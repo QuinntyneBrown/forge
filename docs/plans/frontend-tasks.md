@@ -49,12 +49,15 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-027 (first consumer).
 - **Guidance:** Frontend.
 
-### FT-004 — `FieldComponent` wrapping `<mat-form-field appearance="outline">`
+### FT-004 — `FieldComponent` wrapping `<mat-form-field appearance="outline">` ⚠ design pending
 
 - **Requirements:** L2-005, L2-007.
-- **Slice:**
-  - `projects/components/src/lib/field/field.component.{ts,html,scss}` projects the inner `<input matInput>` / `<textarea matInput>` / `<mat-select>` via `<ng-content>`. Inputs: `[label]`, `[supportingText]`, `[error]`. Floating label, hint, error slot all come from Material.
-- **Acceptance test:** existing `sign-in.spec.ts` (email + password fields) continues to pass after the form is migrated to `<forge-field>` (FT-012 SignUpForm + FT-013 PasswordReset reuse the same pattern).
+- **Original slice (rejected during FT-012 implementation):** project the inner `<input matInput>` via `<ng-content>` into a `<mat-form-field>` defined in `FieldComponent`'s template. Verified to break at runtime — `MatFormField`'s `@ContentChild(MatFormFieldControl)` does not resolve the projected `MatInput` instance through the wrapper's view, producing `Error: mat-form-field must contain a MatFormFieldControl.`. FT-012 ships `<mat-form-field>` + `<input matInput>` directly inline as a result.
+- **Revised approach (deferred to a follow-up FI1 slice):** swap `<ng-content>` projection for a directive- or template-input-based pattern. Two viable designs:
+  1. Take the input value as an `@Input()` and have `FieldComponent` render its own `<input matInput [type]="type">` internally — loses textarea/select flexibility but eliminates the projection issue.
+  2. Drop the `<mat-form-field>` wrapper and have `FieldComponent` be a directive (`forgeField`) on the consumer's `<mat-form-field>` that supplies label / hint / error inputs declaratively — keeps the consumer's template simple while still abstracting the field anatomy.
+- **Acceptance test:** to be written when the revised design lands; will verify a sign-up / profile slice still passes after migrating `<mat-form-field>` to `<forge-field>` (or `[forgeField]`).
+- **Ships with:** the first consumer that successfully exercises the revised pattern (likely a profile-form or workout-detail-form slice).
 - **Guidance:** Frontend.
 
 ### FT-005 — `CheckboxComponent` wrapping `<mat-checkbox>`
@@ -122,7 +125,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.1 — Auth surfaces (parallel with BI1.1)
 
-### FT-012 — Sign-up form
+### FT-012 — Sign-up form ✅ done
 
 - **Requirements:** L2-001. Mock: `sign-up.html`.
 - **Slice:**
