@@ -35,28 +35,25 @@ public class ExceptionHandlingMiddleware
                 Title = "One or more validation errors occurred."
             };
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            context.Response.ContentType = ProblemJson;
-            await context.Response.WriteAsJsonAsync(problem);
+            await context.Response.WriteAsJsonAsync(problem, options: null, contentType: ProblemJson);
         }
         catch (EmailAlreadyRegisteredException)
         {
             context.Response.StatusCode = StatusCodes.Status409Conflict;
-            context.Response.ContentType = ProblemJson;
             await context.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Status = StatusCodes.Status409Conflict,
                 Title = "Email already registered."
-            });
+            }, options: null, contentType: ProblemJson);
         }
         catch (InvalidCredentialsException)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            context.Response.ContentType = ProblemJson;
             await context.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Status = StatusCodes.Status401Unauthorized,
                 Title = "Invalid credentials."
-            });
+            }, options: null, contentType: ProblemJson);
         }
         catch (UnauthorizedAccessException)
         {
@@ -66,12 +63,11 @@ public class ExceptionHandlingMiddleware
         {
             _logger.LogError(ex, "Unhandled exception");
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            context.Response.ContentType = ProblemJson;
             await context.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "Internal server error."
-            });
+            }, options: null, contentType: ProblemJson);
         }
     }
 }
