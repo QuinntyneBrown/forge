@@ -1,7 +1,7 @@
 # Bug 023: Bottom navigation regressed — floats mid-page again on tablet/mobile for non-dashboard routes
 
 ## Status
-Complete — `bottom-nav-pinned-routes.spec.ts` exercises /workouts/new, /workouts/:id, /profile, and /rewards at mobile (390x740) and tablet (834x1024) widths, asserting the nav's `boundingBox().y + height === window.innerHeight` after scrolling main to the bottom. Both tests pass against the current app-shell layout (the Bug 015 refactor that moved the nav to a sibling of the scrollable main column resolved this). Regression guard locked in via the new spec.
+Complete
 
 ## Severity
 High
@@ -39,3 +39,29 @@ This is a regression-or-incomplete-fix and merits a fresh bug rather than reopen
 - Inspect the live DOM on `/workout-detail` at mobile width: confirm `<forge-bottom-nav>`'s computed `position` is `fixed` and that no ancestor between it and `<body>` has `transform`, `filter`, `perspective`, `contain: paint`, or `will-change: transform` set (any of those re-establishes the containing block for `fixed`).
 - The Bug 019 spec asserted this for `/dashboard` only — extend `frontend/e2e/tests/bottom-nav-pinned.spec.ts` to cover `/workouts`, `/workouts/new`, `/workout-detail/:id`, `/profile`, `/rewards` at both mobile and tablet viewports.
 - If the host on those routes wraps content in a Material `mat-drawer-container` or similar that introduces a transform on its scrollable child, switch the nav to be a sibling of that container (mounted directly under the app-shell flex column), not a descendant.
+
+## Resolution
+
+No code change required — the audit description does not reproduce on the current app-shell layout. Verified directly by signing in as the seeded dev user (`dev@forge.local`) and probing the live DOM on `/workouts/new`, `/workouts/:id` (first seeded session), `/profile`, and `/rewards` at both audit viewport sizes (mobile 390x844, tablet 834x1112):
+
+- `getBoundingClientRect().bottom` of `<forge-bottom-nav>` equals `window.innerHeight` (delta < 1px) BOTH before any scroll AND after scrolling the page (and `.app-shell__main`) to the bottom.
+- The host's computed `position` resolves to `sticky` on every route.
+- Walking the DOM from the host up to `<html>`, NO ancestor has a non-`none` `transform`, `filter`, `perspective`, `backdrop-filter`, `will-change` (transform/filter/perspective), or `contain: layout/paint/strict`. So nothing re-establishes the containing block of `position: fixed`/`sticky` descendants on these routes.
+
+The Bug 015 app-shell refactor (`frontend/projects/components/src/lib/app-shell/app-shell.component.scss:1-105` plus `bottom-nav.component.scss:4-9`) makes the bottom-nav a sibling of the scrolling main column, with `position: sticky; bottom: 0` on the host. Combined with `.app-shell { display: flex; flex-direction: column; min-height: 100vh }`, the nav pins to the viewport bottom on every authenticated route. The second-pass audit screenshots that motivated this bug appear to predate that refactor's full propagation across all pages.
+
+### Regression guards
+
+Two specs lock in the invariant; both pass on current main:
+
+- `frontend/e2e/tests/bottom-nav-pinned-routes.spec.ts` (added with the initial Bug 023 close) — fresh user, post-scroll only, viewports 390x740 + 834x1024. Covers /workouts/new, /workouts/:id, /profile, /rewards.
+- `frontend/e2e/tests/bottom-nav-pinned-form-routes.spec.ts` (added with the second-pass audit close) — seeded dev user (so pages overflow), audit-mandated viewports 390x844 + 834x1112. Covers the same 4 routes (8 combos total). In addition to before+after-scroll position, asserts the host is `fixed`/`sticky` AND that no ancestor has a `transform`/`filter`/`perspective`/`backdrop-filter`/`will-change`/`contain` that would silently break the pin.
+
+Combo matrix (8 of 8 passing):
+
+| Route             | mobile 390x844 | tablet 834x1112 |
+| ----------------- | -------------- | --------------- |
+| /workouts/new     | pass           | pass            |
+| /workouts/:id     | pass           | pass            |
+| /profile          | pass           | pass            |
+| /rewards          | pass           | pass            |
