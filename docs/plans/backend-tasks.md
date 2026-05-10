@@ -182,7 +182,7 @@ Conventions:
 - **Acceptance test:** update profile fields; `GET /api/me` reflects them; changing email to an existing one returns `409`.
 - **Guidance:** Backend, Validation.
 
-### BT-016 — Record current weight
+### BT-016 — Record current weight ✅ done
 
 - **Requirements:** L2-015.
 - **Slice:**

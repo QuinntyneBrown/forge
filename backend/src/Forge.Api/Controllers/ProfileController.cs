@@ -33,4 +33,13 @@ public class ProfileController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return NoContent();
     }
+
+    [HttpPost("weight")]
+    public async Task<IActionResult> RecordWeight(
+        [FromBody] RecordWeightRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new RecordCurrentWeightCommand(request.WeightLb), cancellationToken);
+        return NoContent();
+    }
 }

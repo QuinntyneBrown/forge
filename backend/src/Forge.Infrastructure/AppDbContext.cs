@@ -14,6 +14,7 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<SignInAttempt> SignInAttempts => Set<SignInAttempt>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
+    public DbSet<WeightEntry> WeightEntries => Set<WeightEntry>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,6 +88,13 @@ public class AppDbContext : DbContext, IAppDbContext
             b.Property(t => t.TokenHash).HasMaxLength(128).IsRequired();
             b.HasIndex(t => t.TokenHash).IsUnique();
             b.HasIndex(t => t.UserId);
+        });
+
+        modelBuilder.Entity<WeightEntry>(b =>
+        {
+            b.HasKey(w => w.Id);
+            b.Property(w => w.WeightLb).HasPrecision(6, 2);
+            b.HasIndex(w => new { w.UserId, w.RecordedAt });
         });
     }
 }

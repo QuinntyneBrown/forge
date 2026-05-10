@@ -11,5 +11,6 @@ public interface IAppDbContext
     DbSet<SignInAttempt> SignInAttempts { get; }
     DbSet<AuditLog> AuditLogs { get; }
     DbSet<PasswordResetToken> PasswordResetTokens { get; }
+    DbSet<WeightEntry> WeightEntries { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
