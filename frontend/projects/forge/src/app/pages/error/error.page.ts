@@ -17,6 +17,8 @@ interface DiagnosticRow {
 export class ErrorPage {
   private readonly route = inject(ActivatedRoute);
   protected readonly traceId = this.route.snapshot.queryParamMap.get('traceId');
+  protected readonly errorCode =
+    this.route.snapshot.queryParamMap.get('code') ?? 'ERR_HEALTHKIT_OFFLINE · 0xA3';
 
   protected readonly diagnostics: DiagnosticRow[] = [
     { label: 'Forge Fit servers', detail: 'Online · 32 ms', icon: 'check_circle', tone: 'ok' },
