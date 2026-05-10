@@ -281,7 +281,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** seeded rewards listed; inactive items hidden.
 - **Guidance:** Backend.
 
-### BT-027 — Redeem reward
+### BT-027 — Redeem reward ✅ done
 
 - **Requirements:** L2-021.
 - **Slice:**

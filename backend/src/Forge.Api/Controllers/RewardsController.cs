@@ -23,4 +23,11 @@ public class RewardsController : ControllerBase
         var items = await _mediator.Send(new ListRewardsQuery(), cancellationToken);
         return Ok(items);
     }
+
+    [HttpPost("{id:guid}/redeem")]
+    public async Task<ActionResult<RedeemRewardResult>> Redeem(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new RedeemRewardCommand(id), cancellationToken);
+        return Ok(result);
+    }
 }

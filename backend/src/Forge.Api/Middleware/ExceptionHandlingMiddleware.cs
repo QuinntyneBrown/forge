@@ -1,5 +1,6 @@
 using FluentValidation;
 using Forge.Application.Auth;
+using Forge.Application.Rewards;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forge.Api.Middleware;
@@ -73,6 +74,26 @@ public class ExceptionHandlingMiddleware
             {
                 Status = StatusCodes.Status429TooManyRequests,
                 Title = "Too many failed sign-in attempts. Try again later.",
+                Detail = ex.Message
+            }, options: null, contentType: ProblemJson);
+        }
+        catch (InsufficientPointsException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "INSUFFICIENT_POINTS",
+                Detail = ex.Message
+            }, options: null, contentType: ProblemJson);
+        }
+        catch (RewardNotFoundException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "Reward not found.",
                 Detail = ex.Message
             }, options: null, contentType: ProblemJson);
         }
