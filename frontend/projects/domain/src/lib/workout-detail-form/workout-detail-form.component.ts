@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, computed, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Inject, Input, OnInit, Output, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -56,6 +57,8 @@ export class WorkoutDetailFormComponent implements OnInit {
     this.mode === 'edit' ? 'Save changes' : 'Save session'
   );
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     private readonly fb: FormBuilder,
     @Inject(SESSIONS_SERVICE) private readonly sessions: ISessionsService,
@@ -84,13 +87,15 @@ export class WorkoutDetailFormComponent implements OnInit {
       notes: this.fb.control<string | null>(null, [Validators.maxLength(2000)])
     });
 
-    this.form.controls.equipment.valueChanges.subscribe((value) => {
-      this.equipmentValue.set(value);
-    });
+    this.form.controls.equipment.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.equipmentValue.set(value);
+      });
   }
 
   ngOnInit(): void {
-    this.equipmentApi.list().subscribe({
+    this.equipmentApi.list().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (items) => this.equipment.set(items),
       error: () => undefined
     });
@@ -118,7 +123,7 @@ export class WorkoutDetailFormComponent implements OnInit {
 
     if (this.mode === 'edit' && this.sessionId) {
       const request: UpdateSessionRequest = body;
-      this.sessions.update(this.sessionId, request).subscribe({
+      this.sessions.update(this.sessionId, request).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: () => {
           this.submitting.set(false);
           this.saved.emit();
@@ -132,7 +137,7 @@ export class WorkoutDetailFormComponent implements OnInit {
     }
 
     const request: CreateSessionRequest = body;
-    this.sessions.create(request).subscribe({
+    this.sessions.create(request).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.submitting.set(false);
         this.created.emit(result);

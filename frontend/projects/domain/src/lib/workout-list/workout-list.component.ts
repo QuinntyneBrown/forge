@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, computed, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import {
   EQUIPMENT_SERVICE,
@@ -78,6 +79,8 @@ export class WorkoutListComponent implements OnInit {
   protected readonly sessions = signal<Session[]>([]);
   protected readonly loading = signal(false);
 
+  private readonly destroyRef = inject(DestroyRef);
+
   protected readonly rangeChips = RANGE_CHIPS;
 
   protected readonly hasSessions = computed(() => this.sessions().length > 0);
@@ -137,7 +140,7 @@ export class WorkoutListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.equipmentApi.list().subscribe({
+    this.equipmentApi.list().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (items) => this.equipment.set(items),
       error: () => undefined
     });
@@ -211,7 +214,7 @@ export class WorkoutListComponent implements OnInit {
       query.equipment = equipment;
     }
     this.loading.set(true);
-    this.sessionsApi.list(query).subscribe({
+    this.sessionsApi.list(query).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (page) => {
         this.sessions.set(page.items);
         this.loading.set(false);

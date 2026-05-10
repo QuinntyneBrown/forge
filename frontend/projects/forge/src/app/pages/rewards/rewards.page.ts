@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, computed, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   DASHBOARD_SERVICE,
   DashboardSummary,
@@ -26,6 +27,7 @@ const DESTINATIONS: NavDestination[] = [
 })
 export class RewardsPage implements OnInit {
   protected readonly destinations = DESTINATIONS;
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly summary = signal<DashboardSummary | null>(null);
   private readonly tier = signal<Tier | null>(null);
@@ -77,13 +79,19 @@ export class RewardsPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dashboard.getSummary().subscribe({
-      next: (result) => this.summary.set(result),
-      error: () => undefined
-    });
-    this.rewardsApi.getCurrentTier().subscribe({
-      next: (result) => this.tier.set(result),
-      error: () => undefined
-    });
+    this.dashboard
+      .getSummary()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (result) => this.summary.set(result),
+        error: () => undefined
+      });
+    this.rewardsApi
+      .getCurrentTier()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (result) => this.tier.set(result),
+        error: () => undefined
+      });
   }
 }

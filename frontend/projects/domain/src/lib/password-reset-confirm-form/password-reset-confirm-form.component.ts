@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, Input, Output, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Inject, Input, Output, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +19,7 @@ export class PasswordResetConfirmFormComponent {
   protected readonly form;
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly submitting = signal(false);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -41,7 +43,7 @@ export class PasswordResetConfirmFormComponent {
     }
     this.submitting.set(true);
     this.errorMessage.set(null);
-    this.auth.confirmPasswordReset(this.token, this.form.controls.newPassword.value).subscribe({
+    this.auth.confirmPasswordReset(this.token, this.form.controls.newPassword.value).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.submitting.set(false);
         this.confirmed.emit();

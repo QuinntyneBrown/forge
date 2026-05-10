@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ISessionsService, SESSIONS_SERVICE, Session } from 'api';
 import { AppShellComponent, ButtonComponent, NavDestination } from 'components';
@@ -28,6 +29,7 @@ const DESTINATIONS: NavDestination[] = [
 export class WorkoutDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly destinations = DESTINATIONS;
   protected readonly session = signal<Session | null>(null);
@@ -43,7 +45,7 @@ export class WorkoutDetailPage implements OnInit {
     if (!this.sessionId) {
       return;
     }
-    this.sessions.getById(this.sessionId).subscribe({
+    this.sessions.getById(this.sessionId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (session) => this.session.set(session),
       error: () => this.errorMessage.set('Could not load session.')
     });
@@ -79,7 +81,7 @@ export class WorkoutDetailPage implements OnInit {
       return;
     }
     this.busy.set(true);
-    this.sessions.duplicate(this.sessionId).subscribe({
+    this.sessions.duplicate(this.sessionId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.busy.set(false);
         this.router.navigate(['/workouts']);
@@ -96,7 +98,7 @@ export class WorkoutDetailPage implements OnInit {
       return;
     }
     this.busy.set(true);
-    this.sessions.delete(this.sessionId).subscribe({
+    this.sessions.delete(this.sessionId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.busy.set(false);
         this.router.navigate(['/dashboard']);
