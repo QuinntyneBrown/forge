@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Workouts · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-on-secondary:#fff;--md-sys-color-secondary-container:#FFDBC8;--md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-tertiary:#3F6377;--md-sys-color-tertiary-container:#C3E8FF;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;--md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);--md-elevation-3:0 4px 8px 3px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.10);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{position:sticky;top:0;z-index:10;background:var(--md-sys-color-surface);display:flex;align-items:center;gap:8px;padding:8px 12px;height:64px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .topbar__icon-btn{width:40px;height:40px;border-radius:var(--shape-full);display:grid;place-items:center;background:transparent;border:none;color:var(--md-sys-color-on-surface);cursor:pointer}
+  .topbar__icon-btn:hover{background:var(--md-sys-color-surface-container)}
+  .topbar__title{font-size:18px;font-weight:600;margin:0;flex:1}
+  .avatar{width:36px;height:36px;border-radius:var(--shape-full);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+  .content{flex:1;padding:16px 16px 96px;max-width:1200px;margin:0 auto;width:100%}
+  .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .page-head__title{font-size:28px;font-weight:500;margin:0;line-height:1.1}
+  .page-head__sub{font-size:13px;color:var(--md-sys-color-on-surface-variant);margin:4px 0 0}
+  .summary-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .summary{padding:12px;border-radius:var(--shape-md);background:var(--md-sys-color-surface-container-low);border:1px solid var(--md-sys-color-outline-variant)}
+  .summary__label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--md-sys-color-on-surface-variant);font-weight:700}
+  .summary__value{font-size:20px;font-weight:600;margin-top:4px}
+  .summary__delta{font-size:11px;color:#0A5A3A;font-weight:600;margin-top:2px}
+
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;-webkit-overflow-scrolling:touch}
+  .fchip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--shape-sm);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline);font-size:13px;font-weight:500;color:var(--md-sys-color-on-surface);cursor:pointer;font-family:inherit}
+  .fchip--selected{background:var(--md-sys-color-secondary-container);border-color:transparent;color:var(--md-sys-color-on-secondary-container)}
+  .fchip .material-symbols-rounded{font-size:16px}
+
+  .day-group{margin-top:18px}
+  .day-group__title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--md-sys-color-on-surface-variant);margin:0 4px 8px}
+  .session-list{display:flex;flex-direction:column;gap:8px}
+  .session{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--shape-md);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant);text-decoration:none;color:inherit}
+  .session:hover{background:var(--md-sys-color-surface-container-low)}
+  .session__icon{width:48px;height:48px;border-radius:var(--shape-md);display:grid;place-items:center;flex-shrink:0;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .session__icon--bike{background:#FFE7B0;color:#5A3A00}
+  .session__icon--bench{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+  .session__icon--ell{background:var(--md-sys-color-tertiary-container);color:#1F3F4F}
+  .session__main{flex:1;min-width:0}
+  .session__title{font-size:14px;font-weight:600;margin:0}
+  .session__meta{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:2px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+  .session__meta-item{display:inline-flex;align-items:center;gap:3px}
+  .session__meta-item .material-symbols-rounded{font-size:14px}
+  .session__points-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .session__points{font-size:14px;font-weight:700;color:var(--md-sys-color-secondary)}
+  .session__time{font-size:11px;color:var(--md-sys-color-outline)}
+
+  .fab{position:fixed;right:16px;bottom:88px;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:var(--shape-lg);background:var(--md-sys-color-secondary);color:#fff;border:none;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;box-shadow:var(--md-elevation-3);z-index:20;text-decoration:none}
+  .fab .material-symbols-rounded{font-size:22px}
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);display:flex;justify-content:space-around;padding:6px 4px 10px;z-index:15}
+  .navitem{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-size:11px;font-weight:500}
+  .navitem__pill{width:56px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center}
+  .navitem--active{color:var(--md-sys-color-on-surface)}
+  .navitem--active .navitem__pill{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .navitem .material-symbols-rounded{font-size:24px}
+  .navrail{display:none}
+  @media (min-width:768px){
+    .summary-strip{grid-template-columns:repeat(3,1fr)}
+    .session__meta{font-size:13px}
+    .page-head__title{font-size:36px}
+  }
+  @media (min-width:1100px){
+    .bottomnav{display:none}
+    .fab{right:32px;bottom:32px}
+    .app{display:grid;grid-template-columns:88px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+    .topbar{grid-column:1/-1}
+    .navrail{display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;background:var(--md-sys-color-surface);border-right:1px solid var(--md-sys-color-outline-variant)}
+    .navrail .navitem{width:72px}
+    .content{padding:24px 32px 48px}
+    .summary-strip{grid-template-columns:repeat(4,1fr)}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="topbar__icon-btn" aria-label="Back" onclick="history.back()"><span class="material-symbols-rounded">arrow_back</span></button>
+      <h1 class="topbar__title">Workouts</h1>
+      <button class="topbar__icon-btn" aria-label="Search"><span class="material-symbols-rounded">search</span></button>
+      <button class="topbar__icon-btn" aria-label="Sort"><span class="material-symbols-rounded">sort</span></button>
+      <div class="avatar">Q</div>
+    </header>
+
+    <nav class="navrail" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h2 class="page-head__title">Sessions</h2>
+          <p class="page-head__sub">12 sessions · 6 h 14 min · 4,820 cal this week</p>
+        </div>
+      </div>
+
+      <div class="summary-strip">
+        <div class="summary"><div class="summary__label">This week</div><div class="summary__value">374 min</div><div class="summary__delta">+18% vs last</div></div>
+        <div class="summary"><div class="summary__label">Calories</div><div class="summary__value">4,820</div><div class="summary__delta">+612 vs last</div></div>
+        <div class="summary"><div class="summary__label">Points earned</div><div class="summary__value">1,140</div><div class="summary__delta">+205 vs last</div></div>
+      </div>
+
+      <div class="chips">
+        <button class="fchip fchip--selected"><span class="material-symbols-rounded">check</span> All</button>
+        <button class="fchip"><span class="material-symbols-rounded">directions_run</span> Treadmill</button>
+        <button class="fchip"><span class="material-symbols-rounded">directions_bike</span> Bike</button>
+        <button class="fchip"><span class="material-symbols-rounded">fitness_center</span> Bench</button>
+        <button class="fchip"><span class="material-symbols-rounded">stairs</span> Elliptical</button>
+        <button class="fchip"><span class="material-symbols-rounded">date_range</span> This week</button>
+      </div>
+
+      <div class="day-group">
+        <p class="day-group__title">Today · Tuesday, May 12</p>
+        <div class="session-list">
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon"><span class="material-symbols-rounded">directions_run</span></div>
+            <div class="session__main">
+              <p class="session__title">Treadmill — Easy zone 2</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>22 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>218 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">straighten</span>2.1 mi</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+85 pts</span><span class="session__time">5:12 AM</span></div>
+          </a>
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon session__icon--bike"><span class="material-symbols-rounded">directions_bike</span></div>
+            <div class="session__main">
+              <p class="session__title">Indoor bike — Intervals 4×4</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>30 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>412 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">favorite</span>152 bpm</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+80 pts</span><span class="session__time">5:48 AM</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="day-group">
+        <p class="day-group__title">Yesterday · Monday, May 11</p>
+        <div class="session-list">
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon session__icon--bench"><span class="material-symbols-rounded">fitness_center</span></div>
+            <div class="session__main">
+              <p class="session__title">Bench press — Push day</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>28 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>168 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">scale</span>5 sets · 175 lb</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+95 pts</span><span class="session__time">6:08 AM</span></div>
+          </a>
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon"><span class="material-symbols-rounded">directions_run</span></div>
+            <div class="session__main">
+              <p class="session__title">Treadmill — Hill repeats</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>34 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>388 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">straighten</span>2.8 mi</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+110 pts</span><span class="session__time">5:24 AM</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="day-group">
+        <p class="day-group__title">Sunday, May 10</p>
+        <div class="session-list">
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon session__icon--ell"><span class="material-symbols-rounded">stairs</span></div>
+            <div class="session__main">
+              <p class="session__title">Elliptical — Cross train</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>40 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>362 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">favorite</span>138 bpm</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+90 pts</span><span class="session__time">7:02 AM</span></div>
+          </a>
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon session__icon--bike"><span class="material-symbols-rounded">directions_bike</span></div>
+            <div class="session__main">
+              <p class="session__title">Indoor bike — Endurance</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>45 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>506 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">straighten</span>14.2 mi</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+105 pts</span><span class="session__time">8:15 AM</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="day-group">
+        <p class="day-group__title">Saturday, May 9</p>
+        <div class="session-list">
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon session__icon--bench"><span class="material-symbols-rounded">fitness_center</span></div>
+            <div class="session__main">
+              <p class="session__title">Bench press — Pull day</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>32 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>184 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">scale</span>6 sets · 165 lb</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+100 pts</span><span class="session__time">7:42 AM</span></div>
+          </a>
+          <a href="workout-detail.html" class="session">
+            <div class="session__icon"><span class="material-symbols-rounded">directions_run</span></div>
+            <div class="session__main">
+              <p class="session__title">Treadmill — Recovery walk</p>
+              <p class="session__meta">
+                <span class="session__meta-item"><span class="material-symbols-rounded">timer</span>20 min</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">local_fire_department</span>118 cal</span>
+                <span class="session__meta-item"><span class="material-symbols-rounded">straighten</span>1.3 mi</span>
+              </p>
+            </div>
+            <div class="session__points-wrap"><span class="session__points">+45 pts</span><span class="session__time">6:00 PM</span></div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <a class="fab" href="workout-detail.html" aria-label="Log workout"><span class="material-symbols-rounded">add</span> Log workout</a>
+
+    <nav class="bottomnav" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+  </div>
+</body>
+</html>

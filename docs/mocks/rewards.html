@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rewards · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-on-secondary:#fff;--md-sys-color-secondary-container:#FFDBC8;--md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-tertiary:#3F6377;--md-sys-color-tertiary-container:#C3E8FF;--md-sys-color-on-tertiary-container:#001E2C;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;--md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);--md-elevation-3:0 4px 8px 3px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.10);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{position:sticky;top:0;z-index:10;background:var(--md-sys-color-surface);display:flex;align-items:center;gap:8px;padding:8px 12px;height:64px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .topbar__icon-btn{width:40px;height:40px;border-radius:var(--shape-full);display:grid;place-items:center;background:transparent;border:none;color:var(--md-sys-color-on-surface);cursor:pointer}
+  .topbar__title{font-size:18px;font-weight:600;margin:0;flex:1}
+  .avatar{width:36px;height:36px;border-radius:var(--shape-full);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+  .content{flex:1;padding:0 0 96px;max-width:1200px;margin:0 auto;width:100%}
+
+  /* Balance hero */
+  .balance{padding:28px 20px 28px;background:radial-gradient(120% 80% at 90% 0%,#FFA764 0%,#B8531A 60%,#7A3506 100%);color:#fff;position:relative;overflow:hidden}
+  .balance::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 90%,rgba(255,255,255,.12),transparent 40%);pointer-events:none}
+  .balance__eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin:0 0 6px;opacity:.85}
+  .balance__amount{font-size:44px;font-weight:600;margin:0 0 4px;line-height:1;display:flex;align-items:baseline;gap:8px}
+  .balance__amount-unit{font-size:16px;font-weight:500;opacity:.85}
+  .balance__sub{font-size:13px;opacity:.9;margin:0}
+  .balance__tier{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px;border-radius:var(--shape-md);background:rgba(255,255,255,.14);backdrop-filter:blur(8px)}
+  .balance__tier-medal{width:48px;height:48px;border-radius:var(--shape-full);background:#FFE7B0;color:#5A3A00;display:grid;place-items:center;flex-shrink:0}
+  .balance__tier-medal .material-symbols-rounded{font-size:26px}
+  .balance__tier-info{flex:1;min-width:0}
+  .balance__tier-name{font-size:14px;font-weight:600;margin:0}
+  .balance__tier-sub{font-size:12px;opacity:.85;margin:2px 0 0}
+  .balance__tier-bar{height:6px;border-radius:var(--shape-full);background:rgba(255,255,255,.2);margin-top:8px;overflow:hidden}
+  .balance__tier-bar-fill{height:100%;width:68%;background:linear-gradient(90deg,#FFE7B0,#FFCBA1);border-radius:var(--shape-full)}
+
+  .body{padding:18px 16px}
+  .section-title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--md-sys-color-on-surface-variant);margin:18px 4px 10px;display:flex;align-items:center;justify-content:space-between}
+  .section-title__link{font-size:12px;color:var(--md-sys-color-primary);text-decoration:none;font-weight:600}
+
+  /* Achievements */
+  .ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media (min-width:768px){.ach-grid{grid-template-columns:repeat(3,1fr)}}
+  @media (min-width:1100px){.ach-grid{grid-template-columns:repeat(4,1fr)}}
+  .ach{padding:16px;border-radius:var(--shape-lg);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant);text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .ach__medal{width:56px;height:56px;border-radius:var(--shape-full);display:grid;place-items:center;margin-bottom:4px;position:relative}
+  .ach__medal--gold{background:#FFE7B0;color:#5A3A00}
+  .ach__medal--teal{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .ach__medal--blue{background:var(--md-sys-color-tertiary-container);color:var(--md-sys-color-on-tertiary-container)}
+  .ach__medal--orange{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+  .ach__medal .material-symbols-rounded{font-size:28px}
+  .ach__count{position:absolute;bottom:-4px;right:-4px;background:var(--md-sys-color-secondary);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--shape-full);border:2px solid var(--md-sys-color-surface-container-lowest)}
+  .ach__title{font-size:13px;font-weight:600;margin:0}
+  .ach__sub{font-size:11px;color:var(--md-sys-color-on-surface-variant);margin:0}
+
+  /* In-flight progress */
+  .progress-list{display:flex;flex-direction:column;gap:10px}
+  .progress{padding:14px;border-radius:var(--shape-md);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant)}
+  .progress__top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .progress__icon{width:40px;height:40px;border-radius:var(--shape-md);background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center;flex-shrink:0}
+  .progress__icon .material-symbols-rounded{font-size:22px}
+  .progress__main{flex:1;min-width:0}
+  .progress__title{font-size:14px;font-weight:600;margin:0}
+  .progress__sub{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:2px 0 0}
+  .progress__count{font-size:13px;font-weight:700;color:var(--md-sys-color-primary)}
+  .progress__bar{height:8px;border-radius:var(--shape-full);background:var(--md-sys-color-surface-container-high);overflow:hidden}
+  .progress__bar-fill{height:100%;border-radius:var(--shape-full);background:linear-gradient(90deg,var(--md-sys-color-primary),#1B7A6A)}
+
+  /* Redeemable rewards */
+  .reward-list{display:flex;flex-direction:column;gap:10px}
+  .reward{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--shape-md);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant)}
+  .reward__icon{width:48px;height:48px;border-radius:var(--shape-md);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;flex-shrink:0}
+  .reward__icon .material-symbols-rounded{font-size:26px}
+  .reward__main{flex:1;min-width:0}
+  .reward__title{font-size:14px;font-weight:600;margin:0}
+  .reward__sub{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:2px 0 0}
+  .reward__btn{padding:8px 16px;border-radius:var(--shape-full);background:var(--md-sys-color-primary);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .reward__btn--locked{background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-on-surface-variant)}
+
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);display:flex;justify-content:space-around;padding:6px 4px 10px;z-index:15}
+  .navitem{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-size:11px;font-weight:500}
+  .navitem__pill{width:56px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center}
+  .navitem--active{color:var(--md-sys-color-on-surface)}
+  .navitem--active .navitem__pill{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .navitem .material-symbols-rounded{font-size:24px}
+  .navrail{display:none}
+  @media (min-width:1100px){
+    .bottomnav{display:none}
+    .app{display:grid;grid-template-columns:88px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+    .topbar{grid-column:1/-1}
+    .navrail{display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;background:var(--md-sys-color-surface);border-right:1px solid var(--md-sys-color-outline-variant)}
+    .navrail .navitem{width:72px}
+    .body{padding:24px 32px}
+    .balance{padding:48px 40px}
+    .balance__amount{font-size:64px}
+    .body-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:flex-start}
+    .body-grid__full{grid-column:1/-1}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="topbar__icon-btn" aria-label="Back" onclick="history.back()"><span class="material-symbols-rounded">arrow_back</span></button>
+      <h1 class="topbar__title">Rewards</h1>
+      <button class="topbar__icon-btn" aria-label="History"><span class="material-symbols-rounded">history</span></button>
+      <div class="avatar">Q</div>
+    </header>
+
+    <nav class="navrail" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem navitem--active" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+
+    <main class="content">
+      <section class="balance">
+        <p class="balance__eyebrow">Points balance</p>
+        <h2 class="balance__amount">2,840 <span class="balance__amount-unit">pts</span></h2>
+        <p class="balance__sub">+165 today · +1,140 this week · best week of the month</p>
+        <div class="balance__tier">
+          <div class="balance__tier-medal"><span class="material-symbols-rounded">workspace_premium</span></div>
+          <div class="balance__tier-info">
+            <p class="balance__tier-name">Tier 3 — Forged Iron</p>
+            <p class="balance__tier-sub">680 pts to Tier 4 — Tempered Steel</p>
+            <div class="balance__tier-bar"><span class="balance__tier-bar-fill"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="body">
+        <div class="body-grid">
+          <div>
+            <h3 class="section-title">Recent achievements <a href="#" class="section-title__link">View all</a></h3>
+            <div class="ach-grid">
+              <div class="ach">
+                <div class="ach__medal ach__medal--gold"><span class="material-symbols-rounded">wb_sunny</span><span class="ach__count">×7</span></div>
+                <p class="ach__title">Morning Warrior</p>
+                <p class="ach__sub">Workout before 7 AM</p>
+              </div>
+              <div class="ach">
+                <div class="ach__medal ach__medal--teal"><span class="material-symbols-rounded">local_fire_department</span><span class="ach__count">×3</span></div>
+                <p class="ach__title">1500-Cal Club</p>
+                <p class="ach__sub">Hit daily calorie goal</p>
+              </div>
+              <div class="ach">
+                <div class="ach__medal ach__medal--blue"><span class="material-symbols-rounded">nightlight</span><span class="ach__count">×5</span></div>
+                <p class="ach__title">Night Resister</p>
+                <p class="ach__sub">No food after 8 PM</p>
+              </div>
+              <div class="ach">
+                <div class="ach__medal ach__medal--orange"><span class="material-symbols-rounded">trophy</span><span class="ach__count">×1</span></div>
+                <p class="ach__title">Iron Week</p>
+                <p class="ach__sub">All 4 machines this week</p>
+              </div>
+              <div class="ach">
+                <div class="ach__medal ach__medal--teal"><span class="material-symbols-rounded">timer</span></div>
+                <p class="ach__title">300-Min Week</p>
+                <p class="ach__sub">5 hours moved</p>
+              </div>
+              <div class="ach">
+                <div class="ach__medal ach__medal--gold"><span class="material-symbols-rounded">scale</span></div>
+                <p class="ach__title">First 5 lb Down</p>
+                <p class="ach__sub">Trend confirmed</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="section-title">In-flight</h3>
+            <div class="progress-list">
+              <div class="progress">
+                <div class="progress__top">
+                  <div class="progress__icon"><span class="material-symbols-rounded">wb_sunny</span></div>
+                  <div class="progress__main">
+                    <p class="progress__title">Morning Warrior x10</p>
+                    <p class="progress__sub">10 morning workouts in 14 days</p>
+                  </div>
+                  <span class="progress__count">7 / 10</span>
+                </div>
+                <div class="progress__bar"><span class="progress__bar-fill" style="width:70%"></span></div>
+              </div>
+              <div class="progress">
+                <div class="progress__top">
+                  <div class="progress__icon" style="background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)"><span class="material-symbols-rounded">scale</span></div>
+                  <div class="progress__main">
+                    <p class="progress__title">-20 lb May</p>
+                    <p class="progress__sub">Monthly weight goal — trend confirmed</p>
+                  </div>
+                  <span class="progress__count">5.2 / 20</span>
+                </div>
+                <div class="progress__bar"><span class="progress__bar-fill" style="width:26%"></span></div>
+              </div>
+              <div class="progress">
+                <div class="progress__top">
+                  <div class="progress__icon" style="background:var(--md-sys-color-tertiary-container);color:var(--md-sys-color-on-tertiary-container)"><span class="material-symbols-rounded">nightlight</span></div>
+                  <div class="progress__main">
+                    <p class="progress__title">Night Resister x10</p>
+                    <p class="progress__sub">10 fasted nights in a row</p>
+                  </div>
+                  <span class="progress__count">5 / 10</span>
+                </div>
+                <div class="progress__bar"><span class="progress__bar-fill" style="width:50%"></span></div>
+              </div>
+              <div class="progress">
+                <div class="progress__top">
+                  <div class="progress__icon"><span class="material-symbols-rounded">local_fire_department</span></div>
+                  <div class="progress__main">
+                    <p class="progress__title">1500-Cal Club ×7</p>
+                    <p class="progress__sub">Hit 1,500 active cal seven days in a row</p>
+                  </div>
+                  <span class="progress__count">3 / 7</span>
+                </div>
+                <div class="progress__bar"><span class="progress__bar-fill" style="width:43%"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="body-grid__full">
+            <h3 class="section-title">Redeem <a href="#" class="section-title__link">Reward shop</a></h3>
+            <div class="reward-list">
+              <div class="reward">
+                <div class="reward__icon"><span class="material-symbols-rounded">tv</span></div>
+                <div class="reward__main">
+                  <p class="reward__title">30-min show after dinner</p>
+                  <p class="reward__sub">Guilt-free streaming · uses today's window</p>
+                </div>
+                <button class="reward__btn">Redeem · 200</button>
+              </div>
+              <div class="reward">
+                <div class="reward__icon" style="background:var(--md-sys-color-tertiary-container);color:var(--md-sys-color-on-tertiary-container)"><span class="material-symbols-rounded">restaurant</span></div>
+                <div class="reward__main">
+                  <p class="reward__title">Cheat meal token</p>
+                  <p class="reward__sub">Single off-plan meal — keeps streak intact</p>
+                </div>
+                <button class="reward__btn">Redeem · 500</button>
+              </div>
+              <div class="reward">
+                <div class="reward__icon" style="background:#FFE7B0;color:#5A3A00"><span class="material-symbols-rounded">spa</span></div>
+                <div class="reward__main">
+                  <p class="reward__title">Recovery day pass</p>
+                  <p class="reward__sub">Skip a workout day without breaking streak</p>
+                </div>
+                <button class="reward__btn">Redeem · 750</button>
+              </div>
+              <div class="reward">
+                <div class="reward__icon" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)"><span class="material-symbols-rounded">headphones</span></div>
+                <div class="reward__main">
+                  <p class="reward__title">New playlist drop</p>
+                  <p class="reward__sub">Curated 45-min interval mix</p>
+                </div>
+                <button class="reward__btn">Redeem · 350</button>
+              </div>
+              <div class="reward">
+                <div class="reward__icon" style="background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-on-surface-variant)"><span class="material-symbols-rounded">card_giftcard</span></div>
+                <div class="reward__main">
+                  <p class="reward__title">$25 gear credit</p>
+                  <p class="reward__sub">Apply at checkout · expires in 90 days</p>
+                </div>
+                <button class="reward__btn reward__btn--locked">Locked · 3,500</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottomnav" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem navitem--active" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+  </div>
+</body>
+</html>

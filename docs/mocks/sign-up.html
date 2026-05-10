@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sign up · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-secondary-container:#FFDBC8;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .auth{min-height:100vh;display:flex;flex-direction:column}
+  .auth__hero{padding:32px 20px 24px;color:#fff;background:radial-gradient(120% 80% at 20% 0%,#1B7A6A 0%,#0E5A4D 50%,#063A30 100%);border-bottom-left-radius:var(--shape-xl);border-bottom-right-radius:var(--shape-xl);box-shadow:var(--md-elevation-2)}
+  .auth__brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.04em}
+  .auth__brand-mark{width:36px;height:36px;border-radius:10px;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center;font-weight:800}
+  .auth__title{font-size:30px;line-height:1.1;font-weight:500;margin:24px 0 6px}
+  .auth__subtitle{margin:0;font-size:14px;opacity:.85;max-width:460px}
+  .auth__perks{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+  .auth__perk{display:flex;align-items:center;gap:10px;font-size:13px;opacity:.92}
+  .auth__perk .material-symbols-rounded{background:rgba(255,255,255,.16);width:32px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center;font-size:18px}
+  .auth__card{background:var(--md-sys-color-surface-container-lowest);margin:-20px 16px 0;border-radius:var(--shape-xl);box-shadow:var(--md-elevation-2);padding:24px 20px;border:1px solid var(--md-sys-color-outline-variant)}
+  .auth__card-title{font-size:18px;margin:0 0 4px;font-weight:600}
+  .auth__card-sub{margin:0 0 18px;font-size:13px;color:var(--md-sys-color-on-surface-variant)}
+  .field{position:relative;margin-bottom:14px}
+  .field__input{width:100%;padding:18px 14px 8px;border:1px solid var(--md-sys-color-outline);border-radius:var(--shape-sm);background:var(--md-sys-color-surface-container-lowest);color:var(--md-sys-color-on-surface);font-size:16px;font-family:inherit;outline:none}
+  .field__input:focus{border-color:var(--md-sys-color-primary);border-width:2px;padding:17px 13px 7px}
+  .field__label{position:absolute;left:14px;top:8px;font-size:11px;color:var(--md-sys-color-on-surface-variant);font-weight:500;background:var(--md-sys-color-surface-container-lowest);padding:0 4px}
+  .field-row{display:grid;grid-template-columns:1fr;gap:0}
+  @media(min-width:480px){.field-row{grid-template-columns:1fr 1fr;gap:12px}}
+  .strength{display:flex;gap:4px;margin:6px 14px 0}
+  .strength__bar{flex:1;height:4px;border-radius:2px;background:var(--md-sys-color-outline-variant)}
+  .strength__bar--on{background:var(--md-sys-color-primary)}
+  .strength__bar--med{background:var(--md-sys-color-secondary)}
+  .strength__hint{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:6px 14px 12px}
+  .checkbox{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--md-sys-color-on-surface);margin:6px 0 16px;line-height:1.45}
+  .checkbox__box{width:18px;height:18px;border:2px solid var(--md-sys-color-outline);border-radius:4px;display:grid;place-items:center;background:transparent;flex-shrink:0;margin-top:1px}
+  .checkbox--checked .checkbox__box{background:var(--md-sys-color-primary);border-color:var(--md-sys-color-primary)}
+  .checkbox--checked .checkbox__box::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-bottom:2px}
+  .link{color:var(--md-sys-color-primary);text-decoration:none;font-weight:500}
+  .link:hover{text-decoration:underline}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:var(--shape-full);font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:inherit;width:100%}
+  .btn--filled{background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary);box-shadow:var(--md-elevation-1)}
+  .auth__back{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.85);font-size:13px;text-decoration:none;margin-bottom:8px}
+  .auth__footer{padding:24px;text-align:center;font-size:14px;color:var(--md-sys-color-on-surface-variant);margin-top:auto}
+  @media (min-width:768px){
+    .auth{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+    .auth__hero{border-radius:0;padding:64px 48px;display:flex;flex-direction:column;justify-content:flex-end}
+    .auth__title{font-size:44px}
+    .auth__card{margin:0;border-radius:0;border:none;padding:64px 48px;box-shadow:none;background:var(--md-sys-color-surface);display:flex;flex-direction:column;justify-content:center}
+    .auth__form-wrap{max-width:460px;width:100%;margin:0 auto}
+    .auth__footer{grid-column:1/-1}
+  }
+  @media (min-width:1440px){
+    .auth__hero{padding:96px 80px}.auth__card{padding:96px 80px}.auth__title{font-size:56px}
+  }
+</style>
+</head>
+<body>
+  <main class="auth">
+    <section class="auth__hero">
+      <a href="index.html" class="auth__back"><span class="material-symbols-rounded" style="font-size:18px">arrow_back</span> Back to mocks</a>
+      <div class="auth__brand"><span class="auth__brand-mark">F</span> Forge Fit</div>
+      <h1 class="auth__title">Forge a stronger morning.</h1>
+      <p class="auth__subtitle">Sign up to gamify your home gym, ride a daily streak, and lock down your eating window — wired into your Apple Watch.</p>
+      <div class="auth__perks">
+        <div class="auth__perk"><span class="material-symbols-rounded">trending_down</span> -20 lb / month target</div>
+        <div class="auth__perk"><span class="material-symbols-rounded">local_fire_department</span> 1,500 active calories per day</div>
+        <div class="auth__perk"><span class="material-symbols-rounded">workspace_premium</span> Earn points for every session</div>
+      </div>
+    </section>
+
+    <section class="auth__card">
+      <div class="auth__form-wrap">
+        <h2 class="auth__card-title">Create your account</h2>
+        <p class="auth__card-sub">Free for 30 days. No card required.</p>
+        <form onsubmit="event.preventDefault()">
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label" for="su-first">First name</label>
+              <input class="field__input" id="su-first" type="text" value="Quinntyne" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="su-last">Last name</label>
+              <input class="field__input" id="su-last" type="text" value="Brown" />
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="su-email">Email</label>
+            <input class="field__input" id="su-email" type="email" value="quinntyne@forgefit.app" />
+          </div>
+          <div class="field">
+            <label class="field__label" for="su-pass">Password</label>
+            <input class="field__input" id="su-pass" type="password" value="••••••••••••" />
+          </div>
+          <div class="strength">
+            <span class="strength__bar strength__bar--on"></span>
+            <span class="strength__bar strength__bar--on"></span>
+            <span class="strength__bar strength__bar--on"></span>
+            <span class="strength__bar"></span>
+          </div>
+          <p class="strength__hint">Strong — 12 characters, mixed case, numbers</p>
+
+          <div class="field">
+            <label class="field__label" for="su-confirm">Confirm password</label>
+            <input class="field__input" id="su-confirm" type="password" value="••••••••••••" />
+          </div>
+
+          <label class="checkbox checkbox--checked">
+            <span class="checkbox__box"></span>
+            <span>I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>.</span>
+          </label>
+
+          <button class="btn btn--filled" type="submit"><span class="material-symbols-rounded">rocket_launch</span> Create account</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="auth__footer">Already have an account? <a href="sign-in.html" class="link">Sign in</a></footer>
+  </main>
+</body>
+</html>

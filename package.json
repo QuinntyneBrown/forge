@@ -1,0 +1,12 @@
+{
+  "name": "forge",
+  "private": true,
+  "type": "module",
+  "description": "Tooling-only manifest for the repo root. App code lives in ./backend and ./frontend.",
+  "scripts": {
+    "render-mocks": "node ./docs/mocks/render.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

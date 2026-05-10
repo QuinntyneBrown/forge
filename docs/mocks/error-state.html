@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Apple Watch sync failed · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-on-secondary:#fff;--md-sys-color-secondary-container:#FFDBC8;--md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-error:#BA1A1A;--md-sys-color-on-error:#fff;--md-sys-color-error-container:#FFDAD6;--md-sys-color-on-error-container:#410002;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;--md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);--md-elevation-3:0 4px 8px 3px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.10);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{position:sticky;top:0;z-index:10;background:var(--md-sys-color-surface);display:flex;align-items:center;gap:8px;padding:8px 12px;height:64px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .topbar__icon-btn{width:40px;height:40px;border-radius:var(--shape-full);display:grid;place-items:center;background:transparent;border:none;color:var(--md-sys-color-on-surface);cursor:pointer}
+  .topbar__title{font-size:18px;font-weight:600;margin:0;flex:1}
+  .avatar{width:36px;height:36px;border-radius:var(--shape-full);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+  .banner{background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container);padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .banner .material-symbols-rounded{font-size:18px}
+  .banner__action{margin-left:auto;font-weight:700;color:var(--md-sys-color-error);text-decoration:none;font-size:13px}
+
+  .content{flex:1;padding:24px 16px 96px;max-width:760px;margin:0 auto;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+  .err{text-align:center;display:flex;flex-direction:column;align-items:center;padding:24px 8px}
+  .err__art{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FFDAD6 0%,#FFE7D6 60%,transparent 75%);display:grid;place-items:center;margin-bottom:24px;position:relative}
+  .err__art-inner{width:120px;height:120px;border-radius:var(--shape-xl);background:var(--md-sys-color-surface-container-lowest);box-shadow:var(--md-elevation-2);display:grid;place-items:center;color:var(--md-sys-color-error);position:relative}
+  .err__art-inner .material-symbols-rounded{font-size:64px}
+  .err__art-cross{position:absolute;top:-8px;right:-8px;width:36px;height:36px;border-radius:50%;background:var(--md-sys-color-error);color:#fff;display:grid;place-items:center;border:3px solid var(--md-sys-color-surface);box-shadow:var(--md-elevation-2)}
+  .err__art-cross .material-symbols-rounded{font-size:22px}
+  .err__title{font-size:24px;font-weight:500;margin:0 0 8px;max-width:480px;line-height:1.2}
+  .err__sub{font-size:14px;color:var(--md-sys-color-on-surface-variant);margin:0 0 8px;max-width:480px;line-height:1.5}
+  .err__code{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--shape-full);background:var(--md-sys-color-surface-container);color:var(--md-sys-color-on-surface-variant);font-family:'JetBrains Mono','Roboto Mono',monospace;font-size:11px;letter-spacing:.04em;margin-bottom:24px}
+  .err__cta{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:var(--shape-full);font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+  .btn--filled{background:var(--md-sys-color-primary);color:#fff;box-shadow:var(--md-elevation-1)}
+  .btn--outlined{background:transparent;color:var(--md-sys-color-primary);border:1px solid var(--md-sys-color-outline)}
+  .btn--text{background:transparent;color:var(--md-sys-color-on-surface-variant)}
+
+  .checks{margin:32px auto 0;max-width:520px;width:100%;background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--shape-lg);padding:8px 4px}
+  .checks__title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--md-sys-color-on-surface-variant);margin:12px 16px 8px}
+  .check{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--md-sys-color-outline-variant);text-align:left}
+  .check:last-child{border-bottom:none}
+  .check__icon{width:32px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center;flex-shrink:0}
+  .check__icon--ok{background:#D6F3E5;color:#0A5A3A}
+  .check__icon--warn{background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)}
+  .check__icon--idle{background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-on-surface-variant)}
+  .check__icon .material-symbols-rounded{font-size:18px}
+  .check__title{font-size:13px;font-weight:600;margin:0}
+  .check__sub{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:2px 0 0}
+
+  .footer-link{margin-top:18px;font-size:13px;color:var(--md-sys-color-primary);text-decoration:none;font-weight:600}
+  .footer-link:hover{text-decoration:underline}
+  .meta{margin-top:18px;font-size:12px;color:var(--md-sys-color-outline);text-align:center}
+
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);display:flex;justify-content:space-around;padding:6px 4px 10px;z-index:15}
+  .navitem{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-size:11px;font-weight:500}
+  .navitem__pill{width:56px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center}
+  .navitem--active{color:var(--md-sys-color-on-surface)}
+  .navitem--active .navitem__pill{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .navitem .material-symbols-rounded{font-size:24px}
+  .navrail{display:none}
+  @media (min-width:768px){.err__title{font-size:32px}.err__cta{flex-direction:row}}
+  @media (min-width:1100px){
+    .bottomnav{display:none}
+    .app{display:grid;grid-template-columns:88px 1fr;grid-template-rows:auto auto 1fr;min-height:100vh}
+    .topbar{grid-column:1/-1}
+    .banner{grid-column:1/-1}
+    .navrail{display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;background:var(--md-sys-color-surface);border-right:1px solid var(--md-sys-color-outline-variant)}
+    .navrail .navitem{width:72px}
+    .content{padding:64px 32px 96px}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="topbar__icon-btn" aria-label="Back" onclick="history.back()"><span class="material-symbols-rounded">arrow_back</span></button>
+      <h1 class="topbar__title">Sync error</h1>
+      <button class="topbar__icon-btn" aria-label="Help"><span class="material-symbols-rounded">help</span></button>
+      <div class="avatar">Q</div>
+    </header>
+
+    <div class="banner">
+      <span class="material-symbols-rounded">cloud_off</span>
+      <span>Apple Watch sync paused — last successful sync 14 minutes ago.</span>
+      <a class="banner__action" href="#">Retry now</a>
+    </div>
+
+    <nav class="navrail" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+
+    <main class="content">
+      <section class="err">
+        <div class="err__art">
+          <div class="err__art-inner">
+            <span class="material-symbols-rounded">watch</span>
+            <span class="err__art-cross"><span class="material-symbols-rounded">close</span></span>
+          </div>
+        </div>
+        <h2 class="err__title">Couldn't sync with your Apple Watch</h2>
+        <p class="err__sub">We tried three times to pull today's heart rate and active calories. The watch is offline or HealthKit denied access. Your manual workouts are safe — only Apple Watch readings are missing.</p>
+        <span class="err__code"><span class="material-symbols-rounded" style="font-size:14px">tag</span> ERR_HEALTHKIT_OFFLINE · 0xA3</span>
+
+        <div class="err__cta">
+          <button class="btn btn--filled" type="button"><span class="material-symbols-rounded">refresh</span> Retry sync</button>
+          <a href="dashboard.html" class="btn btn--outlined"><span class="material-symbols-rounded">home</span> Go to dashboard</a>
+        </div>
+
+        <div class="checks">
+          <p class="checks__title">Diagnostics</p>
+          <div class="check">
+            <div class="check__icon check__icon--ok"><span class="material-symbols-rounded">check</span></div>
+            <div><p class="check__title">Forge Fit servers</p><p class="check__sub">All systems operational · 38 ms response</p></div>
+          </div>
+          <div class="check">
+            <div class="check__icon check__icon--ok"><span class="material-symbols-rounded">check</span></div>
+            <div><p class="check__title">Internet connection</p><p class="check__sub">Wi-Fi · ForgeNet 5G · 132 Mbps</p></div>
+          </div>
+          <div class="check">
+            <div class="check__icon check__icon--warn"><span class="material-symbols-rounded">priority_high</span></div>
+            <div><p class="check__title">HealthKit authorization</p><p class="check__sub">Permission revoked. Re-enable in iPhone Settings › Health › Forge Fit.</p></div>
+          </div>
+          <div class="check">
+            <div class="check__icon check__icon--idle"><span class="material-symbols-rounded">schedule</span></div>
+            <div><p class="check__title">Apple Watch reachable</p><p class="check__sub">Last seen 14 min ago · likely off-wrist or out of range</p></div>
+          </div>
+        </div>
+
+        <a href="#" class="footer-link">View troubleshooting guide ›</a>
+        <p class="meta">Need help? <a href="#" style="color:inherit;text-decoration:underline">Contact support</a> · Trace ID: 7c3a-fae9-1180</p>
+      </section>
+    </main>
+
+    <nav class="bottomnav" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+  </div>
+</body>
+</html>

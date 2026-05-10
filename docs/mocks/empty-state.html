@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>No workouts yet · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-on-secondary:#fff;--md-sys-color-secondary-container:#FFDBC8;--md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-tertiary-container:#C3E8FF;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;--md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);--md-elevation-3:0 4px 8px 3px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.10);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{position:sticky;top:0;z-index:10;background:var(--md-sys-color-surface);display:flex;align-items:center;gap:8px;padding:8px 12px;height:64px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .topbar__icon-btn{width:40px;height:40px;border-radius:var(--shape-full);display:grid;place-items:center;background:transparent;border:none;color:var(--md-sys-color-on-surface);cursor:pointer}
+  .topbar__title{font-size:18px;font-weight:600;margin:0;flex:1}
+  .avatar{width:36px;height:36px;border-radius:var(--shape-full);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+  .content{flex:1;padding:24px 16px 96px;max-width:880px;margin:0 auto;width:100%}
+
+  .empty{text-align:center;padding:32px 16px;display:flex;flex-direction:column;align-items:center}
+  .empty__art{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#9FF2DD 0%,#FFE7D6 60%,transparent 75%);display:grid;place-items:center;margin-bottom:24px;position:relative}
+  .empty__art::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px dashed var(--md-sys-color-outline-variant);opacity:.7}
+  .empty__art-inner{width:120px;height:120px;border-radius:var(--shape-xl);background:var(--md-sys-color-surface-container-lowest);box-shadow:var(--md-elevation-2);display:grid;place-items:center;color:var(--md-sys-color-primary)}
+  .empty__art-inner .material-symbols-rounded{font-size:64px}
+  .empty__badge{position:absolute;top:8px;right:0;background:var(--md-sys-color-secondary);color:#fff;padding:6px 12px;border-radius:var(--shape-full);font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;box-shadow:var(--md-elevation-1)}
+  .empty__badge .material-symbols-rounded{font-size:14px}
+  .empty__title{font-size:24px;font-weight:500;margin:0 0 8px;max-width:380px}
+  .empty__sub{font-size:14px;color:var(--md-sys-color-on-surface-variant);margin:0 0 24px;max-width:420px;line-height:1.5}
+  .empty__cta{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:var(--shape-full);font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+  .btn--filled{background:var(--md-sys-color-primary);color:#fff;box-shadow:var(--md-elevation-1)}
+  .btn--tonal{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+  .btn--text{background:transparent;color:var(--md-sys-color-primary)}
+
+  .equip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:32px;width:100%;max-width:560px}
+  @media (min-width:768px){.equip-grid{grid-template-columns:repeat(4,1fr)}}
+  .equip{padding:16px 12px;border-radius:var(--shape-md);background:var(--md-sys-color-surface-container-lowest);border:1px solid var(--md-sys-color-outline-variant);display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-decoration:none;color:inherit}
+  .equip:hover{background:var(--md-sys-color-surface-container-low)}
+  .equip__icon{width:48px;height:48px;border-radius:var(--shape-md);background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center}
+  .equip__icon--bike{background:#FFE7B0;color:#5A3A00}
+  .equip__icon--bench{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+  .equip__icon--ell{background:var(--md-sys-color-tertiary-container);color:#1F3F4F}
+  .equip__icon .material-symbols-rounded{font-size:26px}
+  .equip__name{font-size:13px;font-weight:600;margin:0}
+  .equip__hint{font-size:11px;color:var(--md-sys-color-on-surface-variant);margin:0}
+
+  .tip{margin:32px auto 0;max-width:520px;padding:16px;border-radius:var(--shape-lg);background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:flex;align-items:flex-start;gap:12px}
+  .tip__icon{width:36px;height:36px;border-radius:var(--shape-md);background:rgba(255,255,255,.55);display:grid;place-items:center;flex-shrink:0}
+  .tip__title{font-size:13px;font-weight:600;margin:0 0 2px}
+  .tip__sub{font-size:12px;line-height:1.5;margin:0;color:#1B3A33}
+
+  .fab{position:fixed;right:16px;bottom:88px;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:var(--shape-lg);background:var(--md-sys-color-secondary);color:#fff;border:none;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;box-shadow:var(--md-elevation-3);z-index:20;text-decoration:none}
+  .fab .material-symbols-rounded{font-size:22px}
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);display:flex;justify-content:space-around;padding:6px 4px 10px;z-index:15}
+  .navitem{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-size:11px;font-weight:500}
+  .navitem__pill{width:56px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center}
+  .navitem--active{color:var(--md-sys-color-on-surface)}
+  .navitem--active .navitem__pill{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .navitem .material-symbols-rounded{font-size:24px}
+  .navrail{display:none}
+  @media (min-width:768px){.empty__title{font-size:32px}.empty__cta{flex-direction:row}}
+  @media (min-width:1100px){
+    .bottomnav{display:none}
+    .fab{right:32px;bottom:32px}
+    .app{display:grid;grid-template-columns:88px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+    .topbar{grid-column:1/-1}
+    .navrail{display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;background:var(--md-sys-color-surface);border-right:1px solid var(--md-sys-color-outline-variant)}
+    .navrail .navitem{width:72px}
+    .content{padding:64px 32px 96px}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="topbar__icon-btn" aria-label="Back" onclick="history.back()"><span class="material-symbols-rounded">arrow_back</span></button>
+      <h1 class="topbar__title">Workouts</h1>
+      <button class="topbar__icon-btn" aria-label="Search"><span class="material-symbols-rounded">search</span></button>
+      <div class="avatar">Q</div>
+    </header>
+
+    <nav class="navrail" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+
+    <main class="content">
+      <section class="empty">
+        <div class="empty__art">
+          <div class="empty__art-inner"><span class="material-symbols-rounded">fitness_center</span></div>
+          <span class="empty__badge"><span class="material-symbols-rounded">bolt</span> Day 1</span>
+        </div>
+        <h2 class="empty__title">No workouts logged — yet.</h2>
+        <p class="empty__sub">Forge Fit gets way more fun once you log your first session. Pick a machine to start a streak, earn your first 50 points, and unlock the Morning Warrior achievement.</p>
+        <div class="empty__cta">
+          <a href="workout-detail.html" class="btn btn--filled"><span class="material-symbols-rounded">play_arrow</span> Log your first workout</a>
+          <a href="dashboard.html" class="btn btn--text">Take me back home</a>
+        </div>
+
+        <div class="equip-grid">
+          <a href="workout-detail.html" class="equip">
+            <div class="equip__icon"><span class="material-symbols-rounded">directions_run</span></div>
+            <p class="equip__name">Treadmill</p>
+            <p class="equip__hint">Walk · jog · run</p>
+          </a>
+          <a href="workout-detail.html" class="equip">
+            <div class="equip__icon equip__icon--bike"><span class="material-symbols-rounded">directions_bike</span></div>
+            <p class="equip__name">Indoor bike</p>
+            <p class="equip__hint">Endurance · intervals</p>
+          </a>
+          <a href="workout-detail.html" class="equip">
+            <div class="equip__icon equip__icon--bench"><span class="material-symbols-rounded">fitness_center</span></div>
+            <p class="equip__name">Bench press</p>
+            <p class="equip__hint">Push · pull splits</p>
+          </a>
+          <a href="workout-detail.html" class="equip">
+            <div class="equip__icon equip__icon--ell"><span class="material-symbols-rounded">stairs</span></div>
+            <p class="equip__name">Elliptical</p>
+            <p class="equip__hint">Low-impact cardio</p>
+          </a>
+        </div>
+
+        <div class="tip">
+          <div class="tip__icon"><span class="material-symbols-rounded">lightbulb</span></div>
+          <div>
+            <p class="tip__title">Pro tip — log before 7 AM for the morning bonus</p>
+            <p class="tip__sub">Sessions before 7:00 AM stack a +25 point bonus and contribute to the Morning Warrior streak. Apple Watch sessions sync automatically once paired.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <a class="fab" href="workout-detail.html" aria-label="Log workout"><span class="material-symbols-rounded">add</span> Log workout</a>
+
+    <nav class="bottomnav" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem navitem--active" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+  </div>
+</body>
+</html>

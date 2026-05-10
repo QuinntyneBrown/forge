@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Profile · Forge Fit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;--md-sys-color-on-primary:#fff;--md-sys-color-primary-container:#9FF2DD;--md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;--md-sys-color-on-secondary:#fff;--md-sys-color-secondary-container:#FFDBC8;--md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-tertiary:#3F6377;--md-sys-color-tertiary-container:#C3E8FF;
+    --md-sys-color-error:#BA1A1A;--md-sys-color-error-container:#FFDAD6;
+    --md-sys-color-background:#F4FBF8;--md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;--md-sys-color-surface-container-low:#EEF5F2;--md-sys-color-surface-container:#E8EFEC;--md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-on-surface:#161D1B;--md-sys-color-on-surface-variant:#3F4945;--md-sys-color-outline:#6F7975;--md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08),0 1px 3px 1px rgba(0,0,0,.06);--md-elevation-2:0 1px 2px rgba(0,0,0,.10),0 2px 6px 2px rgba(0,0,0,.08);
+    --shape-sm:8px;--shape-md:12px;--shape-lg:16px;--shape-xl:28px;--shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+  .topbar{position:sticky;top:0;z-index:10;background:var(--md-sys-color-surface);display:flex;align-items:center;gap:8px;padding:8px 12px;height:64px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .topbar__icon-btn{width:40px;height:40px;border-radius:var(--shape-full);display:grid;place-items:center;background:transparent;border:none;color:var(--md-sys-color-on-surface);cursor:pointer}
+  .topbar__title{font-size:18px;font-weight:600;margin:0;flex:1}
+  .avatar-sm{width:36px;height:36px;border-radius:var(--shape-full);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container);display:grid;place-items:center;font-weight:700;font-size:14px}
+
+  .content{flex:1;padding:0 0 96px;max-width:880px;margin:0 auto;width:100%}
+
+  .hero{padding:24px 20px 28px;display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,var(--md-sys-color-primary-container) 0%,#FFE7D6 100%)}
+  .avatar-lg{width:84px;height:84px;border-radius:var(--shape-full);background:linear-gradient(135deg,#106B5C,#1B7A6A);color:#fff;display:grid;place-items:center;font-size:36px;font-weight:700;box-shadow:var(--md-elevation-2);flex-shrink:0}
+  .hero__main{flex:1;min-width:0}
+  .hero__name{font-size:24px;font-weight:500;margin:0 0 2px;color:var(--md-sys-color-on-primary-container)}
+  .hero__email{font-size:13px;color:#1B3A33;margin:0}
+  .hero__chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.55);color:var(--md-sys-color-on-primary-container);padding:4px 10px;border-radius:var(--shape-full);font-size:12px;font-weight:600;margin-top:8px}
+  .hero__chip .material-symbols-rounded{font-size:14px}
+
+  .body{padding:18px 16px}
+  .card{background:var(--md-sys-color-surface-container-lowest);border-radius:var(--shape-lg);padding:18px;border:1px solid var(--md-sys-color-outline-variant);box-shadow:var(--md-elevation-1);margin-bottom:14px}
+  .card__title{font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--md-sys-color-on-surface-variant);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .card__title .material-symbols-rounded{color:var(--md-sys-color-primary);font-size:18px}
+
+  .field{position:relative;margin-bottom:12px}
+  .field__input,.field__select{width:100%;padding:18px 14px 8px;border:1px solid var(--md-sys-color-outline);border-radius:var(--shape-sm);background:var(--md-sys-color-surface-container-lowest);color:var(--md-sys-color-on-surface);font-size:16px;font-family:inherit;outline:none}
+  .field__input:focus,.field__select:focus{border-color:var(--md-sys-color-primary);border-width:2px;padding:17px 13px 7px}
+  .field__label{position:absolute;left:14px;top:8px;font-size:11px;color:var(--md-sys-color-on-surface-variant);font-weight:500;background:var(--md-sys-color-surface-container-lowest);padding:0 4px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+  /* List items with switch */
+  .list{display:flex;flex-direction:column;gap:0}
+  .list__item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .list__item:last-child{border-bottom:none}
+  .list__icon{width:40px;height:40px;border-radius:var(--shape-full);background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center;flex-shrink:0}
+  .list__icon .material-symbols-rounded{font-size:20px}
+  .list__main{flex:1;min-width:0}
+  .list__title{font-size:14px;font-weight:600;margin:0}
+  .list__sub{font-size:12px;color:var(--md-sys-color-on-surface-variant);margin:2px 0 0}
+  .list__action{font-size:14px;font-weight:600;color:var(--md-sys-color-primary)}
+
+  .switch{position:relative;width:48px;height:28px;border-radius:var(--shape-full);background:var(--md-sys-color-primary);cursor:pointer;flex-shrink:0;transition:background .15s}
+  .switch::after{content:"";position:absolute;top:3px;left:23px;width:22px;height:22px;border-radius:var(--shape-full);background:#fff;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .switch--off{background:var(--md-sys-color-surface-container-high);border:1px solid var(--md-sys-color-outline)}
+  .switch--off::after{left:3px;background:var(--md-sys-color-outline)}
+
+  /* Goal trend */
+  .goal{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--shape-md);background:linear-gradient(135deg,#9FF2DD 0%,#FFE7D6 100%);margin-bottom:12px}
+  .goal__icon{width:48px;height:48px;border-radius:var(--shape-md);background:rgba(255,255,255,.55);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center}
+  .goal__main{flex:1;min-width:0}
+  .goal__label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#1B3A33;margin:0}
+  .goal__value{font-size:20px;font-weight:600;margin:2px 0 0;color:var(--md-sys-color-on-primary-container)}
+  .goal__delta{font-size:12px;color:#0A5A3A;font-weight:600;margin-top:2px}
+
+  .actions{display:flex;flex-direction:column;gap:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:var(--shape-full);font-weight:600;font-size:14px;border:none;cursor:pointer;font-family:inherit}
+  .btn--filled{background:var(--md-sys-color-primary);color:#fff}
+  .btn--outlined{background:transparent;color:var(--md-sys-color-error);border:1px solid var(--md-sys-color-error)}
+
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);display:flex;justify-content:space-around;padding:6px 4px 10px;z-index:15}
+  .navitem{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-size:11px;font-weight:500}
+  .navitem__pill{width:56px;height:32px;border-radius:var(--shape-full);display:grid;place-items:center}
+  .navitem--active{color:var(--md-sys-color-on-surface)}
+  .navitem--active .navitem__pill{background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)}
+  .navitem .material-symbols-rounded{font-size:24px}
+  .navrail{display:none}
+  @media (min-width:768px){.hero__name{font-size:32px}.body-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:flex-start}.body-grid__full{grid-column:1/-1}}
+  @media (min-width:1100px){
+    .bottomnav{display:none}
+    .app{display:grid;grid-template-columns:88px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+    .topbar{grid-column:1/-1}
+    .navrail{display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:6px;background:var(--md-sys-color-surface);border-right:1px solid var(--md-sys-color-outline-variant)}
+    .navrail .navitem{width:72px}
+    .body{padding:24px 32px}
+    .hero{padding:36px 40px}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="topbar__icon-btn" aria-label="Back" onclick="history.back()"><span class="material-symbols-rounded">arrow_back</span></button>
+      <h1 class="topbar__title">Profile &amp; settings</h1>
+      <button class="topbar__icon-btn" aria-label="More"><span class="material-symbols-rounded">more_vert</span></button>
+      <div class="avatar-sm">Q</div>
+    </header>
+
+    <nav class="navrail" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem navitem--active" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+
+    <main class="content">
+      <section class="hero">
+        <div class="avatar-lg">Q</div>
+        <div class="hero__main">
+          <h2 class="hero__name">Quinntyne Brown</h2>
+          <p class="hero__email">quinntyne@forgefit.app · Member since Jan 2026</p>
+          <span class="hero__chip"><span class="material-symbols-rounded">workspace_premium</span> Tier 3 — Forged Iron</span>
+        </div>
+      </section>
+
+      <div class="body">
+        <div class="body-grid">
+          <section class="card">
+            <h3 class="card__title"><span class="material-symbols-rounded">badge</span> Account</h3>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="p-first">First name</label><input class="field__input" id="p-first" value="Quinntyne" /></div>
+              <div class="field"><label class="field__label" for="p-last">Last name</label><input class="field__input" id="p-last" value="Brown" /></div>
+            </div>
+            <div class="field"><label class="field__label" for="p-email">Email</label><input class="field__input" id="p-email" value="quinntyne@forgefit.app" /></div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="p-units">Units</label>
+                <select class="field__select" id="p-units"><option selected>Imperial (lb / mi)</option><option>Metric (kg / km)</option></select>
+              </div>
+              <div class="field"><label class="field__label" for="p-tz">Time zone</label>
+                <select class="field__select" id="p-tz"><option selected>America/Toronto</option><option>America/New_York</option></select>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h3 class="card__title"><span class="material-symbols-rounded">flag</span> Goals</h3>
+            <div class="goal">
+              <div class="goal__icon"><span class="material-symbols-rounded">monitor_weight</span></div>
+              <div class="goal__main">
+                <p class="goal__label">Weight goal</p>
+                <p class="goal__value">-20 lb / month</p>
+                <p class="goal__delta">On track · -5.2 lb so far in May</p>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="p-cal">Daily active cal target</label><input class="field__input" id="p-cal" value="1500" /></div>
+              <div class="field"><label class="field__label" for="p-min">Daily move minutes</label><input class="field__input" id="p-min" value="60" /></div>
+            </div>
+            <div class="field"><label class="field__label" for="p-cur">Current weight (lb)</label><input class="field__input" id="p-cur" value="214.8" /></div>
+          </section>
+
+          <section class="card">
+            <h3 class="card__title"><span class="material-symbols-rounded">schedule</span> Windows</h3>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="p-mw-start">Morning window — start</label><input class="field__input" id="p-mw-start" value="5:00 AM" /></div>
+              <div class="field"><label class="field__label" for="p-mw-end">Morning window — end</label><input class="field__input" id="p-mw-end" value="7:30 AM" /></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label class="field__label" for="p-fast-start">Kitchen closes</label><input class="field__input" id="p-fast-start" value="8:00 PM" /></div>
+              <div class="field"><label class="field__label" for="p-fast-end">Kitchen opens</label><input class="field__input" id="p-fast-end" value="6:00 AM" /></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h3 class="card__title"><span class="material-symbols-rounded">settings</span> Integrations &amp; alerts</h3>
+            <div class="list">
+              <div class="list__item">
+                <div class="list__icon" style="background:#000;color:#fff"><span class="material-symbols-rounded">watch</span></div>
+                <div class="list__main"><p class="list__title">Apple Watch sync</p><p class="list__sub">Last sync 4 min ago · 2,180 readings today</p></div>
+                <div class="switch" role="switch" aria-checked="true"></div>
+              </div>
+              <div class="list__item">
+                <div class="list__icon"><span class="material-symbols-rounded">notifications_active</span></div>
+                <div class="list__main"><p class="list__title">Morning workout reminder</p><p class="list__sub">Daily at 4:55 AM</p></div>
+                <div class="switch" role="switch" aria-checked="true"></div>
+              </div>
+              <div class="list__item">
+                <div class="list__icon" style="background:var(--md-sys-color-tertiary-container);color:var(--md-sys-color-on-tertiary-container)"><span class="material-symbols-rounded">nightlight</span></div>
+                <div class="list__main"><p class="list__title">Kitchen-closes nudge</p><p class="list__sub">7:45 PM heads-up</p></div>
+                <div class="switch" role="switch" aria-checked="true"></div>
+              </div>
+              <div class="list__item">
+                <div class="list__icon" style="background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)"><span class="material-symbols-rounded">groups</span></div>
+                <div class="list__main"><p class="list__title">Friend leaderboard</p><p class="list__sub">Off · share streak privately</p></div>
+                <div class="switch switch--off" role="switch" aria-checked="false"></div>
+              </div>
+              <div class="list__item">
+                <div class="list__icon" style="background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-on-surface-variant)"><span class="material-symbols-rounded">dark_mode</span></div>
+                <div class="list__main"><p class="list__title">Theme</p><p class="list__sub">System default</p></div>
+                <span class="list__action">Change</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card body-grid__full">
+            <h3 class="card__title"><span class="material-symbols-rounded">save</span> Save</h3>
+            <div class="actions">
+              <button class="btn btn--filled" type="button"><span class="material-symbols-rounded">save</span> Save changes</button>
+              <button class="btn btn--outlined" type="button"><span class="material-symbols-rounded">logout</span> Sign out</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottomnav" aria-label="Primary">
+      <a class="navitem" href="dashboard.html"><span class="navitem__pill"><span class="material-symbols-rounded">home</span></span>Home</a>
+      <a class="navitem" href="workouts.html"><span class="navitem__pill"><span class="material-symbols-rounded">fitness_center</span></span>Workouts</a>
+      <a class="navitem" href="rewards.html"><span class="navitem__pill"><span class="material-symbols-rounded">military_tech</span></span>Rewards</a>
+      <a class="navitem navitem--active" href="profile.html"><span class="navitem__pill"><span class="material-symbols-rounded">person</span></span>Profile</a>
+    </nav>
+  </div>
+</body>
+</html>

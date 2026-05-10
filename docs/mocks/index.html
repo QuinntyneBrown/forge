@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Forge Fit — Mock Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet" />
+<style>
+  :root{
+    --md-sys-color-primary:#106B5C;
+    --md-sys-color-on-primary:#ffffff;
+    --md-sys-color-primary-container:#9FF2DD;
+    --md-sys-color-on-primary-container:#00211B;
+    --md-sys-color-secondary:#B8531A;
+    --md-sys-color-on-secondary:#ffffff;
+    --md-sys-color-secondary-container:#FFDBC8;
+    --md-sys-color-on-secondary-container:#341000;
+    --md-sys-color-tertiary:#3F6377;
+    --md-sys-color-tertiary-container:#C3E8FF;
+    --md-sys-color-error:#BA1A1A;
+    --md-sys-color-error-container:#FFDAD6;
+    --md-sys-color-background:#F4FBF8;
+    --md-sys-color-on-background:#161D1B;
+    --md-sys-color-surface:#F4FBF8;
+    --md-sys-color-surface-dim:#D4DBD8;
+    --md-sys-color-surface-bright:#F4FBF8;
+    --md-sys-color-surface-container-lowest:#FFFFFF;
+    --md-sys-color-surface-container-low:#EEF5F2;
+    --md-sys-color-surface-container:#E8EFEC;
+    --md-sys-color-surface-container-high:#E2E9E6;
+    --md-sys-color-surface-container-highest:#DCE4E1;
+    --md-sys-color-on-surface:#161D1B;
+    --md-sys-color-on-surface-variant:#3F4945;
+    --md-sys-color-outline:#6F7975;
+    --md-sys-color-outline-variant:#BEC9C4;
+    --md-elevation-1:0 1px 2px rgba(0,0,0,.08), 0 1px 3px 1px rgba(0,0,0,.06);
+    --md-elevation-2:0 1px 2px rgba(0,0,0,.10), 0 2px 6px 2px rgba(0,0,0,.08);
+    --md-elevation-3:0 4px 8px 3px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.10);
+    --shape-xs:4px; --shape-sm:8px; --shape-md:12px; --shape-lg:16px; --shape-xl:28px; --shape-full:999px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--md-sys-color-background);color:var(--md-sys-color-on-surface);font-family:'Roboto Flex','Roboto',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .index{max-width:1200px;margin:0 auto;padding:24px 16px 80px}
+  .index__hero{padding:32px 20px;border-radius:var(--shape-xl);background:linear-gradient(135deg,var(--md-sys-color-primary-container),#D9F8EE 60%,#FFE7D6);box-shadow:var(--md-elevation-1);margin-bottom:24px}
+  .index__eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--md-sys-color-on-primary-container);font-weight:700;margin:0 0 8px}
+  .index__title{font-size:clamp(28px,5vw,44px);line-height:1.1;font-weight:500;margin:0 0 8px;color:var(--md-sys-color-on-primary-container)}
+  .index__subtitle{margin:0;font-size:15px;line-height:1.5;color:#1B3A33;max-width:620px}
+  .index__chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--shape-sm);background:rgba(255,255,255,.55);color:var(--md-sys-color-on-primary-container);font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.06)}
+  .chip .material-symbols-rounded{font-size:16px}
+  .index__section-title{font-size:22px;font-weight:500;margin:32px 0 12px;color:var(--md-sys-color-on-surface)}
+  .index__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .mock-card{background:var(--md-sys-color-surface-container-lowest);border-radius:var(--shape-lg);box-shadow:var(--md-elevation-1);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--md-sys-color-outline-variant);transition:box-shadow .2s ease, transform .2s ease;text-decoration:none;color:inherit}
+  .mock-card:hover{box-shadow:var(--md-elevation-3);transform:translateY(-2px)}
+  .mock-card__thumb{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;color:var(--md-sys-color-on-primary-container);position:relative;background:var(--md-sys-color-primary-container)}
+  .mock-card__thumb--auth{background:linear-gradient(135deg,#0E5A4D,#106B5C 60%,#1B7A6A);color:#fff}
+  .mock-card__thumb--dash{background:linear-gradient(135deg,#9FF2DD,#FFE7D6)}
+  .mock-card__thumb--workout{background:linear-gradient(135deg,#B8531A,#E27838)}
+  .mock-card__thumb--reward{background:linear-gradient(135deg,#FFDBC8,#9FF2DD)}
+  .mock-card__thumb--profile{background:linear-gradient(135deg,#C3E8FF,#9FF2DD)}
+  .mock-card__thumb--state{background:linear-gradient(135deg,#DCE4E1,#EEF5F2)}
+  .mock-card__icon{font-size:48px;opacity:.92}
+  .mock-card__badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:var(--shape-full);letter-spacing:.04em;text-transform:uppercase}
+  .mock-card__body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px}
+  .mock-card__title{font-size:16px;font-weight:600;margin:0;color:var(--md-sys-color-on-surface)}
+  .mock-card__desc{font-size:13px;line-height:1.4;color:var(--md-sys-color-on-surface-variant);margin:0}
+  .mock-card__meta{font-size:11px;color:var(--md-sys-color-outline);margin-top:6px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+  .footer{margin-top:40px;padding:16px;border-top:1px solid var(--md-sys-color-outline-variant);font-size:12px;color:var(--md-sys-color-on-surface-variant);text-align:center}
+  @media (min-width:768px){.index{padding:32px 24px 80px}.index__hero{padding:48px 36px}}
+  @media (min-width:1440px){.index__grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+  <main class="index">
+    <section class="index__hero">
+      <p class="index__eyebrow">Design Review · D1 Mocks</p>
+      <h1 class="index__title">Forge Fit — Static HTML Mocks</h1>
+      <p class="index__subtitle">A Material 3 fitness gamification app for at-home equipment. Eleven static screens spanning auth, dashboard, workout logging, gamified rewards, and edge-case states. Mobile-first; verified at 360 / 768 / 1440 viewport widths.</p>
+      <div class="index__chip-row">
+        <span class="chip"><span class="material-symbols-rounded">palette</span> Material 3</span>
+        <span class="chip"><span class="material-symbols-rounded">phone_iphone</span> Mobile-first</span>
+        <span class="chip"><span class="material-symbols-rounded">schema</span> BEM</span>
+        <span class="chip"><span class="material-symbols-rounded">bolt</span> No build step</span>
+      </div>
+    </section>
+
+    <h2 class="index__section-title">Unauthenticated</h2>
+    <div class="index__grid">
+      <a class="mock-card" href="sign-in.html">
+        <div class="mock-card__thumb mock-card__thumb--auth"><span class="mock-card__badge">Auth</span><span class="material-symbols-rounded mock-card__icon">login</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Sign in</h3><p class="mock-card__desc">Email + password with remember-me, forgot password, sign-up link.</p><span class="mock-card__meta">sign-in.html</span></div>
+      </a>
+      <a class="mock-card" href="sign-up.html">
+        <div class="mock-card__thumb mock-card__thumb--auth"><span class="mock-card__badge">Auth</span><span class="material-symbols-rounded mock-card__icon">person_add</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Sign up</h3><p class="mock-card__desc">Name, email, password, confirm, ToS checkbox.</p><span class="mock-card__meta">sign-up.html</span></div>
+      </a>
+      <a class="mock-card" href="password-reset.html">
+        <div class="mock-card__thumb mock-card__thumb--auth"><span class="mock-card__badge">Auth</span><span class="material-symbols-rounded mock-card__icon">lock_reset</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Password reset</h3><p class="mock-card__desc">Request-reset form plus a "check your email" confirmation state.</p><span class="mock-card__meta">password-reset.html</span></div>
+      </a>
+    </div>
+
+    <h2 class="index__section-title">Authenticated app</h2>
+    <div class="index__grid">
+      <a class="mock-card" href="dashboard.html">
+        <div class="mock-card__thumb mock-card__thumb--dash"><span class="mock-card__badge">Home</span><span class="material-symbols-rounded mock-card__icon">dashboard</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Dashboard</h3><p class="mock-card__desc">Calorie ring, streak, points, eating window, today's sessions.</p><span class="mock-card__meta">dashboard.html</span></div>
+      </a>
+      <a class="mock-card" href="workouts.html">
+        <div class="mock-card__thumb mock-card__thumb--workout"><span class="mock-card__badge">List</span><span class="material-symbols-rounded mock-card__icon">fitness_center</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Workouts</h3><p class="mock-card__desc">Filterable session log across treadmill, bike, bench, elliptical.</p><span class="mock-card__meta">workouts.html</span></div>
+      </a>
+      <a class="mock-card" href="workout-detail.html">
+        <div class="mock-card__thumb mock-card__thumb--workout"><span class="mock-card__badge">Detail</span><span class="material-symbols-rounded mock-card__icon">directions_run</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Workout detail</h3><p class="mock-card__desc">Edit a treadmill session with calculated point breakdown.</p><span class="mock-card__meta">workout-detail.html</span></div>
+      </a>
+      <a class="mock-card" href="rewards.html">
+        <div class="mock-card__thumb mock-card__thumb--reward"><span class="mock-card__badge">Game</span><span class="material-symbols-rounded mock-card__icon">military_tech</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Rewards</h3><p class="mock-card__desc">Points balance, achievements, redeemable rewards, in-flight progress.</p><span class="mock-card__meta">rewards.html</span></div>
+      </a>
+      <a class="mock-card" href="profile.html">
+        <div class="mock-card__thumb mock-card__thumb--profile"><span class="mock-card__badge">Settings</span><span class="material-symbols-rounded mock-card__icon">manage_accounts</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Profile &amp; settings</h3><p class="mock-card__desc">Goals, fasting window, Apple Watch sync, sign out.</p><span class="mock-card__meta">profile.html</span></div>
+      </a>
+    </div>
+
+    <h2 class="index__section-title">Edge states</h2>
+    <div class="index__grid">
+      <a class="mock-card" href="empty-state.html">
+        <div class="mock-card__thumb mock-card__thumb--state"><span class="mock-card__badge">Empty</span><span class="material-symbols-rounded mock-card__icon">inventory_2</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Empty state</h3><p class="mock-card__desc">First-run workouts list with illustration and primary CTA.</p><span class="mock-card__meta">empty-state.html</span></div>
+      </a>
+      <a class="mock-card" href="error-state.html">
+        <div class="mock-card__thumb mock-card__thumb--state"><span class="mock-card__badge">Error</span><span class="material-symbols-rounded mock-card__icon">cloud_off</span></div>
+        <div class="mock-card__body"><h3 class="mock-card__title">Error state</h3><p class="mock-card__desc">Apple Watch sync failure with retry and dashboard fallback.</p><span class="mock-card__meta">error-state.html</span></div>
+      </a>
+    </div>
+
+    <p class="footer">Forge Fit — Static design mocks. Hard-coded data only. Generated for D1 design review.</p>
+  </main>
+</body>
+</html>
