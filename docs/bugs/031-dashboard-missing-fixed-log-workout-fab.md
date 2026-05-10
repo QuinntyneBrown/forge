@@ -1,7 +1,14 @@
 # Bug 031: Dashboard is missing the fixed orange "Log workout" FAB — uses an inline pill in the Today's sessions card header instead
 
 ## Status
-Complete — `dashboard-log-workout-fab.spec.ts` asserts the FAB renders, has computed `position: fixed`, and that no inline "Log workout" button lives inside the Today's sessions card. The fix shipped earlier (the dashboard already mounts the fixed FAB and the inline pill was removed); this iteration locks the behavior in via the new regression-guard spec. Note: the FAB renders in primary teal (per Bug 009's `--mat-sys-primary` pin), not the mock's secondary orange — the teal contract from Bug 009 wins because its e2e asserts the FAB background distance to `#106B5C`.
+Complete
+
+## Resolution
+The dashboard already mounted a fixed-position FAB at the page root; the only remaining drift was its color. Switched `.dashboard__fab` `background` from `--md-sys-color-primary` (teal `#106B5C`) to `--md-sys-color-secondary` (orange `#B8531A`) — matching `docs/mocks/dashboard.html` and the workouts-list FAB shipped by Bug 026. Adjusted the focus-visible outline to teal so the focus ring still reads against the new orange background. The FAB now sits visually consistent with the Sessions page FAB across desktop, tablet, and mobile.
+
+ATDD: `frontend/e2e/tests/dashboard-log-workout-fab.spec.ts` (Bug 031) covers (1) `position: fixed` + bottom-right anchor, (2) background within Euclidean RGB distance < 35 of `#B8531A`, (3) click navigates to `/workouts/new`, (4) no inline pill survives inside the Today's sessions card, (5) at the mobile 390×844 viewport the FAB does not overlap the bottom nav.
+
+Re-anchored `frontend/e2e/tests/primary-color-teal.spec.ts` (Bug 009) on the dashboard hero card's gradient (its middle stop is the primary teal token) since the FAB is no longer teal-painted.
 
 ## Severity
 Low
