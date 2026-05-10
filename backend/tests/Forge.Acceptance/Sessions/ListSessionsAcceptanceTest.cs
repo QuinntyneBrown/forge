@@ -7,6 +7,8 @@
 
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Forge.Application.Sessions;
 using Forge.Domain;
 using Forge.Infrastructure;
@@ -23,6 +25,11 @@ namespace Forge.Acceptance.Sessions;
 
 public class ListSessionsAcceptanceTest : IAsyncLifetime
 {
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
+    {
+        Converters = { new JsonStringEnumConverter() }
+    };
+
     private readonly string _databaseName = $"Forge_Acceptance_{Guid.NewGuid():N}";
     private readonly string _connectionString;
     private WebApplicationFactory<Program>? _factory;
@@ -109,7 +116,7 @@ public class ListSessionsAcceptanceTest : IAsyncLifetime
         await Seed(client, token, now);
 
         var response = await Get(client, token, "/api/sessions?equipment=Treadmill");
-        var page = await response.Content.ReadFromJsonAsync<SessionPage>();
+        var page = await response.Content.ReadFromJsonAsync<SessionPage>(JsonOptions);
         Assert.NotNull(page);
         Assert.NotEmpty(page!.Items);
         Assert.All(page.Items, s => Assert.Equal(EquipmentType.Treadmill, s.Equipment));
@@ -123,7 +130,7 @@ public class ListSessionsAcceptanceTest : IAsyncLifetime
         await Seed(client, token, now);
 
         var response = await Get(client, token, "/api/sessions?range=week");
-        var page = await response.Content.ReadFromJsonAsync<SessionPage>();
+        var page = await response.Content.ReadFromJsonAsync<SessionPage>(JsonOptions);
         Assert.NotNull(page);
         Assert.NotEmpty(page!.Items);
         Assert.All(page.Items, s => Assert.True(s.StartedAt >= now.AddDays(-7)));
@@ -138,7 +145,7 @@ public class ListSessionsAcceptanceTest : IAsyncLifetime
         await Seed(client, token, now);
 
         var response = await Get(client, token, "/api/sessions?search=zone");
-        var page = await response.Content.ReadFromJsonAsync<SessionPage>();
+        var page = await response.Content.ReadFromJsonAsync<SessionPage>(JsonOptions);
         Assert.NotNull(page);
         Assert.NotEmpty(page!.Items);
         Assert.All(page.Items, s =>
@@ -157,7 +164,7 @@ public class ListSessionsAcceptanceTest : IAsyncLifetime
 
         var (_, tokenB) = await Register();
         var response = await Get(client, tokenB, "/api/sessions?range=all");
-        var page = await response.Content.ReadFromJsonAsync<SessionPage>();
+        var page = await response.Content.ReadFromJsonAsync<SessionPage>(JsonOptions);
         Assert.NotNull(page);
         Assert.Empty(page!.Items);
     }
