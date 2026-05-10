@@ -92,7 +92,7 @@ Conventions:
 - **Acceptance test:** `ClockSeamAcceptanceTest` — register a `FakeClock` in the DI container, call any time-dependent handler, assert the persisted timestamp matches the fake's `UtcNow` rather than wall time.
 - **Guidance:** Backend (no clock-coupling); General (testability).
 
-### BT-007 — Sign-in throttling and lockout
+### BT-007 — Sign-in throttling and lockout ✅ done
 
 - **Requirements:** L2-034.
 - **Slice:**

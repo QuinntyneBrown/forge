@@ -55,6 +55,17 @@ public class ExceptionHandlingMiddleware
                 Title = "Invalid credentials."
             }, options: null, contentType: ProblemJson);
         }
+        catch (SignInLockedException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+            context.Response.Headers["Retry-After"] = ((int)Math.Max(1, ex.RetryAfter.TotalSeconds)).ToString();
+            await context.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status429TooManyRequests,
+                Title = "Too many failed sign-in attempts. Try again later.",
+                Detail = ex.Message
+            }, options: null, contentType: ProblemJson);
+        }
         catch (UnauthorizedAccessException)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
