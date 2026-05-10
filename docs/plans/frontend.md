@@ -64,26 +64,26 @@ DTO models under `projects/api/src/lib/models/`:
 
 ## 3. Components library — reusable presentation only
 
-Every component below is a `.ts`/`.html`/`.scss` triple under `projects/components/src/lib/<component>/`. No backend imports. Used by both `domain` and `forge`.
+Every component below is a `.ts`/`.html`/`.scss` triple under `projects/components/src/lib/<component>/`. No backend imports. Used by both `domain` and `forge`. Per Implementation Guidance — Frontend, every component **wraps an Angular Material 3 component** unless explicitly marked as a pure layout primitive; the wrapper exposes a project-stable input/output API on top of Material so domain consumers don't have to change when Material's surface evolves. The Forge Fit palette is already wired through `mat.theme(...)` in `styles.scss` (MF1), so Material renders in the project colors automatically.
 
-| Component                | Selector                | Purpose                                                                                                | L2s | Mock-derived |
-|--------------------------|-------------------------|--------------------------------------------------------------------------------------------------------|-----|--------------|
-| `CardComponent` (existing)| `forge-card`            | Shape: surface-container-lowest, M3 elevation 1, rounded `--shape-lg`, optional title.                 | shared | every authenticated screen |
-| `ButtonComponent`        | `forge-button`          | Variants `filled`, `outlined`, `text`. Touch target ≥48dp. Accepts `[disabled]`, `[loading]`.          | L2-046 | every CTA |
-| `IconButtonComponent`    | `forge-icon-button`     | 48×48dp circular. `<ng-content>` for the icon glyph.                                                   | L2-046 | top app bar, password reveal |
-| `FieldComponent`         | `forge-field`           | M3 outlined text field anatomy: floating label, supporting text slot, error slot. Wraps a projected `<input>`/`<textarea>`/`<select>`. Accepts `[label]`, `[supportingText]`, `[error]`. | L2-005, L2-007 | sign-in, sign-up, profile, workout-detail |
-| `CheckboxComponent`      | `forge-checkbox`        | M3 checkbox shape with `[checked]`/`(checkedChange)`.                                                  | L2-002 (Remember me) | sign-in |
-| `SwitchComponent`        | `forge-switch`          | M3 switch for boolean toggles.                                                                          | L2-026, L2-027 | profile |
-| `ChipComponent`          | `forge-chip`            | Filter / selection chip. `[selected]` modifier.                                                        | L2-008 | workouts |
-| `ProgressRingComponent`  | `forge-progress-ring`   | SVG ring renderer driven by `[value]`/`[max]`. Used for the daily calorie ring + reward progress.       | L2-011 | dashboard, rewards |
-| `BadgeComponent`         | `forge-badge`           | Pill-shaped status indicator. Variants: `success`, `warning`, `error`, `neutral`.                       | L2-022, L2-024 | dashboard tier, error-state diagnostics |
-| `EmptyStateComponent`    | `forge-empty-state`     | Reusable empty-state shell: illustration slot, copy, primary CTA.                                       | L2-028 | empty-state, every list when zero rows |
-| `ErrorBannerComponent`   | `forge-error-banner`    | Inline error banner with retry CTA.                                                                     | L2-024, L2-029 | error-state |
-| `AppShellComponent`      | `forge-app-shell`       | Authenticated shell: top app bar with profile menu, projected `<router-outlet>`, bottom nav (XS/SM/MD) / nav rail (LG/XL). | L2-010, L2-013, L2-046 | dashboard, workouts, rewards, profile |
-| `BottomNavComponent`     | `forge-bottom-nav`      | Mobile navigation strip. Used inside `AppShellComponent` at <992px.                                     | L2-013, L2-046 | every authed screen on mobile |
-| `NavRailComponent`       | `forge-nav-rail`        | Desktop nav rail. Used inside `AppShellComponent` at ≥992px.                                            | L2-013 | every authed screen on desktop |
+| Component                | Selector                | Wraps                                                                                       | Purpose                                                                                                 | L2s | Mock-derived |
+|--------------------------|-------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----|--------------|
+| `CardComponent` (existing)| `forge-card`           | `<mat-card>` (FI1 swap; selector + content-projection contract preserved)                    | Surface container with optional title slot. Domain components keep using `<forge-card title="…">`.      | shared | every authenticated screen |
+| `ButtonComponent`        | `forge-button`          | `<button mat-flat-button>` / `mat-stroked-button` / `mat-button` selected by `[variant]`     | Variants `filled`, `outlined`, `text`. Touch target ≥48dp. Accepts `[disabled]`, `[loading]`.          | L2-046 | every CTA |
+| `IconButtonComponent`    | `forge-icon-button`     | `<button mat-icon-button>` with Material Symbols glyph                                       | 48×48dp circular icon button. `<ng-content>` projects the glyph element.                                | L2-046 | top app bar, password reveal |
+| `FieldComponent`         | `forge-field`           | `<mat-form-field appearance="outline">` containing a projected `<input matInput>` / `<textarea matInput>` / `<mat-select>` | Outlined text field anatomy with floating label, hint, and error slots from Material directly. Accepts `[label]`, `[supportingText]`, `[error]`. | L2-005, L2-007 | sign-in, sign-up, profile, workout-detail |
+| `CheckboxComponent`      | `forge-checkbox`        | `<mat-checkbox>`                                                                              | M3 checkbox with `[checked]`/`(checkedChange)`.                                                         | L2-002 (Remember me) | sign-in |
+| `SwitchComponent`        | `forge-switch`          | `<mat-slide-toggle>`                                                                          | M3 switch for boolean toggles.                                                                          | L2-026, L2-027 | profile |
+| `ChipComponent`          | `forge-chip`            | `<mat-chip>` inside a `<mat-chip-listbox>` (parent supplied by caller)                       | Filter / selection chip with `[selected]` modifier.                                                     | L2-008 | workouts |
+| `ProgressRingComponent`  | `forge-progress-ring`   | `<mat-progress-spinner mode="determinate">`                                                  | Determinate ring driven by `[value]`/`[max]` for the daily calorie ring + reward progress.              | L2-011 | dashboard, rewards |
+| `BadgeComponent`         | `forge-badge`           | `<mat-chip>` styled as a status pill                                                          | Pill-shaped status indicator. Variants: `success`, `warning`, `error`, `neutral`.                       | L2-022, L2-024 | dashboard tier, error-state diagnostics |
+| `EmptyStateComponent`    | `forge-empty-state`     | *Pure layout primitive — no Material counterpart*                                            | Reusable empty-state shell: illustration slot, copy, primary CTA. Stays hand-rolled.                    | L2-028 | empty-state, every list when zero rows |
+| `ErrorBannerComponent`   | `forge-error-banner`    | *Pure layout primitive — no Material counterpart* (`<mat-snack-bar>` is transient and doesn't fit the inline banner shape) | Inline error banner with retry CTA. Stays hand-rolled.                                                  | L2-024, L2-029 | error-state |
+| `AppShellComponent`      | `forge-app-shell`       | `<mat-toolbar>` for the top bar; projects `<router-outlet>`; embeds `BottomNavComponent` or `NavRailComponent` | Authenticated shell: top app bar with profile menu, bottom nav (XS / SM / MD) / nav rail (LG / XL).     | L2-010, L2-013, L2-046 | dashboard, workouts, rewards, profile |
+| `BottomNavComponent`     | `forge-bottom-nav`      | `<mat-tab-nav-bar>` styled as a bottom navigation strip                                      | Mobile navigation. Used inside `AppShellComponent` at < 992px.                                          | L2-013, L2-046 | every authed screen on mobile |
+| `NavRailComponent`       | `forge-nav-rail`        | `<mat-nav-list>` styled as a vertical rail                                                    | Desktop nav rail. Used inside `AppShellComponent` at ≥ 992px.                                            | L2-013 | every authed screen on desktop |
 
-None of these reach for the backend. Every one is a pure presentation component driven by `@Input` / `@Output` / `<ng-content>`.
+`EmptyStateComponent` and `ErrorBannerComponent` are the only two intentional exceptions to the wrap-Material rule — Material has no equivalent for an inline empty / error layout. Every other component wraps a Material 3 primitive and exposes a project-stable API (e.g., `<forge-button [variant]="'filled'">`) so domain consumers don't have to change when Material upgrades. None of these reach for the backend; every one is driven by `@Input` / `@Output` / `<ng-content>`.
 
 ## 4. Domain library — components that consume `api` services
 
@@ -161,8 +161,14 @@ Local username/password sign-in with JWT bearer (Implementation Guidance — Aut
 - `authInterceptor` (existing in `forge`) attaches `Authorization: Bearer ${accessToken}` to every outgoing request whose URL starts with `API_BASE_URL`. Strips the header for cross-origin requests.
 - New `refreshInterceptor` in `forge`: when a request returns `401` and a refresh token is available, calls `IAuthService.refresh(...)` once, retries the original request with the new access token, and emits the rotated tokens to `AuthStateService`. On refresh failure, calls `AuthStateService.clear()` and routes to `/sign-in`.
 - New `authGuard` (`canActivate`) in `forge`: redirects to `/sign-in?returnUrl=...` when `AuthStateService.snapshot()` is null. Wired on every route except `/sign-in`, `/sign-up`, `/password-reset`, and `/error`.
-- Sign-out flow: `IAuthService.signOut(refreshToken)` → revoke server-side, clear local state, route to `/sign-in`.
-- Storage policy: tokens live in memory only — no `localStorage`, no `sessionStorage`. Hard refresh of the browser ends the session. (Future BI1+ work can introduce httpOnly refresh cookies if required; not in MVP scope.)
+- Sign-out flow: `IAuthService.signOut(refreshToken)` → revoke server-side, clear local state, clear any persisted refresh token, route to `/sign-in`.
+- Storage policy:
+  - Access token always lives in memory only (signal in `AuthStateService`). Never persisted.
+  - Refresh-token persistence is conditional on the **Remember me** checkbox in `SignInFormComponent`:
+    - **Unchecked** (default): refresh token kept in memory only. A hard refresh of the browser ends the session — matches the L2-002 default behavior.
+    - **Checked**: refresh token persisted to `localStorage` under key `forge.auth.refreshToken`. On app boot, `AuthStateService` reads the persisted token, exchanges it for a fresh access-token + refresh-token pair via `IAuthService.refresh(...)`, and replaces the persisted entry with the rotated refresh token (refresh-token rotation per L2-033). If the exchange fails (token revoked / expired), the persisted entry is cleared and the user is routed to `/sign-in`. This satisfies L2-002 acceptance criterion 2 ("session survives a browser restart").
+  - XSS exposure of `localStorage` is mitigated by L2-052: the backend serves authenticated responses with a `Content-Security-Policy` that forbids inline scripts and `unsafe-eval`, and Angular's default interpolation HTML-encodes user content. The plan forbids `[innerHTML]` with unsanitized input.
+  - An alternative path — backend-issued httpOnly secure refresh-token cookies — is **explicitly out of scope** for the MVP because BP1's auth flow returns refresh tokens in the JSON response body. A future hardening pass can swap the storage layer (touch only `AuthStateService` + `IAuthService.refresh`) without changing the rest of the plan.
 
 ## 8. Playwright POM acceptance test inventory
 
@@ -234,7 +240,7 @@ Each FI1.x slice is one or two BI1 backend slices' worth of work and is sized fo
 | L2     | Frontend artifact in this plan                                                                  |
 |--------|--------------------------------------------------------------------------------------------------|
 | L2-001 | `SignUpFormComponent` + `IAuthService.register` (§4, §2)                                         |
-| L2-002 | `SignInFormComponent` (§4) — existing                                                            |
+| L2-002 | `SignInFormComponent` (§4) — existing — plus refresh-token persistence policy in §7 (Remember-me-gated `localStorage` with rotation) for acceptance criterion 2 |
 | L2-003 | `AuthStateService.signOut` + `IAuthService.signOut` (§7)                                         |
 | L2-004 | `PasswordResetRequestFormComponent` + `PasswordResetConfirmFormComponent` (§4)                   |
 | L2-005 | `ProfileFormComponent` + `IProfileService.updateProfile` (§4, §2)                                |
