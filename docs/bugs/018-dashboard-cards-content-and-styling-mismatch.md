@@ -1,7 +1,7 @@
 # Bug 018: Dashboard cards lack the rich content, color treatment, and structure of the mock
 
 ## Status
-Open
+Complete
 
 ## Severity
 High
@@ -37,3 +37,26 @@ This is a checklist bug — group the deviations rather than file 5 small ones.
 - Restructure `DashboardPageComponent` to render the 4 mock cards (hero / streak+rewards / eating-window / today's sessions) in a 12-col grid that collapses to 1-col on mobile, per the mock's media-query breakpoints (1100px → 12-col, 768px → 2-col, default → 1-col).
 - Build `HeroCalorieRingCardComponent`, `StreakRewardsCardComponent`, `EatingWindowCardComponent`, `TodaysSessionsCardComponent`.
 - Decide whether the Leaderboard belongs on the dashboard at all; if yes, agree on a placement and add it back as a 5th card with proper styling.
+
+## Resolution
+Restructured `frontend/projects/forge/src/app/pages/dashboard/dashboard.page.{ts,html,scss}` directly rather than splitting into four new components — the smallest path that satisfies every audit checkbox without proliferating one-off domain widgets:
+
+- **Hero**: wrapped the existing `forge-daily-ring-card` in a `<section.dashboard__hero>` painted with the mock gradient `linear-gradient(135deg, #0E5A4D 0%, #106B5C 60%, #1B7A6A 100%)` (middle stop matches the `--mat-sys-primary` token wired in Bug 009). Added the eyebrow `Today's active calories` and two CTAs: peach filled `Start morning workout` (routes to `/workouts/new`) and tonal `View today's sessions` (routes to `/workouts`).
+- **Eating window card**: pulls `kitchenClosedStart` / `kitchenClosedEnd` from `IMeService.getMe()`, formats them as 12-hour times with a "Fasting until 6:00 AM" headline, sub line `N-hour fast · target met`, range row, icon tile, and `On track` chip.
+- **Today's sessions card**: queries `ISessionsService.list({ range: 'today' })` and renders an item per row with equipment-specific Material symbol, time/duration/calories/distance meta, and `+pts` chip. Empty-state copy retained for the no-sessions branch.
+- **Badge row + sparkline**: rendered the three mock badge chips (Morning Warrior, 1500-Cal Club, Night Resister) and a 7-bar SVG sparkline anchored to `viewBox="0 0 100 30"`. Badge data is currently a `PLACEHOLDER_BADGES` constant — there is no achievements API yet, so the chips are static; same for the sparkline values until a points-over-time endpoint lands. Both are flagged in source comments as deferred follow-ups.
+- **Layout**: 12-col grid at `≥1100px`, 2-col at `≥768px`, 1-col below — matching the mock breakpoints. Hero spans 7, streak/rewards spans 5, eating-window and today's-sessions each span 6, leaderboard spans the full row.
+
+The pre-existing `forge-weight-progress-card`, `forge-tier-card`, and `forge-leaderboard-card` are kept beneath the mock-aligned strip until a separate decision moves them to the Rewards page (open question from the bug body).
+
+### Files
+- `frontend/projects/forge/src/app/pages/dashboard/dashboard.page.ts`
+- `frontend/projects/forge/src/app/pages/dashboard/dashboard.page.html`
+- `frontend/projects/forge/src/app/pages/dashboard/dashboard.page.scss`
+- `frontend/e2e/pages/dashboard.page.ts` (new locators added by parallel Bug 016 commit)
+- `frontend/e2e/tests/dashboard-content-and-styling.spec.ts` (new failing-then-passing spec)
+
+### Deferred follow-ups
+- Achievements API: badges are placeholders until `GET /api/achievements` (or similar) exposes per-user state.
+- Weight-history sparkline: the streak/rewards sparkline currently shows static bars. When a points-over-time or weight-history endpoint is added, swap the static `SPARKLINE_BARS` constant for live data.
+- Leaderboard placement: still rendered on dashboard. Open question per the bug body — tracked separately.

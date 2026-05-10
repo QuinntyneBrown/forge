@@ -105,6 +105,327 @@
   gap: 16px;
 }
 
+/* ---------- Hero card (Bug 018) ---------- */
+
+.dashboard__hero {
+  /* Mock gradient stops — dark teal → primary teal → slightly brighter teal.
+     Anchored to the same #106B5C as --mat-sys-primary so the design system
+     stays the source of truth for the middle stop. */
+  background: linear-gradient(135deg, #0e5a4d 0%, #106b5c 60%, #1b7a6a 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10), 0 2px 6px 2px rgba(0, 0, 0, 0.08);
+
+  forge-daily-ring-card {
+    /* Inverse the inner card's surface so the daily ring reads on the gradient. */
+    --mat-sys-on-surface: #ffffff;
+    --mat-sys-on-surface-variant: rgba(255, 255, 255, 0.78);
+    color: #ffffff;
+  }
+}
+
+.dashboard__hero-eyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.dashboard__hero-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.dashboard__hero-ring {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.dashboard__hero-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard__hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+
+  .material-symbols-rounded {
+    font-size: 18px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+.dashboard__hero-btn--filled {
+  background: #ffcba1;
+  color: #3a1a05;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.dashboard__hero-btn--tonal {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+/* ---------- Streak / rewards composite card ---------- */
+
+.dashboard__streak-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard__sparkline-block {
+  background: var(--md-sys-color-surface-container-lowest, #ffffff);
+  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.dashboard__sparkline-label {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  font-weight: 600;
+}
+
+.dashboard__sparkline {
+  display: block;
+  width: 100%;
+  height: 36px;
+}
+
+.dashboard__sparkline-bar {
+  fill: var(--md-sys-color-primary-container, #9ff2dd);
+}
+
+.dashboard__badge-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.dashboard__badge {
+  flex: 0 0 auto;
+  width: 130px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-container-low, #eef5f2);
+  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  text-align: center;
+}
+
+.dashboard__badge-medal {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--md-sys-color-secondary-container, #ffdbc8);
+  color: var(--md-sys-color-on-secondary-container, #341000);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 8px;
+
+  .material-symbols-rounded {
+    font-size: 24px;
+  }
+}
+
+.dashboard__badge-medal--gold {
+  background: #ffe7b0;
+  color: #5a3a00;
+}
+
+.dashboard__badge-medal--teal {
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+}
+
+.dashboard__badge-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dashboard__badge-sub {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+/* ---------- Card primitives shared by eating-window + today's sessions ---------- */
+
+.dashboard__eating-window,
+.dashboard__todays-sessions {
+  background: var(--md-sys-color-surface-container-lowest, #ffffff);
+  border-radius: 16px;
+  border: 1px solid var(--md-sys-color-outline-variant, #bec9c4);
+  padding: 18px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 1px 3px 1px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard__card-eyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.dashboard__card-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dashboard__card-sub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+/* ---------- Eating-window inner ---------- */
+
+.dashboard__window {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.dashboard__window-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--md-sys-color-tertiary-container, #c3e8ff);
+  color: #1f3f4f;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  .material-symbols-rounded {
+    font-size: 26px;
+  }
+}
+
+.dashboard__window-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard__window-range {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard__window-meta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.dashboard__window-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #d6f3e5;
+  color: #0a5a3a;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+
+  .material-symbols-rounded {
+    font-size: 14px;
+  }
+}
+
+/* ---------- Today's sessions list ---------- */
+
+.dashboard__session-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dashboard__session {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-container-low, #eef5f2);
+}
+
+.dashboard__session-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--md-sys-color-primary-container, #9ff2dd);
+  color: var(--md-sys-color-on-primary-container, #00211b);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  .material-symbols-rounded {
+    font-size: 22px;
+  }
+}
+
+.dashboard__session-icon--amber {
+  background: var(--md-sys-color-secondary-container, #ffdbc8);
+  color: var(--md-sys-color-on-secondary-container, #341000);
+}
+
+.dashboard__session-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard__session-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard__session-meta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+}
+
+.dashboard__session-points {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--md-sys-color-secondary, #b8531a);
+}
+
+/* ---------- Responsive grid ---------- */
+
 @media (min-width: 768px) {
   .dashboard {
     padding: 32px 32px 0;
@@ -118,7 +439,29 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .dashboard__cell--span-2 {
+  .dashboard__cell--full {
     grid-column: span 2;
+  }
+}
+
+@media (min-width: 1100px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .dashboard__cell--hero {
+    grid-column: span 7;
+  }
+
+  .dashboard__cell--side {
+    grid-column: span 5;
+  }
+
+  .dashboard__cell--half {
+    grid-column: span 6;
+  }
+
+  .dashboard__cell--full {
+    grid-column: 1 / -1;
   }
 }
