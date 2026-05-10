@@ -23,7 +23,24 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, C
         var user = await _db.Users
             .AsNoTracking()
             .Where(u => u.Id == userId && !u.IsDeleted)
-            .Select(u => new CurrentUserDto(u.Id, u.Email, u.FirstName, u.LastName, u.Role))
+            .Select(u => new CurrentUserDto(
+                u.Id,
+                u.Email,
+                u.FirstName,
+                u.LastName,
+                u.Role,
+                u.Units,
+                u.TimeZoneId,
+                u.DailyActiveCaloriesTarget,
+                u.DailyWorkoutMinutesTarget,
+                u.MonthlyWeightGoalLb,
+                u.MorningWindowStart,
+                u.MorningWindowEnd,
+                u.KitchenClosedStart,
+                u.KitchenClosedEnd,
+                u.KitchenNudgeEnabled,
+                u.MorningReminderEnabled,
+                u.LeaderboardOptIn))
             .FirstOrDefaultAsync(cancellationToken);
 
         return user ?? throw new UnauthorizedAccessException();

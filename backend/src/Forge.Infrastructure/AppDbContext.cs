@@ -26,6 +26,22 @@ public class AppDbContext : DbContext, IAppDbContext
             b.Property(u => u.LastName).HasMaxLength(64).IsRequired();
             b.Property(u => u.PasswordHash).HasMaxLength(255).IsRequired();
             b.Property(u => u.Role).HasMaxLength(32).IsRequired();
+
+            // BT-015 profile columns with defaults so the migration backfills
+            // existing rows and new registrations match the L2 spec without
+            // the handler having to set them explicitly.
+            b.Property(u => u.Units).HasMaxLength(16).IsRequired().HasDefaultValue("Imperial");
+            b.Property(u => u.TimeZoneId).HasMaxLength(64).IsRequired().HasDefaultValue("America/New_York");
+            b.Property(u => u.DailyActiveCaloriesTarget).HasDefaultValue(1500);
+            b.Property(u => u.DailyWorkoutMinutesTarget).HasDefaultValue(60);
+            b.Property(u => u.MonthlyWeightGoalLb).HasDefaultValue(20);
+            b.Property(u => u.MorningWindowStart).HasDefaultValue(new TimeOnly(5, 0));
+            b.Property(u => u.MorningWindowEnd).HasDefaultValue(new TimeOnly(7, 30));
+            b.Property(u => u.KitchenClosedStart).HasDefaultValue(new TimeOnly(20, 0));
+            b.Property(u => u.KitchenClosedEnd).HasDefaultValue(new TimeOnly(6, 0));
+            b.Property(u => u.KitchenNudgeEnabled).HasDefaultValue(true);
+            b.Property(u => u.MorningReminderEnabled).HasDefaultValue(true);
+            b.Property(u => u.LeaderboardOptIn).HasDefaultValue(false);
         });
 
         modelBuilder.Entity<WorkoutSession>(b =>

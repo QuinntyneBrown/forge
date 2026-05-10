@@ -172,7 +172,7 @@ Conventions:
 - **Acceptance test:** sign in, `GET /api/me` returns the user's email, role `User`, and default profile values.
 - **Guidance:** Backend.
 
-### BT-015 — Profile migration + update
+### BT-015 — Profile migration + update ✅ done
 
 - **Requirements:** L2-005, L2-014, L2-016, L2-017, L2-026, L2-027.
 - **Slice:**
