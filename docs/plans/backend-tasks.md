@@ -299,7 +299,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** seed ledger to 4,999 lifetime points → tier `Silver`. Add a session that pushes to 5,001 → tier `Forged Iron`.
 - **Guidance:** Backend.
 
-### BT-029 — Dashboard summary
+### BT-029 — Dashboard summary ✅ done
 
 - **Requirements:** L2-011, L2-012, L2-013.
 - **Slice:**
