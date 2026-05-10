@@ -16,3 +16,6 @@ export * from './lib/me.service.contract';
 export * from './lib/me.service';
 export * from './lib/profile.service.contract';
 export * from './lib/profile.service';
+export * from './lib/models/dashboard-summary.model';
+export * from './lib/dashboard.service.contract';
+export * from './lib/dashboard.service';

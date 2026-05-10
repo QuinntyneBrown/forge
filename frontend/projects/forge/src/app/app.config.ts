@@ -11,6 +11,8 @@ import {
   API_BASE_URL,
   AUTH_SERVICE,
   AuthService,
+  DASHBOARD_SERVICE,
+  DashboardService,
   HEALTH_SERVICE,
   HealthService,
   ME_SERVICE,
@@ -34,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     { provide: HEALTH_SERVICE, useClass: HealthService },
     { provide: ME_SERVICE, useClass: MeService },
     { provide: PROFILE_SERVICE, useClass: ProfileService },
+    { provide: DASHBOARD_SERVICE, useClass: DashboardService },
     provideAppInitializer(() => inject(AuthStateService).tryHydrate())
   ]
 };

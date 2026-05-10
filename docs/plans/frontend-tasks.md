@@ -193,7 +193,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 
 ## Phase FI1.3 — Dashboard (parallel with BI1.3)
 
-### FT-018 — `DashboardService` + contract
+### FT-018 — `DashboardService` + contract ✅ done
 
 - **Requirements:** L2-011, L2-012, L2-013, L2-014, L2-022.
 - **Slice:**
