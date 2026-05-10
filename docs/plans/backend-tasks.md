@@ -319,7 +319,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** user A opted out → not visible to user B; user A toggles opt-in → visible.
 - **Guidance:** Backend.
 
-### BT-031 — HealthKit ingest stub
+### BT-031 — HealthKit ingest stub ✅ done
 
 - **Requirements:** L2-023.
 - **Slice:**
