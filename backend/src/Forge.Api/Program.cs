@@ -1,16 +1,36 @@
 using System.Text;
 using Forge.Api.HostedServices;
+using Forge.Api.Logging;
 using Forge.Api.Middleware;
 using Forge.Application;
 using Forge.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// JSON console formatter so stdout log lines are structured, then wrap
+// the LoggerFactory with a redacting decorator so sensitive structured
+// parameters never reach any provider's output.
+builder.Logging.AddJsonConsole(o =>
+{
+    o.IncludeScopes = true;
+    o.JsonWriterOptions = new System.Text.Json.JsonWriterOptions { Indented = false };
+});
+builder.Services.Replace(ServiceDescriptor.Singleton<ILoggerFactory>(sp =>
+{
+    var providers = sp.GetServices<ILoggerProvider>();
+    var filterOptions = sp.GetRequiredService<IOptionsMonitor<LoggerFilterOptions>>();
+    var inner = new LoggerFactory(providers, filterOptions);
+    return new RedactingLoggerFactory(inner);
+}));
 
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
     ?? throw new InvalidOperationException("Jwt section is missing.");
@@ -62,6 +82,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseMiddleware<SecurityHeadersMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())

@@ -128,7 +128,7 @@ public class StructuredLoggingAcceptanceTest : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Sensitive_property_keys_are_redacted_when_logged_in_state()
+    public void Sensitive_property_keys_are_redacted_when_logged_in_state()
     {
         // Resolve a logger from the live app's services and emit a synthetic
         // log line with sensitive keys to prove the redaction wrapper.

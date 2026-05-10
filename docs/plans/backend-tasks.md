@@ -351,7 +351,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** any 200 response carries the documented headers.
 - **Guidance:** General (security baseline).
 
-### BT-034 — Structured logging + secret redaction filter
+### BT-034 — Structured logging + secret redaction filter ✅ done
 
 - **Requirements:** L2-043, L2-051.
 - **Slice:**
