@@ -369,7 +369,7 @@ Originally enumerated as a standalone migration-only task. BT2 Pass 1 found it h
 - **Acceptance test:** `GET /health/ready` against a running app → `200 { status: "Healthy" }`. With a broken connection string → `503`.
 - **Guidance:** Observability.
 
-### BT-036 — CI dependency vulnerability scan
+### BT-036 — CI dependency vulnerability scan ✅ done
 
 - **Requirements:** L2-053.
 - **Slice:**
