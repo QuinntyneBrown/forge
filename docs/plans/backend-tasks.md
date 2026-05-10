@@ -201,7 +201,7 @@ Conventions:
 - **Acceptance test:** valid goal stores; out-of-range goal returns `400`.
 - **Guidance:** Validation.
 
-### BT-018 — Update morning window
+### BT-018 — Update morning window ✅ done
 
 - **Requirements:** L2-016.
 - **Slice:**

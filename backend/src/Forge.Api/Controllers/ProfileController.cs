@@ -51,4 +51,15 @@ public class ProfileController : ControllerBase
         await _mediator.Send(new SetMonthlyWeightGoalCommand(request.MonthlyWeightGoalLb), cancellationToken);
         return NoContent();
     }
+
+    [HttpPut("morning-window")]
+    public async Task<IActionResult> UpdateMorningWindow(
+        [FromBody] UpdateMorningWindowRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _mediator.Send(
+            new UpdateMorningWindowCommand(request.Start, request.End, request.ReminderEnabled),
+            cancellationToken);
+        return NoContent();
+    }
 }
