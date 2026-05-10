@@ -127,12 +127,17 @@ test.describe('Bug 009: Primary color token resolves to mock teal', () => {
     const primaryToken = await readPrimaryToken(page);
     expectCloseToTeal(primaryToken, '--mat-sys-primary on /dashboard');
 
-    // Bug 027: the dashboard topbar no longer carries a sign-out button —
-    // anchor the regression check to the dashboard FAB instead, which is
-    // always rendered and uses the primary teal token for its background.
-    const fab = page.getByTestId('dashboard-log-workout-fab');
-    await expect(fab).toBeVisible();
-    const fabBackground = await fab.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expectCloseToTeal(fabBackground, 'dashboard FAB background color');
+    // Bug 031: the dashboard FAB is now secondary orange, so anchor the
+    // regression check on the hero gradient — its middle stop is the primary
+    // teal token (#106B5C) per dashboard.page.scss.
+    const hero = page.getByTestId('dashboard-hero');
+    await expect(hero).toBeVisible();
+    const heroBackground = await hero.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return cs.backgroundImage + ' ' + cs.background;
+    });
+    // Computed gradient stops serialize to rgb(...). Assert that the primary
+    // teal stop (rgb(16, 107, 92) — #106B5C) is one of them.
+    expect(heroBackground).toMatch(/rgb\(\s*16\s*,\s*107\s*,\s*92\s*\)/);
   });
 });
