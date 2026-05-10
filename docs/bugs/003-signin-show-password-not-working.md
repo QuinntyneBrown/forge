@@ -1,5 +1,8 @@
 # Bug 003: "Show password" toggle on sign-in page does not work
 
+## Status
+Complete
+
 ## Severity
 Medium
 

@@ -35,6 +35,46 @@
   }
 }
 
+.sign-in-form__password {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.sign-in-form__input--password {
+  padding-right: 44px;
+  flex: 1;
+}
+
+.sign-in-form__password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant, #3f4945);
+  cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary, #106b5c);
+    outline-offset: 2px;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+}
+
 .sign-in-form__row {
   display: flex;
   align-items: center;

@@ -22,6 +22,11 @@ export class SignInFormComponent {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly submitting = signal(false);
   protected readonly rememberMe = signal(false);
+  protected readonly showPassword = signal(false);
+
+  protected toggleShowPassword(): void {
+    this.showPassword.update((v) => !v);
+  }
 
   constructor(
     private readonly fb: FormBuilder,
