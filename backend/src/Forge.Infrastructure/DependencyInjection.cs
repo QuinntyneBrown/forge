@@ -20,6 +20,8 @@ public static class DependencyInjection
         services.AddSingleton<IJwtTokenIssuer, JwtTokenIssuer>();
         services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 
+        services.AddScoped<IRefreshTokenStore, RefreshTokenStore>();
+
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
 

@@ -28,7 +28,7 @@ Conventions:
 - **Acceptance test:** `tests/Forge.Acceptance/Database/MigrationsAcceptanceTest.cs` — boots the API against a fresh LocalDB instance and asserts every required table exists by querying `INFORMATION_SCHEMA.TABLES`.
 - **Guidance:** Backend (EF Core, Clean Architecture), General (one type per file).
 
-### BT-002 — Refresh token issuance + rotation
+### BT-002 — Refresh token issuance + rotation ✅ done
 
 - **Requirements:** L2-002 (refresh path), L2-033.
 - **Slice:**

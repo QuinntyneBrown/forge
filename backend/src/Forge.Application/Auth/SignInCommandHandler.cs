@@ -9,12 +9,18 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, AuthResult>
     private readonly IAppDbContext _db;
     private readonly IPasswordHasher _hasher;
     private readonly IJwtTokenIssuer _tokens;
+    private readonly IRefreshTokenStore _refreshTokens;
 
-    public SignInCommandHandler(IAppDbContext db, IPasswordHasher hasher, IJwtTokenIssuer tokens)
+    public SignInCommandHandler(
+        IAppDbContext db,
+        IPasswordHasher hasher,
+        IJwtTokenIssuer tokens,
+        IRefreshTokenStore refreshTokens)
     {
         _db = db;
         _hasher = hasher;
         _tokens = tokens;
+        _refreshTokens = refreshTokens;
     }
 
     public async Task<AuthResult> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -27,7 +33,8 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, AuthResult>
             throw new InvalidCredentialsException();
         }
 
-        var token = _tokens.Issue(user);
-        return new AuthResult(token, user.Id, user.Email, user.Role);
+        var accessToken = _tokens.Issue(user);
+        var refresh = await _refreshTokens.IssueAsync(user.Id, familyId: null, cancellationToken);
+        return new AuthResult(accessToken, refresh.RawToken, user.Id, user.Email, user.Role);
     }
 }

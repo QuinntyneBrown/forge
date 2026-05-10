@@ -10,12 +10,18 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResul
     private readonly IAppDbContext _db;
     private readonly IPasswordHasher _hasher;
     private readonly IJwtTokenIssuer _tokens;
+    private readonly IRefreshTokenStore _refreshTokens;
 
-    public RegisterCommandHandler(IAppDbContext db, IPasswordHasher hasher, IJwtTokenIssuer tokens)
+    public RegisterCommandHandler(
+        IAppDbContext db,
+        IPasswordHasher hasher,
+        IJwtTokenIssuer tokens,
+        IRefreshTokenStore refreshTokens)
     {
         _db = db;
         _hasher = hasher;
         _tokens = tokens;
+        _refreshTokens = refreshTokens;
     }
 
     public async Task<AuthResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -42,7 +48,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResul
         _db.Users.Add(user);
         await _db.SaveChangesAsync(cancellationToken);
 
-        var token = _tokens.Issue(user);
-        return new AuthResult(token, user.Id, user.Email, user.Role);
+        var accessToken = _tokens.Issue(user);
+        var refresh = await _refreshTokens.IssueAsync(user.Id, familyId: null, cancellationToken);
+        return new AuthResult(accessToken, refresh.RawToken, user.Id, user.Email, user.Role);
     }
 }
