@@ -27,15 +27,44 @@
         <span class="material-icons" aria-hidden="true">flag</span>
         Goals
       </h3>
-      <div class="profile__goal-tile">
-        <p class="profile__goal-eyebrow">Weight goal</p>
-        <p class="profile__goal-title">-20 lb / month</p>
-        <p class="profile__goal-sub">On track — keep going</p>
+      <div class="profile__goal-grid">
+        <label class="profile__goal-input">
+          <span class="profile__goal-input-label">Daily active calories</span>
+          <input
+            type="number"
+            min="0"
+            step="50"
+            data-testid="profile-goal-calories"
+            [ngModel]="goalCalories()"
+            (ngModelChange)="goalCalories.set($event)"
+          />
+          <span class="profile__goal-input-unit">kcal</span>
+        </label>
+        <label class="profile__goal-input">
+          <span class="profile__goal-input-label">Daily workout minutes</span>
+          <input
+            type="number"
+            min="0"
+            step="5"
+            data-testid="profile-goal-minutes"
+            [ngModel]="goalMinutes()"
+            (ngModelChange)="goalMinutes.set($event)"
+          />
+          <span class="profile__goal-input-unit">min</span>
+        </label>
+        <label class="profile__goal-input">
+          <span class="profile__goal-input-label">Monthly weight loss goal</span>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            data-testid="profile-goal-weight"
+            [ngModel]="goalWeight()"
+            (ngModelChange)="goalWeight.set($event)"
+          />
+          <span class="profile__goal-input-unit">lb</span>
+        </label>
       </div>
-      <p class="profile__card-note">
-        Daily active calories, daily move minutes, and current weight live in
-        the Account form for now and will move here in a follow-up.
-      </p>
     </section>
 
     <section class="profile__card" data-testid="profile-windows-card">
@@ -43,11 +72,44 @@
         <span class="material-icons" aria-hidden="true">schedule</span>
         Windows
       </h3>
-      <ul class="profile__window-list">
-        <li><strong>Morning workout window</strong>: 5:00 AM – 7:00 AM</li>
-        <li><strong>Kitchen closes</strong>: 8:00 PM</li>
-        <li><strong>Kitchen reopens</strong>: 6:00 AM</li>
-      </ul>
+      <div class="profile__window-grid">
+        <label class="profile__window-input">
+          <span class="profile__window-input-label">Morning workout window starts</span>
+          <input
+            type="time"
+            data-testid="profile-morning-window-start"
+            [ngModel]="morningStart()"
+            (ngModelChange)="morningStart.set($event)"
+          />
+        </label>
+        <label class="profile__window-input">
+          <span class="profile__window-input-label">Morning workout window ends</span>
+          <input
+            type="time"
+            data-testid="profile-morning-window-end"
+            [ngModel]="morningEnd()"
+            (ngModelChange)="morningEnd.set($event)"
+          />
+        </label>
+        <label class="profile__window-input">
+          <span class="profile__window-input-label">Kitchen closes</span>
+          <input
+            type="time"
+            data-testid="profile-kitchen-closed-start"
+            [ngModel]="kitchenStart()"
+            (ngModelChange)="kitchenStart.set($event)"
+          />
+        </label>
+        <label class="profile__window-input">
+          <span class="profile__window-input-label">Kitchen reopens</span>
+          <input
+            type="time"
+            data-testid="profile-kitchen-closed-end"
+            [ngModel]="kitchenEnd()"
+            (ngModelChange)="kitchenEnd.set($event)"
+          />
+        </label>
+      </div>
     </section>
 
     <section class="profile__card" data-testid="profile-integrations-card">
@@ -57,22 +119,17 @@
       </h3>
       <ul class="profile__integration-list">
         <li class="profile__integration">
-          <span class="profile__integration-icon profile__integration-icon--dark"
-            ><span class="material-icons" aria-hidden="true">watch</span></span>
-          <span class="profile__integration-main">
-            <strong>Apple Watch sync</strong>
-            <span>Pull workouts, calories, and heart rate.</span>
-          </span>
-          <span class="profile__integration-state">On</span>
-        </li>
-        <li class="profile__integration">
           <span class="profile__integration-icon"
             ><span class="material-icons" aria-hidden="true">wb_sunny</span></span>
           <span class="profile__integration-main">
             <strong>Morning workout reminder</strong>
             <span>Nudge at 4:55 AM if no session logged.</span>
           </span>
-          <span class="profile__integration-state">On</span>
+          <mat-slide-toggle
+            data-testid="profile-morning-reminder-toggle"
+            [checked]="morningReminder()"
+            (change)="morningReminder.set($event.checked)"
+          ></mat-slide-toggle>
         </li>
         <li class="profile__integration">
           <span class="profile__integration-icon profile__integration-icon--orange"
@@ -81,7 +138,11 @@
             <strong>Kitchen-closes nudge</strong>
             <span>10-minute warning before the eating window ends.</span>
           </span>
-          <span class="profile__integration-state">On</span>
+          <mat-slide-toggle
+            data-testid="profile-kitchen-nudge-toggle"
+            [checked]="kitchenNudge()"
+            (change)="kitchenNudge.set($event.checked)"
+          ></mat-slide-toggle>
         </li>
         <li class="profile__integration">
           <span class="profile__integration-icon profile__integration-icon--blue"
@@ -90,7 +151,11 @@
             <strong>Friend leaderboard</strong>
             <span>Share weekly points with friends.</span>
           </span>
-          <span class="profile__integration-state profile__integration-state--off">Off</span>
+          <mat-slide-toggle
+            data-testid="profile-leaderboard-toggle"
+            [checked]="leaderboard()"
+            (change)="leaderboard.set($event.checked)"
+          ></mat-slide-toggle>
         </li>
       </ul>
     </section>
