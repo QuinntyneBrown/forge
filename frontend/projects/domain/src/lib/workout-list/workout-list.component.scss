@@ -368,3 +368,42 @@
     font-size: 18px;
   }
 }
+
+.workout-list__fab {
+  position: fixed;
+  right: 20px;
+  bottom: 88px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--md-sys-color-secondary, #b8531a);
+  color: var(--md-sys-color-on-secondary, #ffffff);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  z-index: 5;
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--md-sys-color-primary, #106b5c);
+    outline-offset: 3px;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .workout-list__fab {
+    bottom: 28px;
+  }
+}

@@ -4,7 +4,6 @@
       <h2 class="workout-list__title" data-testid="workout-list-page-title">Sessions</h2>
       <p class="workout-list__subtitle" data-testid="workout-list-page-subtitle">{{ subtitle() }}</p>
     </div>
-    <forge-button testid="workout-list-new" (click)="newSession()">New session</forge-button>
   </header>
 
   <div class="workout-list__summary" data-testid="workout-list-summary">
@@ -213,4 +212,14 @@
       }
     </div>
   }
+
+  <button
+    type="button"
+    class="workout-list__fab"
+    data-testid="workouts-list-log-workout-fab"
+    (click)="newSession()"
+  >
+    <span class="material-icons" aria-hidden="true">add</span>
+    Log workout
+  </button>
 </section>
