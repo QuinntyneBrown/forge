@@ -1,0 +1,11 @@
+<forge-card class="tier-card" testid="tier-card">
+  <div class="tier-card__inner">
+    <span class="tier-card__name" data-testid="tier-card-name">{{ tierName() }}</span>
+    <span class="tier-card__balance" data-testid="tier-card-balance">
+      {{ currentBalance() }} pts available
+    </span>
+    <span class="tier-card__progress" data-testid="tier-card-progress">
+      {{ progressLabel() }}
+    </span>
+  </div>
+</forge-card>

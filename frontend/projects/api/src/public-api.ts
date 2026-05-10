@@ -19,3 +19,6 @@ export * from './lib/profile.service';
 export * from './lib/models/dashboard-summary.model';
 export * from './lib/dashboard.service.contract';
 export * from './lib/dashboard.service';
+export * from './lib/models/tier.model';
+export * from './lib/rewards.service.contract';
+export * from './lib/rewards.service';

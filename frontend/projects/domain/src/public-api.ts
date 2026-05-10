@@ -11,3 +11,4 @@ export * from './lib/health-badge/health-badge.component';
 export * from './lib/daily-ring-card/daily-ring-card.component';
 export * from './lib/streak-card/streak-card.component';
 export * from './lib/weight-progress-card/weight-progress-card.component';
+export * from './lib/tier-card/tier-card.component';
