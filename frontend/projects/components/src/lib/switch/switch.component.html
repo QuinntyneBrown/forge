@@ -1,0 +1,11 @@
+<mat-slide-toggle
+  class="switch"
+  [checked]="checked"
+  [disabled]="disabled"
+  [attr.data-testid]="testid"
+  (change)="onChange($event)"
+>
+  <span class="switch__label">
+    <ng-content></ng-content>
+  </span>
+</mat-slide-toggle>

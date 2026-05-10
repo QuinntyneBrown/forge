@@ -69,7 +69,7 @@ These eleven slices replace the MF1 hand-rolled CSS components with Angular Mate
 - **Ships with:** FT-015.
 - **Guidance:** Frontend.
 
-### FT-006 — `SwitchComponent` wrapping `<mat-slide-toggle>`
+### FT-006 — `SwitchComponent` wrapping `<mat-slide-toggle>` ✅ done
 
 - **Requirements:** L2-026, L2-027.
 - **Slice:**
