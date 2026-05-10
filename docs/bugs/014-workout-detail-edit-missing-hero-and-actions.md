@@ -1,7 +1,7 @@
 # Bug 014: /workouts/:id edit page is missing the teal hero and the Duplicate / Delete actions
 
 ## Status
-Open
+Complete
 
 ## Severity
 Medium

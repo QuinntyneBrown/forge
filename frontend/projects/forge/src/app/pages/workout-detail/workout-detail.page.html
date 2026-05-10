@@ -1,41 +1,93 @@
 <forge-app-shell [destinations]="destinations">
   <main class="workout-detail">
-    <header class="workout-detail__header">
-      <h2 class="workout-detail__title">Edit session</h2>
-    </header>
-
-    @if (errorMessage()) {
-      <p class="workout-detail__error" data-testid="workout-detail-error">
-        {{ errorMessage() }}
-      </p>
+    @if (session(); as s) {
+      <section class="workout-detail__hero" data-testid="workout-detail-hero">
+        <p class="workout-detail__hero-eyebrow" data-testid="workout-detail-hero-eyebrow">
+          {{ s.equipment }} · {{ heroDate(s) }}
+        </p>
+        <h1 class="workout-detail__hero-title" data-testid="workout-detail-hero-title">
+          {{ heroTitle(s) }}
+        </h1>
+        <p class="workout-detail__hero-sub">
+          {{ heroSub(s) }}
+        </p>
+        <div class="workout-detail__hero-stats">
+          <div class="workout-detail__hero-stat" data-testid="workout-detail-hero-stat">
+            <div class="workout-detail__hero-stat-label">Calories</div>
+            <div class="workout-detail__hero-stat-value">{{ s.activeCalories }}</div>
+          </div>
+          <div class="workout-detail__hero-stat" data-testid="workout-detail-hero-stat">
+            <div class="workout-detail__hero-stat-label">Distance</div>
+            <div class="workout-detail__hero-stat-value">
+              @if (s.distanceMiles != null) { {{ s.distanceMiles }} mi } @else { — }
+            </div>
+          </div>
+          <div class="workout-detail__hero-stat" data-testid="workout-detail-hero-stat">
+            <div class="workout-detail__hero-stat-label">Avg HR</div>
+            <div class="workout-detail__hero-stat-value">
+              @if (s.avgHeartRateBpm != null) { {{ s.avgHeartRateBpm }} bpm } @else { — }
+            </div>
+          </div>
+        </div>
+      </section>
     }
 
-    <forge-workout-detail-form
-      mode="edit"
-      [sessionId]="sessionId"
-      [session]="session()"
-      (saved)="onSaved()"
-    ></forge-workout-detail-form>
+    <div class="workout-detail__body">
+      @if (errorMessage()) {
+        <p class="workout-detail__error" data-testid="workout-detail-error">
+          {{ errorMessage() }}
+        </p>
+      }
 
-    <forge-workout-points-breakdown [session]="session()"></forge-workout-points-breakdown>
+      <section class="workout-detail__card">
+        <h3 class="workout-detail__card-title">
+          <span class="material-icons" aria-hidden="true">edit_note</span>
+          Session details
+        </h3>
+        <forge-workout-detail-form
+          mode="edit"
+          [sessionId]="sessionId"
+          [session]="session()"
+          (saved)="onSaved()"
+        ></forge-workout-detail-form>
+      </section>
 
-    <div class="workout-detail__actions">
-      <forge-button
-        variant="outlined"
-        testid="workout-detail-duplicate"
-        [disabled]="busy() || !session()"
-        (click)="onDuplicate()"
-      >
-        Duplicate
-      </forge-button>
-      <forge-button
-        variant="text"
-        testid="workout-detail-delete"
-        [disabled]="busy() || !session()"
-        (click)="onDelete()"
-      >
-        Delete session
-      </forge-button>
+      <section class="workout-detail__card">
+        <h3 class="workout-detail__card-title">
+          <span class="material-icons" aria-hidden="true">workspace_premium</span>
+          Points breakdown
+        </h3>
+        <forge-workout-points-breakdown [session]="session()"></forge-workout-points-breakdown>
+      </section>
+
+      <section class="workout-detail__card" data-testid="workout-detail-actions-card">
+        <h3 class="workout-detail__card-title">
+          <span class="material-icons" aria-hidden="true">tune</span>
+          Actions
+        </h3>
+        <div class="workout-detail__actions">
+          <forge-button
+            variant="outlined"
+            testid="workout-detail-duplicate"
+            [disabled]="busy() || !session()"
+            (click)="onDuplicate()"
+          >
+            Duplicate
+          </forge-button>
+          <forge-button
+            variant="text"
+            testid="workout-detail-delete"
+            [disabled]="busy() || !session()"
+            (click)="onDelete()"
+          >
+            Delete session
+          </forge-button>
+        </div>
+        <p class="workout-detail__info-caption" data-testid="workout-detail-info-caption">
+          <span class="material-icons" aria-hidden="true">info</span>
+          Deleting refunds points and removes from today's totals.
+        </p>
+      </section>
     </div>
   </main>
 </forge-app-shell>

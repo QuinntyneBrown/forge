@@ -53,6 +53,27 @@ export class WorkoutDetailPage implements OnInit {
     this.router.navigate(['/workouts']);
   }
 
+  protected heroDate(s: Session): string {
+    return new Date(s.startedAt).toLocaleDateString(undefined, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  protected heroTitle(s: Session): string {
+    return `Session — ${s.durationMinutes} min`;
+  }
+
+  protected heroSub(s: Session): string {
+    const time = new Date(s.startedAt).toLocaleTimeString(undefined, {
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+    const note = s.notes ? ` · ${s.notes}` : '';
+    return `${time}${note}`;
+  }
+
   protected onDuplicate(): void {
     if (!this.sessionId || this.busy()) {
       return;

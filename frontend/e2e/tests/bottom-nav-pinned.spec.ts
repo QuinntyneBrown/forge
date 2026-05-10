@@ -67,13 +67,42 @@ test.describe('Bug 019: bottom nav stays pinned to viewport bottom', () => {
         //    BEFORE any scroll.
         await nav.expectPinnedToBottom(vp.height);
 
-        // 2. Computed style: position must be fixed or sticky.
-        const position = await nav.nav.evaluate(
-          (el) => getComputedStyle(el).position
-        );
-        expect(['fixed', 'sticky']).toContain(position);
+        // 2. Computed style: the positioned ancestor (the <forge-bottom-nav>
+        //    host) must be `fixed` or `sticky` — never `static` or
+        //    `relative`. This protects against a regression where the
+        //    cascade or Angular view-encapsulation drops the rule.
+        const hostPosition = await page.evaluate(() => {
+          const host = document.querySelector('forge-bottom-nav');
+          return host ? getComputedStyle(host).position : 'missing';
+        });
+        expect(['fixed', 'sticky']).toContain(hostPosition);
 
-        // 3. After scrolling to the very bottom of the page (and any
+        // 3. No ancestor of the bottom nav may have a non-`none`
+        //    `transform`/`filter`/`perspective` — those promote the
+        //    ancestor to the containing block of `position: fixed`
+        //    descendants and would silently break the pin. (Sticky is
+        //    less affected, but we lock both invariants.)
+        const offendingAncestor = await page.evaluate(() => {
+          const host = document.querySelector('forge-bottom-nav');
+          if (!host) return 'missing';
+          let el: Element | null = host.parentElement;
+          while (el && el !== document.documentElement) {
+            const cs = getComputedStyle(el);
+            if (
+              cs.transform !== 'none' ||
+              cs.filter !== 'none' ||
+              cs.perspective !== 'none'
+            ) {
+              return `${el.tagName.toLowerCase()}.${el.className}: ` +
+                `transform=${cs.transform} filter=${cs.filter} perspective=${cs.perspective}`;
+            }
+            el = el.parentElement;
+          }
+          return null;
+        });
+        expect(offendingAncestor).toBeNull();
+
+        // 4. After scrolling to the very bottom of the page (and any
         //    internal scroll container), the nav must STILL be pinned.
         await nav.scrollToBottom();
         await nav.expectPinnedToBottom(vp.height);
