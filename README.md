@@ -1,105 +1,173 @@
+[![CI](https://github.com/QuinntyneBrown/forge/actions/workflows/ci.yml/badge.svg)](https://github.com/QuinntyneBrown/forge/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 # Forge Fit
 
-Forge Fit is an open source fitness gamification project focused on building better morning routines, discouraging late-night eating, and turning consistent training into a rewarding feedback loop.
+Forge Fit is a full-stack fitness gamification application for building better morning workout habits, discouraging late-night eating, and rewarding consistency over time.
 
-The repository is currently in an early stage: product direction, workflow, and design artifacts are in place, with backend and frontend solution structure beginning to take shape.
+The project combines a .NET 9 backend with an Angular 21 frontend and is organized as a multi-project workspace with acceptance-test coverage, responsive UI patterns, and a documented product/design trail under `docs/`.
 
-## Why Forge Fit?
+## Features
 
-Forge Fit is being designed for at-home fitness routines built around equipment like:
+### Implemented today
 
-- treadmill
-- indoor bike
-- bench press
-- elliptical
+- JWT-based authentication with registration, sign-in, refresh, sign-out, password reset request, and password reset confirmation
+- profile management with editable personal details and daily target settings
+- dashboard summary and current-user lookups
+- workout session APIs for create, list, update, duplicate, delete, and detail retrieval
+- rewards and tier APIs, plus leaderboard and equipment endpoints
+- HealthKit ingest endpoint and notification pipeline seams
+- Angular application flows for sign-in, sign-up, password reset, dashboard access control, and profile editing
+- reusable frontend `api`, `components`, and `domain` libraries
+- Playwright end-to-end tests and .NET acceptance tests
 
-The product vision combines habit support, workout tracking, and game-like rewards to help users stay consistent and see progress over time.
+### In progress
 
-## Current Project Status
+- the Angular UI currently implements authentication, dashboard, and profile flows first; additional workout and rewards screens are scaffolded in the product/design docs and backend APIs
 
-**Status:** early-stage / pre-release
+## Tech Stack
 
-What is available today:
+| Area | Technology |
+| --- | --- |
+| Backend | .NET 9, ASP.NET Core, MediatR, FluentValidation, Entity Framework Core, SQL Server |
+| Frontend | Angular 21, Angular Material, SCSS |
+| Testing | xUnit, ASP.NET Core integration/acceptance tests, Playwright |
+| Tooling | npm, Angular CLI, GitHub Actions |
 
-- a product brief in `docs/idea.md`
-- static HTML mocks for core app flows in `docs/mocks/`
-- generated screenshots for multiple viewport sizes in `docs/mocks/screenshots/`
-- a Playwright-based rendering script for regenerating mock screenshots
-- a root tooling manifest for design workflows
-- an initial backend solution file at `backend/Forge.sln`
+## Architecture
 
-## Planned Capabilities
+### Backend
 
-Forge Fit is intended to support:
+The backend follows a clean architecture layout under `backend/src`:
 
-- authentication and profile management
-- workout logging and workout history
-- calorie, minutes, and streak tracking
-- rewards and achievement mechanics
-- Apple Watch-aware fitness workflows
-- structured product, QA, and deployment documentation
+- `Forge.Api` - ASP.NET Core host, controllers, middleware, auth, Swagger
+- `Forge.Application` - commands, queries, validators, pipeline behaviors
+- `Forge.Domain` - core entities and enums
+- `Forge.Infrastructure` - EF Core, SQL Server, JWT issuing, password hashing, deferred integrations
+
+Acceptance tests live under `backend/tests/Forge.Acceptance`.
+
+### Frontend
+
+The frontend is an Angular workspace under `frontend/` with:
+
+- `projects/forge` - the main application
+- `projects/api` - backend models, tokens, and API services
+- `projects/components` - reusable presentational components
+- `projects/domain` - feature-oriented UI components built on the API layer
+
+Routing currently covers:
+
+- `/sign-in`
+- `/sign-up`
+- `/password-reset`
+- `/dashboard`
+- `/profile`
 
 ## Repository Layout
 
-| Path | Purpose |
-| --- | --- |
-| `backend/` | .NET solution root |
-| `frontend/` | frontend workspace root |
-| `docs/idea.md` | product brief |
-| `docs/mocks/` | static product mocks |
-| `docs/mocks/screenshots/` | rendered mock screenshots |
-| `docs/specs/` | requirements documents |
-| `docs/plans/` | implementation plans |
-| `docs/runbooks/` | local run and deployment guides |
-| `docs/qa/` | QA artifacts |
-| `docs/evaluations/` | evaluation notes |
-| `package.json` | root tooling scripts |
+```text
+backend/   .NET solution, API, application, domain, infrastructure, tests
+frontend/  Angular workspace, app, libraries, Playwright tests
+docs/      Product brief, mocks, screenshots, plans, specs, QA notes
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- .NET SDK 9.0.x
+- Node.js 20+
 - npm
-- .NET SDK
+- SQL Server LocalDB or SQL Server instance reachable by the backend connection string
 
-### Install root tooling
+### Backend
+
+1. Restore dependencies:
+
+   ```bash
+   cd backend
+   dotnet restore
+   ```
+
+2. Update `backend/src/Forge.Api/appsettings.json` with a real JWT signing key and, if needed, a different SQL Server connection string.
+
+3. Start the API:
+
+   ```bash
+   dotnet run --project src/Forge.Api
+   ```
+
+The API applies EF Core migrations on startup. By default it uses:
+
+- API base URL: `https://localhost:5001`
+- database: `Server=(localdb)\mssqllocaldb;Database=Forge;Trusted_Connection=True;TrustServerCertificate=True`
+
+### Frontend
+
+1. Install dependencies:
+
+   ```bash
+   cd frontend
+   npm ci
+   ```
+
+2. Start the Angular app:
+
+   ```bash
+   npm start
+   ```
+
+The default local frontend URL is `http://localhost:4200`.
+
+## Development Workflow
+
+### Backend commands
+
+```bash
+cd backend
+dotnet build --configuration Release
+dotnet test --configuration Release --no-build
+```
+
+### Frontend commands
+
+```bash
+cd frontend
+npm run build
+npm run e2e
+```
+
+### Design mock workflow
+
+The root workspace also includes static product mocks and screenshot generation:
 
 ```bash
 npm install
-```
-
-### Render mock screenshots
-
-```bash
 npm run render-mocks
 ```
 
-If Playwright's Chromium browser is not installed yet:
+Open `docs/mocks/index.html` to review the current mock set.
 
-```bash
-npx playwright install chromium
-```
+## Quality and CI
 
-### Review the current UI mocks
+GitHub Actions runs:
 
-Open `docs/mocks/index.html` in a browser.
+- backend restore, build, test, and vulnerable-package scanning
+- frontend install, build, and production dependency audit
 
-## Development Notes
+## Roadmap
 
-The root `package.json` is for repository tooling. Application implementation is expected to live under `backend/` and `frontend/`.
+Near-term work is focused on:
+
+- expanding the Angular UI to cover workouts, rewards, and leaderboard flows
+- continuing to connect the existing backend APIs to feature-complete frontend screens
+- hardening deployment and operational documentation under `docs/runbooks`
 
 ## Contributing
 
-Contributions are welcome, especially around:
-
-- product requirements
-- UX and design review
-- implementation planning
-- backend and frontend scaffolding
-
-Please keep pull requests focused and include clear context for any product or UI changes.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, workflow, and pull request guidance.
 
 ## License
 
-This repository does not currently include a license file. Until one is added, treat the contents as all rights reserved.
+This project is licensed under the [MIT License](LICENSE).
