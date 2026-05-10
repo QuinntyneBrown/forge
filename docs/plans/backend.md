@@ -96,6 +96,7 @@ Grouped by feature folder. Each command/query is a separate file. Each command h
 | `UpdateMorningWindowCommand` | `UpdateMorningWindowCommandValidator`     | Update `User.MorningWindowStart`/`End`.               | L2-016 |
 | `UpdateKitchenWindowCommand` | `UpdateKitchenWindowCommandValidator`     | Update `User.KitchenClosedStart`/`End`/`KitchenNudgeEnabled`. | L2-017, L2-026 |
 | `SetLeaderboardOptInCommand` | `SetLeaderboardOptInCommandValidator`     | Update `User.LeaderboardOptIn`.                        | L2-027 |
+| `ListLeaderboardQuery`       | n/a                                       | Paged list of users with `LeaderboardOptIn = true`, ordered by current points desc, projected to `LeaderboardEntryDto(displayName, currentPoints, tier)`. The current user's own row is included regardless of opt-in. | L2-027 |
 
 ### 4.3 Sessions (`Forge.Application/Sessions/`)
 
@@ -156,6 +157,7 @@ One controller per feature slice. Every action either sends a `Command` or a `Qu
 | `EquipmentController` | `GET /api/equipment`                                                                                       | `[Authorize]`              | L2-010 |
 | `DashboardController` | `GET /api/dashboard`                                                                                       | `[Authorize]`              | L2-011..L2-013, L2-022 |
 | `RewardsController` | `GET /api/rewards`, `POST /api/rewards/{id}/redeem`, `GET /api/tier`                                         | `[Authorize]`              | L2-021, L2-022 |
+| `LeaderboardController` | `GET /api/leaderboard`                                                                                    | `[Authorize]`              | L2-027 |
 | `HealthKitController` | `POST /api/healthkit/ingest`                                                                              | `[Authorize]`              | L2-023 |
 | `AdminController`   | `GET /api/admin/users` (sample admin-only endpoint)                                                          | `[Authorize(Roles="Admin")]` | L2-037, L2-038 |
 | `HealthController` (existing) | `GET /health`                                                                                       | anonymous                  | L2-044 |
@@ -186,6 +188,7 @@ Anonymous endpoints are explicitly listed (`AllowAnonymous` per action where the
 - **Health endpoint** — existing `GET /health` (L2-044). Add a second `GET /health/ready` that pings the DB and any required external transports (none for MVP).
 - **CSP and security headers** — middleware in `Forge.Api/Middleware/SecurityHeadersMiddleware.cs` adds `Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none'`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `Strict-Transport-Security` (production only) (L2-052).
 - **HTTPS redirect + HSTS** — already wired in MVP for production via `UseHttpsRedirection`. HSTS enabled in non-development (L2-049).
+- **CORS** — a named policy `"web"` is registered in `Program.cs` and applied via `app.UseCors("web")` placed before `UseAuthentication` / `UseAuthorization`. Allowed origins read from configuration (`Cors:AllowedOrigins`); Development defaults to `http://localhost:4200` and `https://localhost:4200`. Policy uses `AllowAnyHeader`, `AllowAnyMethod`, `AllowCredentials`. Production deployments override `Cors:AllowedOrigins` per environment so only the deployed frontend host(s) are accepted.
 - **Performance budgets** — every handler avoids N+1 queries; list endpoints use `.AsNoTracking()` and project directly to DTO (L2-041). Targets validated by load-test harness in BT1.
 
 ## 8. Deferred integrations and their no-op replacements
@@ -200,6 +203,23 @@ Each deferred integration is implemented as a clearly-named no-op service in `Fo
 | Friend leaderboard data source      | `ILeaderboardSource`               | `EmptyLeaderboardSource` (returns no rows)       | L2-027 |
 
 Every no-op service is named `Logging…` or `Empty…` so it is unambiguous in DI registration and stack traces. Each is documented in `docs/runbooks/backend.md` under "deferred integrations" once introduced.
+
+## 8.1 Scoring constants and tier thresholds
+
+These constants are fixed by this plan so that BI1.3 implements them and BT1 can assert exact numbers in acceptance tests.
+
+- `BasePointsPerMinute = 2` (L2-018). A 22-minute session earns +44 base points.
+- `MorningBonusPoints = 25` (L2-019). Awarded when `Session.StartedAt` (in the user's local time zone) falls inside `[MorningWindowStart, MorningWindowEnd]`.
+- Streak multiplier (L2-020): `multiplier = min(1.50, 1.00 + 0.01 × consecutiveDays)`, rounded to two decimals. The multiplier is applied to the base points only; the bonus increment is `floor(basePoints × (multiplier - 1.00))`. Seven consecutive days at 22 minutes ⇒ multiplier `1.07` ⇒ `+6` streak row in the ledger.
+- Streak reset: missing one calendar day in the user's local time zone resets `consecutiveDays` to 1 on the next session.
+- Tier thresholds (L2-022), keyed on lifetime points (sum of all `PointsLedger.Delta`):
+  - `Bronze` — `0` lifetime points
+  - `Silver` — `1,000`
+  - `Forged Iron` — `5,000`
+  - `Gold` — `15,000`
+  - `Platinum` — `40,000`
+
+Constants live in `Forge.Application/Gamification/ScoringConstants.cs` as `public static class ScoringConstants` so the values are referenceable from handlers and tests without duplication.
 
 ## 9. Migration / slice sequencing for BI1
 
@@ -240,7 +260,7 @@ Every L2 in scope for the backend is satisfied by at least one item above. Front
 | L2-023 | `IHealthKitIngest` no-op (§8)                                    |
 | L2-025 | `INotificationSender` no-op + dispatcher hosted service (§4.8)   |
 | L2-026 | `INotificationSender` + `UpdateKitchenWindowCommand` (§4.2)      |
-| L2-027 | `SetLeaderboardOptInCommand` + `ILeaderboardSource` no-op (§8)   |
+| L2-027 | `SetLeaderboardOptInCommand` + `ListLeaderboardQuery` + `LeaderboardController` (§4.2, §5) + `ILeaderboardSource` no-op (§8) |
 | L2-031 | `BCryptPasswordHasher` (work factor 12)                          |
 | L2-032 | JWT bearer middleware (§6)                                       |
 | L2-033 | `RefreshToken` entity + `IRefreshTokenStore` (§6)                |
