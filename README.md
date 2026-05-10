@@ -79,7 +79,7 @@ docs/      Product brief, mocks, screenshots, plans, specs, QA notes
 - .NET SDK 9.0.x
 - Node.js 20+
 - npm
-- SQL Server LocalDB or SQL Server instance reachable by the backend connection string
+- SQL Server instance reachable by the backend connection string (e.g., SQLEXPRESS or LocalDB)
 
 ### Backend
 

@@ -1,6 +1,6 @@
 // Acceptance Test
 // Traces to: BT-001 (Initial EF migration), L2-001, L2-002, L2-031..L2-038, L2-049
-// Description: Run the migrations against a fresh LocalDB instance and assert
+// Description: Run the migrations against a fresh SQL Server instance and assert
 // that every required table exists by querying INFORMATION_SCHEMA.TABLES.
 
 using System.Data;
